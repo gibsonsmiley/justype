@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ViewController0" customModule="justype" customModuleProvider="target">
+            <connections>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+                <outlet property="writerTextView" destination="R2a-N8-WTk" id="EpT-Vz-N0J"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="R2a-N8-WTk">
+                    <rect key="frame" x="8" y="22" width="584" height="434"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <string key="text">Thanks for testing out Justype!  My goal with this app is to create an incredibly intuitive yet robust notepad. Start typing the moment you have an idea, and format it the way your mind works with italics, bold, lists, and tags. Then do it all over again.  As a tester, all you need to do is use the app like you would any other app. Test the boundries; do what you want and see if the app can do that for you. You'll get some bugs, but that's the fun of testing, and we'll squash those together.  While you're using and abusing Justype, if you see there's a feature sorely lacking just let me know. Version 1 will be pretty simple, but version 2 is where it's gonna get crazy, and who knows? Maybe your feature will be the crazy one.  - Gibson gibsonsmiley@gmail.com</string>
+                    <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="17"/>
+                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                </textView>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="R2a-N8-WTk" secondAttribute="trailing" constant="8" id="8OY-q8-9Px"/>
+                <constraint firstItem="R2a-N8-WTk" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="22" id="DNk-M4-vzn"/>
+                <constraint firstAttribute="bottom" secondItem="R2a-N8-WTk" secondAttribute="bottom" constant="250" id="pyd-33-MIK"/>
+                <constraint firstItem="R2a-N8-WTk" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="8" id="weL-ta-tGL"/>
+            </constraints>
+            <variation key="default">
+                <mask key="constraints">
+                    <exclude reference="pyd-33-MIK"/>
+                </mask>
+            </variation>
+            <variation key="heightClass=regular-widthClass=compact">
+                <mask key="constraints">
+                    <include reference="pyd-33-MIK"/>
+                </mask>
+            </variation>
+        </view>
+    </objects>
+</document>

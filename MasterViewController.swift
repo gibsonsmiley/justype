@@ -11,17 +11,23 @@ import UIKit
 class MasterViewController: UIViewController {
     
     @IBOutlet weak var scrollView: UIScrollView!
+    
+//    override func viewWillAppear(animated: Bool) {
+//        if UserController.currentUser == nil {
+//            performSegueWithIdentifier("toAuthView", sender: self)
+//        }
+//    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
 
-        let vc0 = WriterViewController(nibName: "WriterView", bundle: nil)
+        let vc0 = ViewController0(nibName: "ViewController0", bundle: nil)
         self.addChildViewController(vc0)
         self.scrollView.addSubview(vc0.view)
         vc0.didMoveToParentViewController(self)
         
-        let vc1 = NotesListViewController(nibName: "NoteListView", bundle: nil)
+        let vc1 = ViewController1(nibName: "ViewController1", bundle: nil)
         var frame1 = vc1.view.frame
         frame1.origin.x = self.view.frame.size.width
         vc1.view.frame = frame1
@@ -29,7 +35,7 @@ class MasterViewController: UIViewController {
         self.scrollView.addSubview(vc1.view)
         vc1.didMoveToParentViewController(self)
         
-        let vc2 = SettingsViewController(nibName: "SettingsView", bundle: nil)
+        let vc2 = ViewController2(nibName: "ViewController2", bundle: nil)
         var frame2 = vc2.view.frame
         frame2.origin.x = self.view.frame.size.width * 2
         vc2.view.frame = frame2

@@ -24,7 +24,7 @@ class Note: FirebaseType, Equatable {
         return [kText: text, kTags: tagIDs]
     }
     
-    init(text: String, identifier: String? = nil) {
+    init(text: String, user: User) {
         self.text = text
     }
     

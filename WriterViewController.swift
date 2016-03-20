@@ -8,22 +8,41 @@
 
 import UIKit
 
-class WriterViewController: UIViewController {
+class ViewController0: UIViewController {
 
     @IBOutlet weak var writerTextView: UITextView!
+    @IBOutlet var toolbar: UIToolbar!
+    
+    var note: Note?
+    
+    override func viewWillAppear(animated: Bool) {
+        if UserController.currentUser == nil {
+            performSegueWithIdentifier("toAuthView", sender: self)
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        toolbar.sizeToFit()
+        writerTextView.inputAccessoryView = toolbar
         writerTextView.becomeFirstResponder()
     }
     override func viewWillDisappear(animated: Bool) {
         writerTextView.resignFirstResponder()
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    @IBAction func saveButtonTapped(sender: AnyObject) {
+        writerTextView.resignFirstResponder()
+        if let user = UserController.currentUser {
+            NoteController.createNote(writerTextView.text, user: user) { (note) -> Void in
+                if let note = note {
+//                    self.note = note
+                    ViewController1.notes.append(note)
+                } else {
+                    print("Failed to create note")
+                }
+            }
+        }
     }
     
 

@@ -38,6 +38,6 @@ class User: FirebaseType, Equatable {
     }
 }
 
-func == (lhs: Note, rhs: Note) -> Bool {
+func == (lhs: User, rhs: User) -> Bool {
     return ObjectIdentifier(lhs) == ObjectIdentifier(rhs)
 }

@@ -8,7 +8,7 @@
 
 import Foundation
 
-class Tag: FirebaseType, Equatable {
+class Tag: FirebaseType {
     
     let kTitle = "title"
     let kNotes = "notes"
@@ -35,6 +35,6 @@ class Tag: FirebaseType, Equatable {
     }
 }
 
-func == (lhs: Note, rhs: Note) -> Bool {
+func == (lhs: Tag, rhs: Tag) -> Bool {
     return ObjectIdentifier(lhs) == ObjectIdentifier(rhs)
 }

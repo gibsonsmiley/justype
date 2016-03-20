@@ -14,9 +14,9 @@ class UserController {
     static let sharedController = UserController()
     private let kUser = "userKey"
     static var notes: [Note] = []
-    static var currentUser: User? {
+    static var currentUser: User! {
         get {
-        guard let uid = FirebaseController.base.authData.uid, let userDictionary = NSUserDefaults.standardUserDefaults().valueForKey(sharedController.kUser) as? [String: AnyObject] else { return nil }
+        guard let uid = FirebaseController.base.authData?.uid, let userDictionary = NSUserDefaults.standardUserDefaults().valueForKey(sharedController.kUser) as? [String: AnyObject] else { return nil }
         return User(json: userDictionary, identifier: uid)
         }
         set {
@@ -44,6 +44,7 @@ class UserController {
     static func observeNotesForUser(user: User, completion: () -> Void) {
         guard let ID = user.identifier else { completion(); return }
         FirebaseController.base.childByAppendingPath("users/\(ID)/notes").observeEventType(.Value, withBlock: { (snapshot) -> Void in
+            var notes: [Note] = []
             if let noteIDs = snapshot.value as? [String] {
                 let thread = dispatch_group_create()
                 for noteID in noteIDs {
@@ -52,7 +53,6 @@ class UserController {
                         if let note = note {
                             notes.append(note)
                         }
-                        dispatch_group_leave(thread)
                     })
                 }
                 dispatch_group_notify(thread, dispatch_get_main_queue(), { () -> Void in

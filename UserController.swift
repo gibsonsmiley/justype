@@ -82,15 +82,22 @@ class UserController {
     
     static func createUser(email: String, password: String, completion: (success: Bool, user: User?) -> Void) {
         FirebaseController.base.createUser(email, password: password) { (error, response) -> Void in
-            if let uid = response["uid"] as? String {
-                var user = User(email: email, indentifier: uid)
-                user.save()
-                
-                authenticateUser(email, password: password, completion: { (success, user) -> Void in
-                    completion(success: success, user: user)
-                })
-            } else {
+            if let error = error {
+                print("Error creating user: \(error.localizedDescription)")
                 completion(success: false, user: nil)
+            } else {
+            if let uid = response["uid"] as? String {
+                let user = User(email: email, indentifier: uid)
+                FirebaseController.base.childByAppendingPath("users").childByAppendingPath(uid).setValue(user.jsonValue)
+                authenticateUser(email, password: password, completion: { (success, user) -> Void in
+                    if success {
+                        completion(success: true, user: user)
+                    } else {
+                        completion(success: false, user: nil)
+                    }
+                })
+                print("User created successfully")
+            }
             }
         }
     }

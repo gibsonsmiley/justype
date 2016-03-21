@@ -1,48 +1,24 @@
 //
-//  ViewController0.swift
+//  WriterViewController.swift
 //  justype
 //
-//  Created by Gibson Smiley on 3/17/16.
+//  Created by Gibson Smiley on 3/19/16.
 //  Copyright © 2016 Gibson Smiley. All rights reserved.
 //
 
 import UIKit
 
-class ViewController0: UIViewController {
+class WriterViewController: UIViewController {
 
-    @IBOutlet weak var writerTextView: UITextView!
-    @IBOutlet var toolbar: UIToolbar!
-    
-    var note: Note?
-    
-    override func viewWillAppear(animated: Bool) {
-        if UserController.currentUser == nil {
-            performSegueWithIdentifier("toAuthView", sender: self)
-        }
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        toolbar.sizeToFit()
-        writerTextView.inputAccessoryView = toolbar
-        writerTextView.becomeFirstResponder()
-    }
-    override func viewWillDisappear(animated: Bool) {
-        writerTextView.resignFirstResponder()
+
+        // Do any additional setup after loading the view.
     }
 
-    @IBAction func saveButtonTapped(sender: AnyObject) {
-        writerTextView.resignFirstResponder()
-        if let user = UserController.currentUser {
-            NoteController.createNote(writerTextView.text, user: user) { (note) -> Void in
-                if let note = note {
-//                    self.note = note
-                    ViewController1.notes.append(note)
-                } else {
-                    print("Failed to create note")
-                }
-            }
-        }
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
     }
     
 

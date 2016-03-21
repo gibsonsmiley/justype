@@ -20,9 +20,11 @@ class MasterViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-
-        let vc0 = ViewController0(nibName: "ViewController0", bundle: nil)
+        
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        
+        
+        let vc0 = storyboard.instantiateViewControllerWithIdentifier("WriterViewController") as! ViewController0
         self.addChildViewController(vc0)
         self.scrollView.addSubview(vc0.view)
         vc0.didMoveToParentViewController(self)

@@ -8,28 +8,96 @@
 
 import UIKit
 
-class PageViewController: UIPageViewController {
+class PageViewController: UIPageViewController, UIPageViewControllerDataSource {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        if UserController.currentUser == nil {
+            performSegueWithIdentifier("toAuthView", sender: self)
+        }
+        
+        dataSource = self
 
-        // Do any additional setup after loading the view.
-    }
+        if let firstViewController = orderedViewControllers.first {
+            setViewControllers([firstViewController], direction: .Forward, animated: true, completion: nil)
+        }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    private(set) lazy var orderedViewControllers: [UIViewController] = {
+        return [
+            self.newViewController("WriterViewController"),
+            self.newViewController("NoteListTableViewController"),
+            self.newViewController("SettingsViewController")
+        
+        ]
+    }()
+    
+    private func newViewController(name: String) -> UIViewController {
+        return UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier(name)
     }
-    */
 
+    // MARK: - Page View Controller Data Source
+    
+    func pageViewController(pageViewController: UIPageViewController, viewControllerBeforeViewController viewController: UIViewController) -> UIViewController? {
+        
+        guard let viewControllerIndex = orderedViewControllers.indexOf(viewController) else {
+            return nil
+        }
+        
+        let previousIndex = viewControllerIndex - 1
+        guard previousIndex >= 0 else {
+            return nil
+        }
+        
+        guard orderedViewControllers.count > previousIndex else {
+            return nil
+        }
+        
+        return orderedViewControllers[previousIndex]
+    }
+    
+    func pageViewController(pageViewController: UIPageViewController, viewControllerAfterViewController viewController: UIViewController) -> UIViewController? {
+        
+        guard let viewControllerIndex = orderedViewControllers.indexOf(viewController) else {
+            return nil
+        }
+        
+        let nextIndex = viewControllerIndex + 1
+        let orderedViewControllersCount = orderedViewControllers.count
+        
+        guard orderedViewControllersCount != nextIndex else {
+            return nil
+        }
+        
+        guard orderedViewControllersCount > nextIndex else {
+            return nil
+        }
+        
+        return orderedViewControllers[nextIndex]
+    }
 }
+
+extension PageViewController: UIPageViewControllerDelegate {
+    func pageViewController(pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
+        if let firstViewController = viewControllers?.first, let index = orderedViewControllers.indexOf(firstViewController) {
+            // This would be implemented if I wanted to keep track of pages
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

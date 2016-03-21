@@ -1,14 +1,14 @@
 //
-//  ViewController3.swift
+//  PageViewController.swift
 //  justype
 //
-//  Created by Gibson Smiley on 3/17/16.
+//  Created by Gibson Smiley on 3/21/16.
 //  Copyright © 2016 Gibson Smiley. All rights reserved.
 //
 
 import UIKit
 
-class ViewController3: UIViewController {
+class PageViewController: UIPageViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()

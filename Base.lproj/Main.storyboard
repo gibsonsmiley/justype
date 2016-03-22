@@ -3,6 +3,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
@@ -441,7 +442,7 @@
                         <color key="sectionIndexBackgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.93725490199999995" alpha="1" colorSpace="calibratedRGB"/>
                         <color key="sectionIndexTrackingBackgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.93725490199999995" alpha="1" colorSpace="calibratedRGB"/>
                         <view key="tableHeaderView" contentMode="scaleToFill" id="mr1-oi-hOv">
-                            <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
+                            <rect key="frame" x="0.0" y="0.0" width="600" height="128"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <searchBar contentMode="redraw" searchBarStyle="minimal" placeholder="Search" translatesAutoresizingMaskIntoConstraints="NO" id="dlk-a9-zl2">
@@ -493,13 +494,14 @@
                         </view>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="noteCell" textLabel="fSg-fc-dg6" rowHeight="55" style="IBUITableViewCellStyleDefault" id="3W9-Pp-Enq">
-                                <rect key="frame" x="0.0" y="28" width="600" height="44"/>
+                                <rect key="frame" x="0.0" y="156" width="600" height="55"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="3W9-Pp-Enq" id="nlk-qZ-Z0O">
-                                    <rect key="frame" x="0.0" y="0.0" width="600" height="43"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="567" height="54"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="fSg-fc-dg6">
+                                            <rect key="frame" x="15" y="0.0" width="550" height="54"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -528,11 +530,12 @@
             <objects>
                 <tableViewController storyboardIdentifier="SettingsTableViewController" id="og4-X8-hM6" customClass="SettingsTableViewController" customModule="justype" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" id="D3B-KF-C5g">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                         <color key="separatorColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.93725490199999995" alpha="1" colorSpace="calibratedRGB"/>
                         <view key="tableHeaderView" contentMode="scaleToFill" id="MDe-xg-wUM">
-                            <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
+                            <rect key="frame" x="0.0" y="0.0" width="600" height="128"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Settings" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eg1-AJ-h6b">
@@ -570,8 +573,10 @@
                             <tableViewSection headerTitle="" id="7iv-8Z-cLF">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="settingCell" id="jT6-LX-LCE">
+                                        <rect key="frame" x="0.0" y="128" width="600" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="jT6-LX-LCE" id="tH5-gO-PL5">
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Dark Mode" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lT2-Ww-N7c">
@@ -634,8 +639,10 @@
                                         <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.93725490199999995" alpha="1" colorSpace="calibratedRGB"/>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="settingCell" id="Qvx-Sj-k7j">
+                                        <rect key="frame" x="0.0" y="172" width="600" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Qvx-Sj-k7j" id="hN0-mi-vS0">
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Rich Formatting" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nJt-iX-6a6">
@@ -685,13 +692,13 @@
                                                     <exclude reference="LfF-O0-xZJ"/>
                                                 </mask>
                                                 <mask key="constraints">
+                                                    <exclude reference="R6w-nP-pkb"/>
+                                                    <exclude reference="RhM-0P-Sif"/>
+                                                    <exclude reference="yzP-lu-jev"/>
                                                     <exclude reference="9DV-cm-aTW"/>
                                                     <exclude reference="ASh-bn-b4P"/>
                                                     <exclude reference="NAL-Eo-rNV"/>
                                                     <exclude reference="uu0-4P-Wvk"/>
-                                                    <exclude reference="R6w-nP-pkb"/>
-                                                    <exclude reference="RhM-0P-Sif"/>
-                                                    <exclude reference="yzP-lu-jev"/>
                                                     <exclude reference="SCm-13-PJ9"/>
                                                     <exclude reference="qFP-fH-3gJ"/>
                                                 </mask>
@@ -703,13 +710,13 @@
                                                     <include reference="LfF-O0-xZJ"/>
                                                 </mask>
                                                 <mask key="constraints">
+                                                    <include reference="R6w-nP-pkb"/>
+                                                    <include reference="RhM-0P-Sif"/>
+                                                    <include reference="yzP-lu-jev"/>
                                                     <include reference="9DV-cm-aTW"/>
                                                     <include reference="ASh-bn-b4P"/>
                                                     <include reference="NAL-Eo-rNV"/>
                                                     <include reference="uu0-4P-Wvk"/>
-                                                    <include reference="R6w-nP-pkb"/>
-                                                    <include reference="RhM-0P-Sif"/>
-                                                    <include reference="yzP-lu-jev"/>
                                                     <include reference="SCm-13-PJ9"/>
                                                     <include reference="qFP-fH-3gJ"/>
                                                 </mask>
@@ -718,8 +725,10 @@
                                         <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.93725490199999995" alpha="1" colorSpace="calibratedRGB"/>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="settingCell" id="xCu-3h-2mJ">
+                                        <rect key="frame" x="0.0" y="216" width="600" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="xCu-3h-2mJ" id="RI8-gs-xf4">
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="O9u-jH-iJi">
@@ -756,8 +765,10 @@
                             <tableViewSection headerTitle="Justype" footerTitle="" id="n0M-Ob-HUp">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="settingCell" id="vdQ-ee-fze">
+                                        <rect key="frame" x="0.0" y="311" width="600" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="vdQ-ee-fze" id="C5x-Ow-t4T">
+                                            <rect key="frame" x="0.0" y="0.0" width="567" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gFl-AA-UaY">
@@ -823,8 +834,10 @@
                                         <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.93725490199999995" alpha="1" colorSpace="calibratedRGB"/>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="settingCell" id="fh9-C8-nja">
+                                        <rect key="frame" x="0.0" y="355" width="600" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="fh9-C8-nja" id="Izc-w7-gvU">
+                                            <rect key="frame" x="0.0" y="0.0" width="567" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Contact 📥" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eXa-Cf-Jl8">
@@ -881,8 +894,10 @@
                                         <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.93725490199999995" alpha="1" colorSpace="calibratedRGB"/>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="settingCell" rowHeight="159" id="wuK-RO-wd1">
+                                        <rect key="frame" x="0.0" y="399" width="600" height="159"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="wuK-RO-wd1" id="dFD-3E-RJh">
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="158"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KKB-nT-p51">
@@ -932,7 +947,7 @@
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="102" id="YJz-Qz-71V"/>
                                                     </constraints>
-                                                    <mutableString key="text">App icon by Barbara Walters, love you baby. Icons throughout the app from The Noun Project   http://thenounproject.com Your notes are yours and I as the developer  do not have access to them.  By using Justype you agree to not participate in  actitivies your grandmom would frown upon.</mutableString>
+                                                    <string key="text">App icon by Barbara Walters, love you baby. Icons throughout the app from The Noun Project   http://thenounproject.com Your notes are yours and I as the developer  do not have access to them.  By using Justype you agree to not participate in  actitivies your grandmom would frown upon.</string>
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -1053,7 +1068,7 @@
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="10" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uqZ-eT-ge0">
                                 <rect key="frame" x="110" y="406" width="380" height="186"/>
-                                <mutableString key="text">App icon by Barbara Walters, love you baby. Icons throughout the app from The Noun Project   http://thenounproject.com Your notes are yours and I as the developer  do not have access to them.  By using Justype you agree to not participate in  actitivies your grandmom would frown upon. Gibson Smiley Copyright 2016</mutableString>
+                                <string key="text">App icon by Barbara Walters, love you baby. Icons throughout the app from The Noun Project   http://thenounproject.com Your notes are yours and I as the developer  do not have access to them.  By using Justype you agree to not participate in  actitivies your grandmom would frown upon. Gibson Smiley Copyright 2016</string>
                                 <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="12"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
@@ -1117,6 +1132,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="UdP-wQ-ug4"/>
+        <segue reference="hMg-z4-vDb"/>
     </inferredMetricsTieBreakers>
 </document>

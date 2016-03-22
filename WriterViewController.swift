@@ -18,23 +18,28 @@ class WriterViewController: UIViewController {
     // MARK: - View
     
     override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(true)
-        writerTextView.becomeFirstResponder()
+        super.viewWillAppear(animated)
         
+        // Something is happening with the page view controller after the writerview is initialy loaded, so that once returning to the writer view from the list view something in the page controller is "catching" the first responder, therefor stopping it. This hacky fix pauses the firstresponder long enough to avoid being "caught." firstresponder will be caught at 0.3.
+        // Possible fix putting this code or a seperate function holding the becomefirstresponder and putting it in either writerview or pageview or both.
+        
+        let seconds = Int64(0.35 * Double(NSEC_PER_SEC))
+        
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, seconds), dispatch_get_main_queue()) {
+            self.writerTextView.becomeFirstResponder()
+        }
+
     }
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(true)
-        writerTextView.becomeFirstResponder()
-        writerTextView.endEditing(false)
+
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         toolbar.sizeToFit()
         writerTextView.inputAccessoryView = toolbar
-//        writerTextView.becomeFirstResponder()
     }
     
     // MARK: - Actions

@@ -33,6 +33,10 @@ class NoteListTableViewController: UITableViewController {
         tableView.reloadData()
         loadNotesForUser(user)
     }
+    
+    // MARK: - Actions
+    
+    
 
     func loadNotesForUser(user: User) {
         UserController.observeNotesForUser(user) { () -> Void in

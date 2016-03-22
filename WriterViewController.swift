@@ -12,6 +12,7 @@ class WriterViewController: UIViewController {
     
     @IBOutlet weak var writerTextView: UITextView!
     @IBOutlet var toolbar: UIToolbar!
+    @IBOutlet weak var successLabel: UILabel!
     
     var note: Note?
     
@@ -19,6 +20,8 @@ class WriterViewController: UIViewController {
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+        
+        successLabel.hidden = true
         
         // Something is happening with the page view controller after the writerview is initialy loaded, so that once returning to the writer view from the list view something in the page controller is "catching" the first responder, therefor stopping it. This hacky fix pauses the firstresponder long enough to avoid being "caught." firstresponder will be caught at 0.3.
         // Possible fix putting this code or a seperate function holding the becomefirstresponder and putting it in either writerview or pageview or both.
@@ -45,15 +48,26 @@ class WriterViewController: UIViewController {
     // MARK: - Actions
     
     @IBAction func saveButtonTapped(sender: AnyObject) {
-        if let note = self.note {
-            note.text = self.writerTextView.text
+        if writerTextView.text.isEmpty {
+            successLabel.hidden = false
+            successLabel.text = "Swipe left to see your notes. 👉"
+            writerTextView.resignFirstResponder()
         } else {
-            if let user = UserController.currentUser.identifier {
-                NoteController.createNote(writerTextView.text, ownerID: user, completion: { (note) -> Void in
-                    if let note = self.note {
-                        note.text = self.writerTextView.text
-                    }
-                })
+            if let note = self.note {
+                note.text = self.writerTextView.text
+            } else {
+                writerTextView.resignFirstResponder()
+                successLabel.hidden = false
+                successLabel.text = "Note saved successfully"
+                if let user = UserController.currentUser.identifier {
+                    NoteController.createNote(writerTextView.text, ownerID: user, completion: { (note) -> Void in
+                        if let note = self.note {
+                            note.text = self.writerTextView.text
+                        }
+                    })
+                }
+                writerTextView.text = ""
+                
             }
         }
     }

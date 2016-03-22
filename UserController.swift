@@ -13,7 +13,6 @@ class UserController {
     
     static let sharedController = UserController()
     let kUser = "userKey"
-    static var notes: [Note] = []
     static var currentUser: User! {
         get {
         guard let uid = FirebaseController.base.authData?.uid, let userDictionary = NSUserDefaults.standardUserDefaults().valueForKey(sharedController.kUser) as? [String: AnyObject] else { return nil }
@@ -57,7 +56,7 @@ class UserController {
                     })
                 }
                 dispatch_group_notify(group, dispatch_get_main_queue(), { () -> Void in
-                    self.notes = notes
+                    user.notes = notes
                     completion()
                 })
             } else {

@@ -39,7 +39,7 @@ class NoteController {
 //    }
     
     static func noteForID(noteID: String, completion: (note: Note?) -> Void) {
-        FirebaseController.dataAtEndpoint("users/\(UserController.currentUser?.identifier)/notes/\(noteID)") { (data) -> Void in
+        FirebaseController.dataAtEndpoint("notes/\(noteID)") { (data) -> Void in
             if let data = data as? [String:AnyObject] {
                 let note = Note(json: data, identifier: noteID)
                 completion(note: note)

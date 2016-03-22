@@ -11,25 +11,26 @@ import Foundation
 class Note: FirebaseType, Equatable {
     
     let kText = "text"
-    let kTags = "tags"
+    let kOwner = "ownerID"
     
     var text: String
     var tagIDs: [String] = []
-//    var tags: [Tag] = []
+    var ownerID: String?
     var identifier: String?
     var endpoint: String {
         return "notes"
     }
     var jsonValue: [String: AnyObject] {
-        return [kText: text, kTags: tagIDs]
+        return [kText: text, kOwner: ownerID!]
     }
     
-    init(text: String, user: User) {
+    init(text: String, ownerID: String) {
         self.text = text
+        self.ownerID = ownerID
     }
     
     required init?(json: [String: AnyObject], identifier: String) {
-        guard let text = json[kText] as? String else { self.text = ""; return nil }
+        guard let text = json[kText] as? String else { self.text = ""; self.ownerID = ""; return nil }
         self.text = text
         self.identifier = identifier
     }

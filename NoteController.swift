@@ -10,28 +10,33 @@ import Foundation
 
 class NoteController {
     
-    static var notes: [Note] = []
+//    static var notes: [Note] = []
     
-    static func createNote(text: String, user: User, completion: (note: Note?) -> Void) {
-        guard let user = UserController.currentUser else {completion(note: nil); return }
-        var note = Note(text: text, user: user)
+    static func createNote(text: String, ownerID: String = UserController.currentUser.identifier!, completion: (note: Note?) -> Void) {
+        var note = Note(text: text, ownerID: ownerID)
+        note.ownerID = ownerID
         note.save()
+        if let identifier = note.identifier {
+            UserController.currentUser.noteIDs.append(identifier)
+            UserController.currentUser.save()
+        }
+        completion(note: note)
     }
     
     static func deleteNote(note: Note) {
         note.delete()
     }
     
-    static func observeNotesForUser(user: User, completion: () -> Void) {
-        guard let identifier = user.identifier else {completion(); return}
-        FirebaseController.base.childByAppendingPath("notes").queryOrderedByChild("users").queryEqualToValue("\(identifier)").observeEventType(.Value, withBlock: { (snapshot) -> Void in
-            if let noteDictionaries = snapshot.value as? [String: AnyObject] {
-                let notes = noteDictionaries.flatMap({Note(json: $0.1 as! [String: AnyObject], identifier: $0.0)})
-                self.notes = notes
-                completion()
-            }
-        })
-    }
+//    static func observeNotesForUser(user: User, completion: () -> Void) {
+//        guard let identifier = user.identifier else {completion(); return}
+//        FirebaseController.base.childByAppendingPath("notes").queryOrderedByChild("users").queryEqualToValue("\(identifier)").observeEventType(.Value, withBlock: { (snapshot) -> Void in
+//            if let noteDictionaries = snapshot.value as? [String: AnyObject] {
+//                let notes = noteDictionaries.flatMap({Note(json: $0.1 as! [String: AnyObject], identifier: $0.0)})
+//                self.notes = notes
+//                completion()
+//            }
+//        })
+//    }
     
     static func noteForID(noteID: String, completion: (note: Note?) -> Void) {
         FirebaseController.dataAtEndpoint("users/\(UserController.currentUser?.identifier)/notes/\(noteID)") { (data) -> Void in

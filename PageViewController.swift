@@ -13,9 +13,7 @@ class PageViewController: UIPageViewController, UIPageViewControllerDataSource {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if UserController.currentUser == nil {
-            performSegueWithIdentifier("toAuthView", sender: self)
-        }
+       
         
         dataSource = self
 
@@ -24,12 +22,17 @@ class PageViewController: UIPageViewController, UIPageViewControllerDataSource {
         }
 
     }
+    override func viewDidAppear(animated: Bool) {
+        if UserController.currentUser == nil {
+            performSegueWithIdentifier("toAuthView", sender: self)
+        }
+    }
     
     private(set) lazy var orderedViewControllers: [UIViewController] = {
         return [
             self.newViewController("WriterViewController"),
             self.newViewController("NoteListTableViewController"),
-            self.newViewController("SettingsViewController")
+            self.newViewController("SettingsTableViewController")
         
         ]
     }()
@@ -78,15 +81,6 @@ class PageViewController: UIPageViewController, UIPageViewControllerDataSource {
         return orderedViewControllers[nextIndex]
     }
 }
-
-extension PageViewController: UIPageViewControllerDelegate {
-    func pageViewController(pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
-        if let firstViewController = viewControllers?.first, let index = orderedViewControllers.indexOf(firstViewController) {
-            // This would be implemented if I wanted to keep track of pages
-        }
-    }
-}
-
 
 
 

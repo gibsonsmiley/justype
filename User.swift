@@ -15,7 +15,14 @@ class User: FirebaseType, Equatable {
 //    let kTags = "tags"
     
     let email: String
-    var noteIDs: [String] = []
+    var noteIDs: [String] = [] {
+        didSet {
+            if self.identifier == UserController.currentUser.identifier {
+                NSUserDefaults.standardUserDefaults().setValue(jsonValue, forKey: UserController.sharedController.kUser)
+                NSUserDefaults.standardUserDefaults().synchronize()
+            }
+        }
+    }
     var notes: [Note] = []
 //    var tagIDs: [String] = []
 //    var tags: [Tag] = []
@@ -32,8 +39,10 @@ class User: FirebaseType, Equatable {
     }
     
     required init?(json: [String : AnyObject], identifier: String) {
-        guard let email = json[kEmail] as? String else { self.email = ""; return nil }
+        guard let email = json[kEmail] as? String,
+            noteIDs = json[kNotes] as? [String] else { return nil }
         self.email = email
+        self.noteIDs = noteIDs
         self.identifier = identifier
     }
 }

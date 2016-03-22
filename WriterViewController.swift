@@ -13,42 +13,42 @@ class WriterViewController: UIViewController {
     @IBOutlet weak var writerTextView: UITextView!
     @IBOutlet var toolbar: UIToolbar!
     
-    var pageIndex: Int!
-    var text: String!
+    var note: Note?
+    
+    // MARK: - View
     
     override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(true)
         writerTextView.becomeFirstResponder()
         
     }
     
     override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(true)
         writerTextView.becomeFirstResponder()
+        writerTextView.endEditing(false)
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if UserController.currentUser == nil {
-            performSegueWithIdentifier("toAuthView", sender: self)
-        }
-        
-        writerTextView.text = text
-
         toolbar.sizeToFit()
         writerTextView.inputAccessoryView = toolbar
-        writerTextView.becomeFirstResponder()
+//        writerTextView.becomeFirstResponder()
     }
     
+    // MARK: - Actions
+    
     @IBAction func saveButtonTapped(sender: AnyObject) {
-        writerTextView.resignFirstResponder()
-        if let user = UserController.currentUser {
-            NoteController.createNote(writerTextView.text, user: user) { (note) -> Void in
-                if let note = note {
-                    //                    self.note = note
-                    ViewController1.notes.append(note)
-                } else {
-                    print("Failed to create note")
-                }
+        if let note = self.note {
+            note.text = self.writerTextView.text
+        } else {
+            if let user = UserController.currentUser.identifier {
+                NoteController.createNote(writerTextView.text, ownerID: user, completion: { (note) -> Void in
+                    if let note = self.note {
+                        note.text = self.writerTextView.text
+                    }
+                })
             }
         }
     }

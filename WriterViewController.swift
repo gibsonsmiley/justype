@@ -18,22 +18,12 @@ class WriterViewController: UIViewController {
     
     // MARK: - View
     
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-        
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(true)
         successLabel.hidden = true
         
         // Something is happening with the page view controller after the writerview is initialy loaded, so that once returning to the writer view from the list view something in the page controller is "catching" the first responder, therefor stopping it. This hacky fix pauses the firstresponder long enough to avoid being "caught." firstresponder will be caught at 0.25.
         // Possible fix putting this code or a seperate function holding the becomefirstresponder and putting it in either writerview or pageview or both.
-        
-        
-        
-        
-
-    }
-    
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(true)
         let seconds = Int64(0.3 * Double(NSEC_PER_SEC))
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, seconds), dispatch_get_main_queue()) {
             self.writerTextView.becomeFirstResponder()
@@ -44,6 +34,7 @@ class WriterViewController: UIViewController {
         super.viewDidLoad()
         toolbar.sizeToFit()
         writerTextView.inputAccessoryView = toolbar
+        setupKeyboardNotifications()
     }
     
     // MARK: - Actions
@@ -68,9 +59,28 @@ class WriterViewController: UIViewController {
                     })
                 }
                 writerTextView.text = ""
-                
             }
         }
+    }
+    
+    func setupKeyboardNotifications() {
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(WriterViewController.keyboardWasShown(_:)), name: UIKeyboardDidShowNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(WriterViewController.keyboardWillBeHidden(_:)), name: UIKeyboardWillHideNotification, object: nil)
+    }
+    
+    func keyboardWasShown(notification: NSNotification) {
+        let info = notification.userInfo
+        let infoNSValue = info! [UIKeyboardFrameBeginUserInfoKey] as! NSValue
+        let kbSize = infoNSValue.CGRectValue().size
+        let contentInsets = UIEdgeInsetsMake(0.0, 0.0, kbSize.height, 0.0)
+        writerTextView.contentInset = contentInsets
+        writerTextView.scrollIndicatorInsets = contentInsets
+    }
+    
+    func keyboardWillBeHidden(notification: NSNotification) {
+        let contentInsets = UIEdgeInsetsZero
+        writerTextView.contentInset = contentInsets
+        writerTextView.scrollIndicatorInsets = contentInsets
     }
 
     /*

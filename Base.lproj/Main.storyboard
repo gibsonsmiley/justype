@@ -371,7 +371,9 @@
                             <constraint firstItem="Cc7-rR-yCc" firstAttribute="top" secondItem="ANG-9K-BI9" secondAttribute="bottom" constant="8" id="0v2-Eh-l4H">
                                 <variation key="heightClass=regular-widthClass=compact" constant="0.0"/>
                             </constraint>
-                            <constraint firstItem="NaQ-Ng-fJi" firstAttribute="top" secondItem="Cc7-rR-yCc" secondAttribute="bottom" constant="275" id="78s-yk-JLb"/>
+                            <constraint firstItem="NaQ-Ng-fJi" firstAttribute="top" secondItem="Cc7-rR-yCc" secondAttribute="bottom" constant="275" id="78s-yk-JLb">
+                                <variation key="heightClass=regular-widthClass=compact" constant="8"/>
+                            </constraint>
                             <constraint firstAttribute="trailing" secondItem="Cc7-rR-yCc" secondAttribute="trailing" constant="20" id="8FX-x0-xzd"/>
                             <constraint firstAttribute="trailing" secondItem="NaQ-Ng-fJi" secondAttribute="trailing" constant="20" id="Ioo-eW-FsV"/>
                             <constraint firstItem="cn9-36-79w" firstAttribute="top" secondItem="NaQ-Ng-fJi" secondAttribute="bottom" constant="8" id="MV5-XS-gZM"/>

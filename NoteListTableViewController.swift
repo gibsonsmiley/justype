@@ -48,7 +48,6 @@ class NoteListTableViewController: UITableViewController {
                 let notifcation = UILocalNotification()
                 UIApplication.sharedApplication().scheduleLocalNotification(notifcation)
                 print("Long press detected")
-                
             }
         }
     }
@@ -80,7 +79,6 @@ class NoteListTableViewController: UITableViewController {
     // MARK: - Table view data source
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
         return notes.count
     }
 
@@ -88,15 +86,20 @@ class NoteListTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCellWithIdentifier("noteCell", forIndexPath: indexPath)
         let note = notes[indexPath.row]
         cell.textLabel?.text = note.text
-        
-//        let tapGesture = UITapGestureRecognizer(target: self, action: cell)
-        
         return cell
     }
 
-
     // MARK: - Navigation
-
+    
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "keyboardWillBeHidden" {
+            if let destinationViewController = segue.destinationViewController as? WriterViewController {
+                if let cell = sender as? UITableViewCell, let indexPath = tableView.indexPathForCell(cell) {
+                    let note = notes[indexPath.row]
+                    destinationViewController.updateWithNote(note)
+                }
+            }
+        }
     }
 }
+

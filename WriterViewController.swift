@@ -13,6 +13,7 @@ class WriterViewController: UIViewController {
     @IBOutlet weak var writerTextView: UITextView!
     @IBOutlet var toolbar: UIToolbar!
     @IBOutlet weak var successLabel: UILabel!
+    @IBOutlet weak var saveButton: UIBarButtonItem!
     
     var note: Note?
     
@@ -24,7 +25,7 @@ class WriterViewController: UIViewController {
         
         // Something is happening with the page view controller after the writerview is initialy loaded, so that once returning to the writer view from the list view something in the page controller is "catching" the first responder, therefor stopping it. This hacky fix pauses the firstresponder long enough to avoid being "caught." firstresponder will be caught at 0.25.
         // Possible fix putting this code or a seperate function holding the becomefirstresponder and putting it in either writerview or pageview or both.
-        let seconds = Int64(0.3 * Double(NSEC_PER_SEC))
+        let seconds = Int64(0.0 * Double(NSEC_PER_SEC))
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, seconds), dispatch_get_main_queue()) {
             self.writerTextView.becomeFirstResponder()
         }
@@ -35,6 +36,12 @@ class WriterViewController: UIViewController {
         toolbar.sizeToFit()
         writerTextView.inputAccessoryView = toolbar
         setupKeyboardNotifications()
+    }
+    
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        writerTextView.resignFirstResponder()
     }
     
     // MARK: - Actions
@@ -81,6 +88,11 @@ class WriterViewController: UIViewController {
         let contentInsets = UIEdgeInsetsZero
         writerTextView.contentInset = contentInsets
         writerTextView.scrollIndicatorInsets = contentInsets
+    }
+    
+    func updateWithNote(note: Note) {
+        self.note = note
+        self.writerTextView.text = note.text
     }
 
     /*

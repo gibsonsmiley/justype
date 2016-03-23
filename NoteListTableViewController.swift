@@ -11,16 +11,18 @@ import UIKit
 class NoteListTableViewController: UITableViewController {
 
     var user = UserController.currentUser
-    var notes: [Note] {
-        return user.notes
-    }
+    var notes = [Note]()
+    var selectedRow: NSIndexPath?
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(NoteListTableViewController.localNotificationFired), name: "NoteActionSheet", object: nil)
+    
         let longPressRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(NoteListTableViewController.longPress(_:)))
         self.view.addGestureRecognizer(longPressRecognizer)
+        
+        self.navigationItem.leftBarButtonItem = self.editButtonItem()
 
     }
 
@@ -42,19 +44,17 @@ class NoteListTableViewController: UITableViewController {
         if longPressGestureRecognizer.state == UIGestureRecognizerState.Began {
             let touchPoint = longPressGestureRecognizer.locationInView(self.view)
             if let indexPath = tableView.indexPathForRowAtPoint(touchPoint) {
-                
-                let note = notes[indexPath.row]
-                
+                self.selectedRow = indexPath
                 let notifcation = UILocalNotification()
                 UIApplication.sharedApplication().scheduleLocalNotification(notifcation)
                 print("Long press detected")
             }
         }
     }
-    
 
     func loadNotesForUser(user: User) {
         UserController.observeNotesForUser(user) { () -> Void in
+            self.notes = user.notes
             self.tableView.reloadData()
         }
     }
@@ -62,10 +62,19 @@ class NoteListTableViewController: UITableViewController {
     func localNotificationFired() {
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
         
-        let shareAction = UIAlertAction(title: "Share", style: .Default, handler: nil)
+        let shareAction = UIAlertAction(title: "Share", style: .Default) { (share) in
+            let shareSheet = UIActivityViewController(activityItems: [UIActivityTypeMail, UIActivityTypeMessage, UIActivityTypePostToFacebook, UIActivityTypePostToTwitter, UIActivityTypeCopyToPasteboard], applicationActivities: [])
+            self.presentViewController(shareSheet, animated: true, completion: nil)
+        }
         let deleteAction = UIAlertAction(title: "Delete", style: .Destructive, handler: {
             (alert: UIAlertAction!) -> Void in
-            print("File Deleted")
+                if let selectedRow = self.selectedRow {
+                let note = self.notes[selectedRow.row]
+                NoteController.deleteNote(note)
+                self.notes.removeAtIndex(selectedRow.row)
+                self.tableView.deleteRowsAtIndexPaths([selectedRow], withRowAnimation: .Fade)
+                print("File Deleted")
+            }
         })
         let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel, handler: nil)
         
@@ -75,7 +84,7 @@ class NoteListTableViewController: UITableViewController {
         
         presentViewController(alertController, animated: true, completion: nil)
     }
-    
+
     // MARK: - Table view data source
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -88,12 +97,27 @@ class NoteListTableViewController: UITableViewController {
         cell.textLabel?.text = note.text
         return cell
     }
+    
+    
+    override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+        return true
+    }
+    
+    override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+        if editingStyle == .Delete {
+            let note = notes[indexPath.row]
+            NoteController.deleteNote(note)
+            self.notes.removeAtIndex(indexPath.row)
+            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
+        }
+    }
 
     // MARK: - Navigation
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if segue.identifier == "keyboardWillBeHidden" {
+        if segue.identifier == "toNote" {
             if let destinationViewController = segue.destinationViewController as? WriterViewController {
+                _ = destinationViewController.view
                 if let cell = sender as? UITableViewCell, let indexPath = tableView.indexPathForCell(cell) {
                     let note = notes[indexPath.row]
                     destinationViewController.updateWithNote(note)

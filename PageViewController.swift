@@ -15,7 +15,7 @@ class PageViewController: UIPageViewController, UIPageViewControllerDataSource {
         
         dataSource = self
         if let firstViewController = orderedViewControllers.first {
-            setViewControllers([firstViewController], direction: .Forward, animated: true, completion: nil)
+            setViewControllers([firstViewController], direction: .Reverse, animated: true, completion: nil)
         }
     }
     
@@ -28,8 +28,8 @@ class PageViewController: UIPageViewController, UIPageViewControllerDataSource {
     private(set) lazy var orderedViewControllers: [UIViewController] = {
         return [
             self.newViewController("WriterViewController"),
-            self.newViewController("NoteListTableViewController"),
-            self.newViewController("SettingsTableViewController")
+            self.newViewController("NavigationController"),
+//            self.newViewController("NoteListTableViewController")
         ]
     }()
     

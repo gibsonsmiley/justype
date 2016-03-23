@@ -12,6 +12,7 @@
             <objects>
                 <pageViewController storyboardIdentifier="PageViewController" autoresizesArchivedViewToFullSize="NO" transitionStyle="scroll" navigationOrientation="horizontal" spineLocation="none" id="69E-aT-rfO" customClass="PageViewController" customModule="justype" customModuleProvider="target" sceneMemberID="viewController">
                     <extendedEdge key="edgesForExtendedLayout"/>
+                    <navigationItem key="navigationItem" id="lQ3-eZ-H5y"/>
                     <nil key="simulatedStatusBarMetrics"/>
                     <simulatedOrientationMetrics key="simulatedOrientationMetrics"/>
                     <connections>
@@ -20,7 +21,7 @@
                 </pageViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="BrF-Ad-D5s" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="639" y="-105"/>
+            <point key="canvasLocation" x="366" y="-345"/>
         </scene>
         <!--Auth View Controller-->
         <scene sceneID="zCi-bc-bKh">
@@ -342,7 +343,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FDw-VY-JjN" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-168" y="-105"/>
+            <point key="canvasLocation" x="-591" y="549"/>
         </scene>
         <!--Writer View-->
         <scene sceneID="qOb-v5-RA6">
@@ -444,7 +445,7 @@
                     <color key="barTintColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.93725490199999995" alpha="1" colorSpace="calibratedRGB"/>
                 </toolbar>
             </objects>
-            <point key="canvasLocation" x="-168" y="573"/>
+            <point key="canvasLocation" x="528" y="549"/>
         </scene>
         <!--Note List View-->
         <scene sceneID="GFw-jS-jep">
@@ -457,57 +458,12 @@
                         <color key="separatorColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.93725490199999995" alpha="1" colorSpace="calibratedRGB"/>
                         <color key="sectionIndexBackgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.93725490199999995" alpha="1" colorSpace="calibratedRGB"/>
                         <color key="sectionIndexTrackingBackgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.93725490199999995" alpha="1" colorSpace="calibratedRGB"/>
-                        <view key="tableHeaderView" contentMode="scaleToFill" id="mr1-oi-hOv">
-                            <rect key="frame" x="0.0" y="0.0" width="600" height="128"/>
+                        <searchBar key="tableHeaderView" contentMode="redraw" searchBarStyle="minimal" placeholder="Search" id="dlk-a9-zl2">
+                            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <subviews>
-                                <searchBar contentMode="redraw" searchBarStyle="minimal" placeholder="Search" translatesAutoresizingMaskIntoConstraints="NO" id="dlk-a9-zl2">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
-                                    <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.93725490199999995" alpha="1" colorSpace="calibratedRGB"/>
-                                    <textInputTraits key="textInputTraits"/>
-                                </searchBar>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Notes" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ddC-8c-Xgs">
-                                    <rect key="frame" x="-42" y="-21" width="42" height="21"/>
-                                    <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="22"/>
-                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                    <nil key="highlightedColor"/>
-                                </label>
-                            </subviews>
                             <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.93725490199999995" alpha="1" colorSpace="calibratedRGB"/>
-                            <constraints>
-                                <constraint firstItem="ddC-8c-Xgs" firstAttribute="top" secondItem="mr1-oi-hOv" secondAttribute="top" constant="23" id="CVL-xR-iL1"/>
-                                <constraint firstItem="dlk-a9-zl2" firstAttribute="leading" secondItem="mr1-oi-hOv" secondAttribute="leading" id="KLx-Bj-T2l"/>
-                                <constraint firstItem="ddC-8c-Xgs" firstAttribute="leading" secondItem="mr1-oi-hOv" secondAttribute="leading" constant="8" id="QTf-6D-5Ve"/>
-                                <constraint firstAttribute="trailing" secondItem="dlk-a9-zl2" secondAttribute="trailing" id="Y7H-rL-Lf9"/>
-                                <constraint firstItem="dlk-a9-zl2" firstAttribute="top" secondItem="ddC-8c-Xgs" secondAttribute="bottom" constant="16" id="gPG-01-9Qy"/>
-                            </constraints>
-                            <variation key="default">
-                                <mask key="subviews">
-                                    <exclude reference="dlk-a9-zl2"/>
-                                    <exclude reference="ddC-8c-Xgs"/>
-                                </mask>
-                                <mask key="constraints">
-                                    <exclude reference="CVL-xR-iL1"/>
-                                    <exclude reference="QTf-6D-5Ve"/>
-                                    <exclude reference="KLx-Bj-T2l"/>
-                                    <exclude reference="Y7H-rL-Lf9"/>
-                                    <exclude reference="gPG-01-9Qy"/>
-                                </mask>
-                            </variation>
-                            <variation key="heightClass=regular-widthClass=compact">
-                                <mask key="subviews">
-                                    <include reference="dlk-a9-zl2"/>
-                                    <include reference="ddC-8c-Xgs"/>
-                                </mask>
-                                <mask key="constraints">
-                                    <include reference="CVL-xR-iL1"/>
-                                    <include reference="QTf-6D-5Ve"/>
-                                    <include reference="KLx-Bj-T2l"/>
-                                    <include reference="Y7H-rL-Lf9"/>
-                                    <include reference="gPG-01-9Qy"/>
-                                </mask>
-                            </variation>
-                        </view>
+                            <textInputTraits key="textInputTraits"/>
+                        </searchBar>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="noteCell" textLabel="fSg-fc-dg6" rowHeight="55" style="IBUITableViewCellStyleDefault" id="3W9-Pp-Enq" customClass="NoteTableViewCell" customModule="justype" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="156" width="600" height="55"/>
@@ -532,7 +488,7 @@
                                 </tableViewCellContentView>
                                 <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.93725490199999995" alpha="1" colorSpace="calibratedRGB"/>
                                 <connections>
-                                    <segue destination="BBQ-sZ-NwY" kind="show" identifier="toNote" action="showDetailViewController:sender:" id="nBN-zi-Sd9"/>
+                                    <segue destination="BBQ-sZ-NwY" kind="custom" identifier="toNote" customClass="SegueToNote" customModule="justype" customModuleProvider="target" id="nBN-zi-Sd9"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -541,12 +497,19 @@
                             <outlet property="delegate" destination="vnb-aR-J90" id="Kj0-TU-mUd"/>
                         </connections>
                     </tableView>
+                    <navigationItem key="navigationItem" title="Notes" id="MUU-9c-hOZ">
+                        <barButtonItem key="rightBarButtonItem" title="Settings" id="97S-IO-p0o">
+                            <connections>
+                                <segue destination="og4-X8-hM6" kind="show" id="Bdi-mV-PpZ"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="XZz-2q-MNP" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="639" y="573"/>
+            <point key="canvasLocation" x="1419" y="543"/>
         </scene>
-        <!--Settings Table View Controller-->
+        <!--Settings-->
         <scene sceneID="UP2-2I-NNy">
             <objects>
                 <tableViewController storyboardIdentifier="SettingsTableViewController" id="og4-X8-hM6" customClass="SettingsTableViewController" customModule="justype" customModuleProvider="target" sceneMemberID="viewController">
@@ -555,41 +518,6 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                         <color key="separatorColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.93725490199999995" alpha="1" colorSpace="calibratedRGB"/>
-                        <view key="tableHeaderView" contentMode="scaleToFill" id="MDe-xg-wUM">
-                            <rect key="frame" x="0.0" y="0.0" width="600" height="128"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <subviews>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Settings" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eg1-AJ-h6b">
-                                    <rect key="frame" x="-42" y="-21" width="42" height="21"/>
-                                    <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="22"/>
-                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                    <nil key="highlightedColor"/>
-                                </label>
-                            </subviews>
-                            <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.93725490199999995" alpha="1" colorSpace="calibratedRGB"/>
-                            <constraints>
-                                <constraint firstItem="eg1-AJ-h6b" firstAttribute="leading" secondItem="MDe-xg-wUM" secondAttribute="leading" constant="8" id="JTa-R5-Uoy"/>
-                                <constraint firstItem="eg1-AJ-h6b" firstAttribute="top" secondItem="MDe-xg-wUM" secondAttribute="top" constant="23" id="tdy-nx-bY9"/>
-                            </constraints>
-                            <variation key="default">
-                                <mask key="subviews">
-                                    <exclude reference="eg1-AJ-h6b"/>
-                                </mask>
-                                <mask key="constraints">
-                                    <exclude reference="JTa-R5-Uoy"/>
-                                    <exclude reference="tdy-nx-bY9"/>
-                                </mask>
-                            </variation>
-                            <variation key="heightClass=regular-widthClass=compact">
-                                <mask key="subviews">
-                                    <include reference="eg1-AJ-h6b"/>
-                                </mask>
-                                <mask key="constraints">
-                                    <include reference="JTa-R5-Uoy"/>
-                                    <include reference="tdy-nx-bY9"/>
-                                </mask>
-                            </variation>
-                        </view>
                         <sections>
                             <tableViewSection headerTitle="" id="7iv-8Z-cLF">
                                 <cells>
@@ -1009,10 +937,29 @@
                             <outlet property="delegate" destination="og4-X8-hM6" id="D1L-0S-jBN"/>
                         </connections>
                     </tableView>
+                    <navigationItem key="navigationItem" title="Settings" id="Oe0-Ly-PJh"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FNj-oI-yBu" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1327.5" y="573"/>
+            <point key="canvasLocation" x="2376" y="447"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="7Ua-oK-d6j">
+            <objects>
+                <navigationController storyboardIdentifier="NavigationController" automaticallyAdjustsScrollViewInsets="NO" hidesBarsWhenKeyboardAppears="YES" id="iZj-lS-Iml" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Ldy-ZI-B7Q">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="vnb-aR-J90" kind="relationship" relationship="rootViewController" id="U8G-db-8Bo"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="x7y-YN-h4W" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1443" y="-354"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>

@@ -41,7 +41,7 @@
                                 <rect key="frame" x="-23" y="-15" width="46" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <state key="normal" title="Sign Up">
-                                    <color key="titleColor" red="1" green="0.80784313725490198" blue="0.2196078431372549" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
                                     <action selector="SignupChoiceButtonTapped:" destination="tUO-5Q-Lk9" eventType="touchUpInside" id="BBT-Cl-np0"/>
@@ -51,7 +51,7 @@
                                 <rect key="frame" x="-23" y="-15" width="46" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <state key="normal" title="Log In">
-                                    <color key="titleColor" red="1" green="0.80784313725490198" blue="0.2196078431372549" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
                                     <action selector="LoginChoiceButtonTapped:" destination="tUO-5Q-Lk9" eventType="touchUpInside" id="pUc-SO-ULZ"/>
@@ -91,7 +91,7 @@
                                 <rect key="frame" x="-23" y="-15" width="46" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <state key="normal" title="Sign Up">
-                                    <color key="titleColor" red="1" green="0.80784313725490198" blue="0.2196078431372549" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
                                     <action selector="signupButtonTapped:" destination="tUO-5Q-Lk9" eventType="touchUpInside" id="OAb-DZ-sHo"/>
@@ -111,7 +111,7 @@
                                 <rect key="frame" x="-23" y="-15" width="46" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <state key="normal" title="Log In">
-                                    <color key="titleColor" red="1" green="0.80784313725490198" blue="0.2196078431372549" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
                                     <action selector="loginButtonTapped:" destination="tUO-5Q-Lk9" eventType="touchUpInside" id="v2t-Yx-LMm"/>
@@ -130,7 +130,7 @@
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <state key="normal" title="Cancel">
-                                    <color key="titleColor" red="1" green="0.80784313725490198" blue="0.2196078431372549" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <variation key="default">
                                     <mask key="constraints">
@@ -338,11 +338,6 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FDw-VY-JjN" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <tapGestureRecognizer id="efc-8r-YKt">
-                    <connections>
-                        <action selector="userTappedView:" destination="tUO-5Q-Lk9" id="2d4-Yo-lQQ"/>
-                    </connections>
-                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="-168" y="-105"/>
         </scene>
@@ -373,13 +368,18 @@
                         </subviews>
                         <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.93725490199999995" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
-                            <constraint firstItem="Cc7-rR-yCc" firstAttribute="top" secondItem="ANG-9K-BI9" secondAttribute="bottom" constant="8" id="0v2-Eh-l4H"/>
+                            <constraint firstItem="Cc7-rR-yCc" firstAttribute="top" secondItem="ANG-9K-BI9" secondAttribute="bottom" constant="8" id="0v2-Eh-l4H">
+                                <variation key="heightClass=regular-widthClass=compact" constant="0.0"/>
+                            </constraint>
                             <constraint firstItem="NaQ-Ng-fJi" firstAttribute="top" secondItem="Cc7-rR-yCc" secondAttribute="bottom" constant="275" id="78s-yk-JLb"/>
                             <constraint firstAttribute="trailing" secondItem="Cc7-rR-yCc" secondAttribute="trailing" constant="20" id="8FX-x0-xzd"/>
                             <constraint firstAttribute="trailing" secondItem="NaQ-Ng-fJi" secondAttribute="trailing" constant="20" id="Ioo-eW-FsV"/>
                             <constraint firstItem="cn9-36-79w" firstAttribute="top" secondItem="NaQ-Ng-fJi" secondAttribute="bottom" constant="8" id="MV5-XS-gZM"/>
                             <constraint firstItem="Cc7-rR-yCc" firstAttribute="leading" secondItem="TvT-Ej-skb" secondAttribute="leading" constant="20" id="TC1-7Z-aJs"/>
                             <constraint firstItem="NaQ-Ng-fJi" firstAttribute="leading" secondItem="TvT-Ej-skb" secondAttribute="leading" constant="20" id="jc2-Mn-CDq"/>
+                            <constraint firstItem="Cc7-rR-yCc" firstAttribute="top" secondItem="ANG-9K-BI9" secondAttribute="bottom" id="w4G-zj-Wxg">
+                                <variation key="heightClass=regular-widthClass=compact" constant="4"/>
+                            </constraint>
                         </constraints>
                         <variation key="default">
                             <mask key="subviews">
@@ -387,13 +387,14 @@
                                 <exclude reference="NaQ-Ng-fJi"/>
                             </mask>
                             <mask key="constraints">
-                                <exclude reference="0v2-Eh-l4H"/>
-                                <exclude reference="8FX-x0-xzd"/>
-                                <exclude reference="TC1-7Z-aJs"/>
+                                <exclude reference="MV5-XS-gZM"/>
                                 <exclude reference="78s-yk-JLb"/>
                                 <exclude reference="Ioo-eW-FsV"/>
                                 <exclude reference="jc2-Mn-CDq"/>
-                                <exclude reference="MV5-XS-gZM"/>
+                                <exclude reference="0v2-Eh-l4H"/>
+                                <exclude reference="8FX-x0-xzd"/>
+                                <exclude reference="TC1-7Z-aJs"/>
+                                <exclude reference="w4G-zj-Wxg"/>
                             </mask>
                         </variation>
                         <variation key="heightClass=regular-widthClass=compact">
@@ -402,13 +403,14 @@
                                 <include reference="NaQ-Ng-fJi"/>
                             </mask>
                             <mask key="constraints">
-                                <include reference="0v2-Eh-l4H"/>
-                                <include reference="8FX-x0-xzd"/>
-                                <include reference="TC1-7Z-aJs"/>
+                                <include reference="MV5-XS-gZM"/>
                                 <include reference="78s-yk-JLb"/>
                                 <include reference="Ioo-eW-FsV"/>
                                 <include reference="jc2-Mn-CDq"/>
-                                <include reference="MV5-XS-gZM"/>
+                                <exclude reference="0v2-Eh-l4H"/>
+                                <include reference="8FX-x0-xzd"/>
+                                <include reference="TC1-7Z-aJs"/>
+                                <include reference="w4G-zj-Wxg"/>
                             </mask>
                         </variation>
                     </view>
@@ -427,7 +429,7 @@
                     <items>
                         <barButtonItem systemItem="flexibleSpace" id="WIg-0U-duD"/>
                         <barButtonItem systemItem="save" id="4m8-p2-79L">
-                            <color key="tintColor" red="1" green="0.80784313730000001" blue="0.21960784310000001" alpha="1" colorSpace="calibratedRGB"/>
+                            <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                             <connections>
                                 <action selector="saveButtonTapped:" destination="BBQ-sZ-NwY" id="4c4-UZ-WTC"/>
                             </connections>
@@ -521,9 +523,6 @@
                                         </label>
                                     </subviews>
                                     <gestureRecognizers/>
-                                    <connections>
-                                        <outletCollection property="gestureRecognizers" destination="n5I-w2-jaF" appends="YES" id="sgP-gu-3Nk"/>
-                                    </connections>
                                 </tableViewCellContentView>
                                 <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.93725490199999995" alpha="1" colorSpace="calibratedRGB"/>
                             </tableViewCell>
@@ -535,7 +534,6 @@
                     </tableView>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="XZz-2q-MNP" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <pongPressGestureRecognizer allowableMovement="10" minimumPressDuration="0.5" id="n5I-w2-jaF"/>
             </objects>
             <point key="canvasLocation" x="639" y="573"/>
         </scene>
@@ -779,75 +777,49 @@
                             <tableViewSection headerTitle="" footerTitle="" id="n0M-Ob-HUp">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="settingCell" id="vdQ-ee-fze">
-                                        <rect key="frame" x="0.0" y="311" width="600" height="44"/>
+                                        <rect key="frame" x="0.0" y="296" width="600" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="vdQ-ee-fze" id="C5x-Ow-t4T">
                                             <rect key="frame" x="0.0" y="0.0" width="567" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gFl-AA-UaY">
-                                                    <rect key="frame" x="244" y="320" width="111" height="43"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="30" id="qQ4-Ef-Xjw"/>
-                                                        <constraint firstAttribute="width" constant="112" id="rxV-vh-rsf"/>
-                                                        <constraint firstAttribute="width" constant="111" id="tB6-kM-qmg">
-                                                            <variation key="heightClass=regular-widthClass=compact" constant="97"/>
-                                                        </constraint>
-                                                    </constraints>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Support ❤️" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jjk-Kp-9wE">
+                                                    <rect key="frame" x="-42" y="-21" width="42" height="21"/>
                                                     <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="17"/>
-                                                    <state key="normal" title="Support ❤️">
-                                                        <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                                                    </state>
-                                                    <variation key="default">
-                                                        <mask key="constraints">
-                                                            <exclude reference="qQ4-Ef-Xjw"/>
-                                                            <exclude reference="rxV-vh-rsf"/>
-                                                            <exclude reference="tB6-kM-qmg"/>
-                                                        </mask>
-                                                    </variation>
-                                                    <variation key="heightClass=regular-widthClass=compact">
-                                                        <mask key="constraints">
-                                                            <exclude reference="tB6-kM-qmg"/>
-                                                        </mask>
-                                                    </variation>
-                                                </button>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstAttribute="bottom" secondItem="gFl-AA-UaY" secondAttribute="bottom" id="BJo-Fx-RfF">
-                                                    <variation key="heightClass=regular-widthClass=compact" constant="6"/>
-                                                </constraint>
-                                                <constraint firstItem="gFl-AA-UaY" firstAttribute="leading" secondItem="C5x-Ow-t4T" secondAttribute="leadingMargin" id="BXu-6c-4bg">
-                                                    <variation key="heightClass=regular-widthClass=compact" constant="0.0"/>
-                                                </constraint>
-                                                <constraint firstItem="gFl-AA-UaY" firstAttribute="top" secondItem="C5x-Ow-t4T" secondAttribute="top" id="Mi5-Qz-Nfx">
-                                                    <variation key="heightClass=regular-widthClass=compact" constant="7"/>
-                                                </constraint>
+                                                <constraint firstItem="jjk-Kp-9wE" firstAttribute="top" secondItem="C5x-Ow-t4T" secondAttribute="topMargin" constant="3" id="At5-hg-aOk"/>
+                                                <constraint firstItem="jjk-Kp-9wE" firstAttribute="leading" secondItem="C5x-Ow-t4T" secondAttribute="leadingMargin" id="DX8-SC-dmz"/>
+                                                <constraint firstItem="jjk-Kp-9wE" firstAttribute="centerY" secondItem="C5x-Ow-t4T" secondAttribute="centerY" id="Ho3-ZR-Gm0"/>
                                             </constraints>
                                             <variation key="default">
                                                 <mask key="subviews">
-                                                    <exclude reference="gFl-AA-UaY"/>
+                                                    <exclude reference="jjk-Kp-9wE"/>
                                                 </mask>
                                                 <mask key="constraints">
-                                                    <exclude reference="BJo-Fx-RfF"/>
-                                                    <exclude reference="BXu-6c-4bg"/>
-                                                    <exclude reference="Mi5-Qz-Nfx"/>
+                                                    <exclude reference="At5-hg-aOk"/>
+                                                    <exclude reference="DX8-SC-dmz"/>
+                                                    <exclude reference="Ho3-ZR-Gm0"/>
                                                 </mask>
                                             </variation>
                                             <variation key="heightClass=regular-widthClass=compact">
                                                 <mask key="subviews">
-                                                    <include reference="gFl-AA-UaY"/>
+                                                    <include reference="jjk-Kp-9wE"/>
                                                 </mask>
                                                 <mask key="constraints">
-                                                    <include reference="BJo-Fx-RfF"/>
-                                                    <include reference="BXu-6c-4bg"/>
-                                                    <include reference="Mi5-Qz-Nfx"/>
+                                                    <include reference="At5-hg-aOk"/>
+                                                    <include reference="DX8-SC-dmz"/>
+                                                    <include reference="Ho3-ZR-Gm0"/>
                                                 </mask>
                                             </variation>
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.93725490199999995" alpha="1" colorSpace="calibratedRGB"/>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="settingCell" id="fh9-C8-nja">
-                                        <rect key="frame" x="0.0" y="355" width="600" height="44"/>
+                                        <rect key="frame" x="0.0" y="340" width="600" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="fh9-C8-nja" id="Izc-w7-gvU">
                                             <rect key="frame" x="0.0" y="0.0" width="567" height="43"/>
@@ -868,8 +840,7 @@
                                                             <exclude reference="erQ-cu-CCO"/>
                                                         </mask>
                                                     </variation>
-                                                    <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
-                                                        <rect key="frame" x="8" y="6" width="387" height="32"/>
+                                                    <variation key="heightClass=regular-widthClass=compact">
                                                         <mask key="constraints">
                                                             <exclude reference="erQ-cu-CCO"/>
                                                         </mask>
@@ -907,7 +878,7 @@
                                         <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.93725490199999995" alpha="1" colorSpace="calibratedRGB"/>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="settingCell" rowHeight="159" id="wuK-RO-wd1">
-                                        <rect key="frame" x="0.0" y="399" width="600" height="159"/>
+                                        <rect key="frame" x="0.0" y="384" width="600" height="159"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="wuK-RO-wd1" id="dFD-3E-RJh">
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="158"/>

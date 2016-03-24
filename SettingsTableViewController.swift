@@ -14,6 +14,8 @@ class SettingsTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        PageViewController.sharedInstance.currentPage = 0
+        
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -28,6 +30,9 @@ class SettingsTableViewController: UITableViewController {
     
     // MARK: - Actions
     
+    @IBAction func DoneButtonTapped(sender: AnyObject) {
+        self.dismissViewControllerAnimated(true, completion: nil)
+    }
     
 
     // MARK: - Table view data source

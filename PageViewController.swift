@@ -8,16 +8,28 @@
 
 import UIKit
 
-class PageViewController: UIPageViewController, UIPageViewControllerDataSource {
+class PageViewController: UIPageViewController, UIPageViewControllerDataSource, UIPageViewControllerDelegate, UIScrollViewDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        delegate = self
         dataSource = self
         if let firstViewController = orderedViewControllers.first {
-            setViewControllers([firstViewController], direction: .Reverse, animated: true, completion: nil)
+            setViewControllers([firstViewController], direction: .Forward, animated: true, completion: nil)
         }
+        
+        for view in self.view.subviews {
+            if view.isKindOfClass(UIScrollView) {
+                if let scrollView = view as? UIScrollView {
+                    scrollView.delegate = self
+                }
+            }
+        }
+//        self.currentPage = 0
     }
+    
+    static let sharedInstance = PageViewController()
     
     override func viewDidAppear(animated: Bool) {
         if UserController.currentUser == nil {
@@ -28,8 +40,8 @@ class PageViewController: UIPageViewController, UIPageViewControllerDataSource {
     private(set) lazy var orderedViewControllers: [UIViewController] = {
         return [
             self.newViewController("WriterViewController"),
-            self.newViewController("NavigationController"),
-//            self.newViewController("NoteListTableViewController")
+//            self.newViewController("NavigationController"),
+            self.newViewController("NoteListTableViewController")
         ]
     }()
     
@@ -66,6 +78,28 @@ class PageViewController: UIPageViewController, UIPageViewControllerDataSource {
             return nil
         }
         return orderedViewControllers[nextIndex]
+    }
+    
+    // MARK: - Get Rid Of Bounce
+    
+     var currentPage: Int = 0
+    
+    func pageViewController(pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
+        if completed == true {
+        if previousViewControllers.first == orderedViewControllers.first {
+            currentPage = 1
+        } else if previousViewControllers.first == orderedViewControllers[1] {
+            currentPage = 0
+        }
+        }
+    }
+    
+    func scrollViewDidScroll(scrollView: UIScrollView) {
+        if currentPage == 0 && scrollView.contentOffset.x < scrollView.bounds.size.width {
+            scrollView.contentOffset = CGPointMake(scrollView.bounds.size.width, 0)
+        } else if currentPage == 1 && scrollView.contentOffset.x > scrollView.bounds.size.width {
+            scrollView.contentOffset = CGPointMake(scrollView.bounds.size.width, 0)
+        }
     }
 }
 

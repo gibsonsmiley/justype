@@ -49,7 +49,7 @@ class WriterViewController: UIViewController {
     @IBAction func saveButtonTapped(sender: AnyObject) {
         if writerTextView.text.isEmpty {
             successLabel.hidden = false
-            successLabel.text = "Swipe left to see your notes. 👉"
+            successLabel.text = "Swipe left to see your notes 👉"
             writerTextView.resignFirstResponder()
         } else {
             if let note = self.note {
@@ -57,7 +57,7 @@ class WriterViewController: UIViewController {
             } else {
                 writerTextView.resignFirstResponder()
                 successLabel.hidden = false
-                successLabel.text = "Note saved successfully. It's over there 👉"
+                successLabel.text = "Note saved. It's over there 👉"
                 if let user = UserController.currentUser.identifier {
                     NoteController.createNote(writerTextView.text, ownerID: user, completion: { (note) -> Void in
                         if let note = self.note {

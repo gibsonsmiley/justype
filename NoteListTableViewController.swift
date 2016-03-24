@@ -10,9 +10,12 @@ import UIKit
 
 class NoteListTableViewController: UITableViewController {
 
+    @IBOutlet weak var navBar: UINavigationBar!
+    
     var user = UserController.currentUser
     var notes = [Note]()
     var selectedRow: NSIndexPath?
+    lazy var searchBar: UISearchBar = UISearchBar(frame: CGRectMake(0, 0, 200, 20))
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,6 +26,11 @@ class NoteListTableViewController: UITableViewController {
         self.view.addGestureRecognizer(longPressRecognizer)
         
         self.navigationItem.leftBarButtonItem = self.editButtonItem()
+        self.navigationController?.navigationBar.barTintColor = UIColor.whiteColor()
+        searchBar.placeholder = "Search"
+        let leftNavBarButton = UIBarButtonItem(customView: searchBar)
+        self.navigationItem.leftBarButtonItem = leftNavBarButton
+        
 
     }
 
@@ -47,7 +55,6 @@ class NoteListTableViewController: UITableViewController {
                 self.selectedRow = indexPath
                 let notifcation = UILocalNotification()
                 UIApplication.sharedApplication().scheduleLocalNotification(notifcation)
-                print("Long press detected")
             }
         }
     }
@@ -73,7 +80,6 @@ class NoteListTableViewController: UITableViewController {
                 NoteController.deleteNote(note)
                 self.notes.removeAtIndex(selectedRow.row)
                 self.tableView.deleteRowsAtIndexPaths([selectedRow], withRowAnimation: .Fade)
-                print("File Deleted")
             }
         })
         let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel, handler: nil)

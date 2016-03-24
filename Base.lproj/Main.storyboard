@@ -362,6 +362,9 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="17"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                <connections>
+                                    <outlet property="delegate" destination="BBQ-sZ-NwY" id="Rct-6Z-aob"/>
+                                </connections>
                             </textView>
                             <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NaQ-Ng-fJi">
                                 <rect key="frame" x="-42" y="-21" width="42" height="21"/>
@@ -421,8 +424,12 @@
                         </variation>
                     </view>
                     <connections>
+                        <outlet property="boldButton" destination="enf-he-sW5" id="0ta-2a-luz"/>
+                        <outlet property="italicButton" destination="uM7-0J-80o" id="OQU-w4-QAx"/>
+                        <outlet property="listButton" destination="EIq-EQ-AS2" id="hpP-If-JdW"/>
                         <outlet property="saveButton" destination="4m8-p2-79L" id="Xi8-VD-Moa"/>
                         <outlet property="successLabel" destination="NaQ-Ng-fJi" id="RxZ-zb-m6a"/>
+                        <outlet property="tagButton" destination="wEC-1p-38o" id="JNe-rV-bPL"/>
                         <outlet property="toolbar" destination="GFY-gs-a7w" id="kgY-fF-Eoo"/>
                         <outlet property="writerTextView" destination="Cc7-rR-yCc" id="Ce9-Yw-5aq"/>
                         <segue destination="tUO-5Q-Lk9" kind="presentation" identifier="toAuthView" id="UdP-wQ-ug4"/>
@@ -434,15 +441,31 @@
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <items>
-                        <barButtonItem title="Tag" id="wEC-1p-38o"/>
+                        <barButtonItem title="Tag" id="wEC-1p-38o">
+                            <connections>
+                                <action selector="tagToolbarButtonTapped:" destination="BBQ-sZ-NwY" id="6An-vx-b7Q"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem systemItem="flexibleSpace" id="th0-Ec-CYb"/>
-                        <barButtonItem title="List" style="plain" id="EIq-EQ-AS2"/>
+                        <barButtonItem title="List" style="plain" id="EIq-EQ-AS2">
+                            <connections>
+                                <action selector="listToolbarButtonTapped:" destination="BBQ-sZ-NwY" id="0jP-TD-rHY"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem systemItem="flexibleSpace" id="frC-aC-p5R"/>
-                        <barButtonItem title="Bold" id="enf-he-sW5"/>
+                        <barButtonItem title="Bold" id="enf-he-sW5">
+                            <connections>
+                                <action selector="boldToolbarButtonTapped:" destination="BBQ-sZ-NwY" id="E99-wM-wjw"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem systemItem="flexibleSpace" id="WIg-0U-duD"/>
-                        <barButtonItem title="Italic" id="uM7-0J-80o"/>
+                        <barButtonItem title="Italic" id="uM7-0J-80o">
+                            <connections>
+                                <action selector="italicToolbarButtonTapped:" destination="BBQ-sZ-NwY" id="4l6-Af-YZ9"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem width="97" style="plain" systemItem="fixedSpace" id="kiu-nU-5d0"/>
-                        <barButtonItem systemItem="save" id="4m8-p2-79L">
+                        <barButtonItem title="Save" id="4m8-p2-79L">
                             <connections>
                                 <action selector="saveButtonTapped:" destination="BBQ-sZ-NwY" id="4c4-UZ-WTC"/>
                             </connections>
@@ -563,7 +586,7 @@
                             </variation>
                         </view>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="noteCell" textLabel="fSg-fc-dg6" rowHeight="55" style="IBUITableViewCellStyleDefault" id="3W9-Pp-Enq" customClass="NoteTableViewCell" customModule="justype" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="noteCell" textLabel="fSg-fc-dg6" rowHeight="55" style="IBUITableViewCellStyleDefault" id="3W9-Pp-Enq" customClass="NoteTableViewCell" customModule="justype" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="156" width="600" height="55"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="3W9-Pp-Enq" id="nlk-qZ-Z0O">

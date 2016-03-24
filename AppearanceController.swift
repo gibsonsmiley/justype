@@ -11,4 +11,7 @@ import UIKit
 
 class AppearanceController {
     
+    static func initializeAppearance() {
+    UITextView.appearance().tintColor = UIColor.blackColor()
+    }
 }

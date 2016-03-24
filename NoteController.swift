@@ -10,8 +10,6 @@ import Foundation
 
 class NoteController {
     
-//    static var notes: [Note] = []
-    
     static func createNote(text: String, ownerID: String = UserController.currentUser.identifier!, completion: (note: Note?) -> Void) {
         var note = Note(text: text, ownerID: ownerID)
         note.ownerID = ownerID
@@ -23,20 +21,14 @@ class NoteController {
         completion(note: note)
     }
     
+    static func updateNote(note: Note, completion: (success: Bool, note: Note?) -> Void) {
+        FirebaseController.base.childByAppendingPath("notes").childByAppendingPath(note.identifier).updateChildValues(note.jsonValue)
+        completion(success: true, note: note)
+    }
+    
     static func deleteNote(note: Note) {
         note.delete()
     }
-    
-//    static func observeNotesForUser(user: User, completion: () -> Void) {
-//        guard let identifier = user.identifier else {completion(); return}
-//        FirebaseController.base.childByAppendingPath("notes").queryOrderedByChild("users").queryEqualToValue("\(identifier)").observeEventType(.Value, withBlock: { (snapshot) -> Void in
-//            if let noteDictionaries = snapshot.value as? [String: AnyObject] {
-//                let notes = noteDictionaries.flatMap({Note(json: $0.1 as! [String: AnyObject], identifier: $0.0)})
-//                self.notes = notes
-//                completion()
-//            }
-//        })
-//    }
     
     static func noteForID(noteID: String, completion: (note: Note?) -> Void) {
         FirebaseController.dataAtEndpoint("notes/\(noteID)") { (data) -> Void in
@@ -47,16 +39,6 @@ class NoteController {
                 completion(note: nil)
             }
         }
-        
-//        guard let identifier = note.identifier else { completion(note: nil); return }
-//        FirebaseController.dataAtEndpoint("users/\(UserController.currentUser?.identifier)/notes/\(identifier)") { (data) -> Void in
-//            if let data = data as? [String: AnyObject] {
-//                let note = Note(json: data, identifier: identifier)
-//                completion(note: note)
-//            } else {
-//                completion(note: nil)
-//            }
-//        }
     }
     
     static func orderNotes(notes: [Note]) -> [Note] {
@@ -64,10 +46,10 @@ class NoteController {
     }
     
     static func addTag() {
-        // Only necessary if tags are an independant model
+        // Only necessary if tags are an independent model
     }
     
     static func deleteTag() {
-        // Only necessary if tags are an independant model
+        // Only necessary if tags are an independent model
     }
 }

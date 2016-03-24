@@ -116,12 +116,9 @@ class NoteListTableViewController: UITableViewController, PageViewControllerChil
         guard let pageViewController: PageViewController = self.pageView as? PageViewController,
             writerViewController = pageViewController.orderedViewControllers.first as? WriterViewController else {return}
         writerViewController.updateWithNote(notes[indexPath.row])
-        
         pageViewController.setViewControllers([writerViewController], direction: .Reverse, animated: true) { (_) -> Void in
             pageViewController.currentPage = 0
         }
-        
-        
     }
 
     // MARK: - Navigation

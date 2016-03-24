@@ -30,7 +30,6 @@ class PageViewController: UIPageViewController, UIPageViewControllerDataSource, 
                 }
             }
         }
-//        self.currentPage = 0
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -114,6 +113,14 @@ class PageViewController: UIPageViewController, UIPageViewControllerDataSource, 
         } else if currentPage == 1 && scrollView.contentOffset.x > scrollView.bounds.size.width {
             scrollView.contentOffset = CGPointMake(scrollView.bounds.size.width, 0)
             
+        }
+    }
+    
+    func scrollViewWillEndDragging(scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+        if currentPage == 0 && scrollView.contentOffset.x <= scrollView.bounds.size.width {
+            targetContentOffset.memory = CGPointMake(scrollView.bounds.size.width, 0)
+        } else if currentPage == 1 && scrollView.contentOffset.x >= scrollView.bounds.size.width {
+            targetContentOffset.memory = CGPointMake(scrollView.bounds.size.width, 0)
         }
     }
 }

@@ -8,12 +8,18 @@
 
 import UIKit
 
-class WriterViewController: UIViewController, PageViewControllerChild {
+class WriterViewController: UIViewController, UITextViewDelegate, PageViewControllerChild {
     
     @IBOutlet weak var writerTextView: UITextView!
     @IBOutlet var toolbar: UIToolbar!
     @IBOutlet weak var successLabel: UILabel!
     @IBOutlet weak var saveButton: UIBarButtonItem!
+    @IBOutlet weak var tagButton: UIBarButtonItem!
+    @IBOutlet weak var listButton: UIBarButtonItem!
+    @IBOutlet weak var boldButton: UIBarButtonItem!
+    @IBOutlet weak var italicButton: UIBarButtonItem!
+    
+    
     var pageView: UIPageViewController?
     var note: Note?
     
@@ -36,6 +42,7 @@ class WriterViewController: UIViewController, PageViewControllerChild {
         toolbar.sizeToFit()
         writerTextView.inputAccessoryView = toolbar
         setupKeyboardNotifications()
+        barButtonFromatter()
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -54,6 +61,13 @@ class WriterViewController: UIViewController, PageViewControllerChild {
         } else {
             if let note = self.note {
                 note.text = self.writerTextView.text
+                NoteController.updateNote(note, completion: { (success, note) in
+                    if success {
+                        self.writerTextView.resignFirstResponder()
+                        self.successLabel.hidden = false
+                        self.successLabel.text = "Note updated 👍"
+                    }
+                })
             } else {
                 writerTextView.resignFirstResponder()
                 successLabel.hidden = false
@@ -65,8 +79,8 @@ class WriterViewController: UIViewController, PageViewControllerChild {
                         }
                     })
                 }
-                writerTextView.text = ""
             }
+            writerTextView.text = ""
         }
     }
     
@@ -94,7 +108,47 @@ class WriterViewController: UIViewController, PageViewControllerChild {
         self.note = note
         self.writerTextView.text = note.text
     }
+    
+    // MARK: - Toolbar Actions
+    
+    let font = UIFont(name: "Ubuntu", size: 17) ?? UIFont.systemFontSize()
+    
+    func barButtonFromatter() {
+        saveButton.setTitleTextAttributes([NSFontAttributeName: font], forState: .Normal)
+    }
+    
+    func textViewDidBeginEditing(textView: UITextView) {
+        if textView.text.isEmpty {
+            saveButton.title = "Hide"
+        } else {
+            saveButton.title = "Save"
+        }
+    }
+    
+    func textViewDidChange(textView: UITextView) {
+        if textView.text.isEmpty {
+            saveButton.title = "Hide"
+        } else {
+            saveButton.title = "Save"
+        }
+    }
+    
+    @IBAction func tagToolbarButtonTapped(sender: AnyObject) {
+        writerTextView.insertText("#")
+    }
+    
+    @IBAction func listToolbarButtonTapped(sender: AnyObject) {
+        writerTextView.insertText("•")
+    }
 
+    @IBAction func boldToolbarButtonTapped(sender: AnyObject) {
+        boldButton.title = "UnBold"
+    }
+    
+    @IBAction func italicToolbarButtonTapped(sender: AnyObject) {
+    }
+    
+    
     /*
     // MARK: - Navigation
 

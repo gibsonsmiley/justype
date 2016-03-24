@@ -30,9 +30,11 @@ class Note: FirebaseType, Equatable {
     }
     
     required init?(json: [String: AnyObject], identifier: String) {
-        guard let text = json[kText] as? String else { self.text = ""; self.ownerID = ""; return nil }
+        guard let text = json[kText] as? String,
+        let ownerID = json[kOwner] as? String else { self.text = ""; self.ownerID = ""; return nil }
         self.text = text
         self.identifier = identifier
+        self.ownerID = ownerID
     }
 }
 

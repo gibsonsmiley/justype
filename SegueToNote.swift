@@ -23,8 +23,8 @@ class SegueToNote: UIStoryboardSegue {
         window?.insertSubview(receiver, aboveSubview: sender)
         
         UIView.animateWithDuration(0.4, animations: {
-            sender.frame = CGRectOffset(sender.frame, -screenWidth, 0.0)
-            receiver.frame = CGRectOffset(receiver.frame, -screenWidth, 0.0)
+            sender.frame = CGRectOffset(sender.frame, +screenWidth, 0.0)
+            receiver.frame = CGRectOffset(receiver.frame, +screenWidth, 0.0)
             }) { (finished) in
                 self.sourceViewController.presentViewController(self.destinationViewController as UIViewController, animated: false, completion: nil)
         }

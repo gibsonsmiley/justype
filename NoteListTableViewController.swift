@@ -8,14 +8,14 @@
 
 import UIKit
 
-class NoteListTableViewController: UITableViewController {
+class NoteListTableViewController: UITableViewController, PageViewControllerChild {
 
     @IBOutlet weak var navBar: UINavigationBar!
     
+    var pageView: UIPageViewController?
     var user = UserController.currentUser
     var notes = [Note]()
     var selectedRow: NSIndexPath?
-    lazy var searchBar: UISearchBar = UISearchBar(frame: CGRectMake(0, 0, 200, 20))
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,12 +26,6 @@ class NoteListTableViewController: UITableViewController {
         self.view.addGestureRecognizer(longPressRecognizer)
         
         self.navigationItem.leftBarButtonItem = self.editButtonItem()
-        self.navigationController?.navigationBar.barTintColor = UIColor.whiteColor()
-        searchBar.placeholder = "Search"
-        let leftNavBarButton = UIBarButtonItem(customView: searchBar)
-        self.navigationItem.leftBarButtonItem = leftNavBarButton
-        
-
     }
 
     override func viewDidAppear(animated: Bool) {
@@ -116,6 +110,18 @@ class NoteListTableViewController: UITableViewController {
             self.notes.removeAtIndex(indexPath.row)
             tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
         }
+    }
+    
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        guard let pageViewController: PageViewController = self.pageView as? PageViewController,
+            writerViewController = pageViewController.orderedViewControllers.first as? WriterViewController else {return}
+        writerViewController.updateWithNote(notes[indexPath.row])
+        
+        pageViewController.setViewControllers([writerViewController], direction: .Reverse, animated: true) { (_) -> Void in
+            pageViewController.currentPage = 0
+        }
+        
+        
     }
 
     // MARK: - Navigation

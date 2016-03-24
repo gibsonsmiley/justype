@@ -8,13 +8,13 @@
 
 import UIKit
 
-class WriterViewController: UIViewController {
+class WriterViewController: UIViewController, PageViewControllerChild {
     
     @IBOutlet weak var writerTextView: UITextView!
     @IBOutlet var toolbar: UIToolbar!
     @IBOutlet weak var successLabel: UILabel!
     @IBOutlet weak var saveButton: UIBarButtonItem!
-    
+    var pageView: UIPageViewController?
     var note: Note?
     
     // MARK: - View

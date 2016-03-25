@@ -44,12 +44,4 @@ class NoteController {
     static func orderNotes(notes: [Note]) -> [Note] {
         return notes.sort({$0.0.identifier < $0.1.identifier})
     }
-    
-    static func addTag() {
-        // Only necessary if tags are an independent model
-    }
-    
-    static func deleteTag() {
-        // Only necessary if tags are an independent model
-    }
 }

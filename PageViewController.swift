@@ -38,11 +38,15 @@ class PageViewController: UIPageViewController, UIPageViewControllerDataSource, 
         }
     }
     
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+    }
+    
     lazy var orderedViewControllers: [UIViewController] = {
         return [
             self.newViewController("WriterViewController"),
-//            self.newViewController("NavigationController"),
-            self.newViewController("NoteListTableViewController")
+            self.newViewController("NoteListTableViewController"),
+            self.newViewController("SearchResultsTableViewController")
         ]
     }()
     

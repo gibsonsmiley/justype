@@ -11,7 +11,24 @@ import UIKit
 
 class AppearanceController {
     
+//    static var darkMode: Bool = false
+   
     static func initializeAppearance() {
-    UITextView.appearance().tintColor = UIColor.blackColor()
+        UITextView.appearance().tintColor = UIColor.blackColor()
+        UIButton.appearance().tintColor = UIColor.darkGrayColor()
+        let titleFont : UIFont = UIFont(name: "Avenir-Medium", size: 17.0)!
+        UIBarButtonItem.appearance().setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.darkGrayColor(), NSFontAttributeName: titleFont], forState: .Normal)
+        
+//        UIBarButtonItem.appearance().tintColor = UIColor.darkGrayColor()
     }
+
+//    static func changeColorMode() {
+//        if darkMode == true {
+//            WriterViewController.backgroundColor = UIColor.offBlackColor()
+//            UINavigationBar.appearance().tintColor = UIColor.offBlackColor()
+//            UITextView.appearance().backgroundColor = UIColor.offBlackColor()
+//            UITableView.appearance().backgroundColor = UIColor.offBlackColor()
+//            UIKeyboardAppearance() = .Dark
+//        }
+//    }
 }

@@ -8,9 +8,10 @@
 
 import UIKit
 
-class NoteListTableViewController: UITableViewController, PageViewControllerChild {
+class NoteListTableViewController: UITableViewController, UISearchResultsUpdating, PageViewControllerChild {
 
     @IBOutlet weak var navBar: UINavigationBar!
+    @IBOutlet weak var searchBar: UISearchBar!
     
     var pageView: UIPageViewController?
     var user = UserController.currentUser
@@ -24,8 +25,8 @@ class NoteListTableViewController: UITableViewController, PageViewControllerChil
     
         let longPressRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(NoteListTableViewController.longPress(_:)))
         self.view.addGestureRecognizer(longPressRecognizer)
-        
-        self.navigationItem.leftBarButtonItem = self.editButtonItem()
+
+        setupSearchController()
     }
 
     override func viewDidAppear(animated: Bool) {
@@ -38,6 +39,10 @@ class NoteListTableViewController: UITableViewController, PageViewControllerChil
         tableView.reloadData()
         loadNotesForUser(user)
         NoteController.orderNotes(notes)
+    }
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
     }
     
     // MARK: - Actions
@@ -84,6 +89,30 @@ class NoteListTableViewController: UITableViewController, PageViewControllerChil
         
         presentViewController(alertController, animated: true, completion: nil)
     }
+    
+    // MARK: - Search Controller
+    
+    var searchController: UISearchController!
+    
+    func setupSearchController() {
+        let resultsController = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("SearchResultsTableViewController")
+        
+        searchController = UISearchController(searchResultsController: resultsController)
+        searchController.searchResultsUpdater = self
+        searchBar = searchController.searchBar
+        searchController.searchBar.sizeToFit()
+        searchController.hidesNavigationBarDuringPresentation = false
+//        tableView.tableHeaderView = searchController.searchBar
+        
+        definesPresentationContext = true
+    }
+    
+    func updateSearchResultsForSearchController(searchController: UISearchController) {
+        let searchTerm = searchController.searchBar.text!.lowercaseString
+        let resultsViewController = searchController.searchResultsController as? SearchResultsTableViewController
+        resultsViewController?.searchResultsDataSource = notes.filter({$0.text.lowercaseString.containsString(searchTerm)})
+        resultsViewController?.tableView.reloadData()
+    }
 
     // MARK: - Table view data source
 
@@ -94,6 +123,7 @@ class NoteListTableViewController: UITableViewController, PageViewControllerChil
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("noteCell", forIndexPath: indexPath)
         let note = notes[indexPath.row]
+        
         cell.textLabel?.text = note.text
         return cell
     }

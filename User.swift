@@ -12,7 +12,6 @@ class User: FirebaseType, Equatable {
     
     let kEmail = "email"
     let kNotes = "notes"
-//    let kTags = "tags"
     
     let email: String
     var noteIDs: [String] = [] {
@@ -24,8 +23,7 @@ class User: FirebaseType, Equatable {
         }
     }
     var notes: [Note] = []
-//    var tagIDs: [String] = []
-//    var tags: [Tag] = []
+
     var identifier: String?
     var endpoint: String {
         return "users"

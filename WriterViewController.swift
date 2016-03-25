@@ -42,13 +42,18 @@ class WriterViewController: UIViewController, UITextViewDelegate, PageViewContro
         toolbar.sizeToFit()
         writerTextView.inputAccessoryView = toolbar
         setupKeyboardNotifications()
-        barButtonFromatter()
+        let titleFont : UIFont = UIFont(name: "Avenir-Black", size: 17.0)!
+        saveButton.setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.darkGrayColor(), NSFontAttributeName: titleFont], forState: .Normal)
     }
     
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
         
         writerTextView.resignFirstResponder()
+    }
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
     }
     
     // MARK: - Actions
@@ -111,12 +116,6 @@ class WriterViewController: UIViewController, UITextViewDelegate, PageViewContro
     
     // MARK: - Toolbar Actions
     
-    let font = UIFont(name: "Ubuntu", size: 17) ?? UIFont.systemFontSize()
-    
-    func barButtonFromatter() {
-        saveButton.setTitleTextAttributes([NSFontAttributeName: font], forState: .Normal)
-    }
-    
     func textViewDidBeginEditing(textView: UITextView) {
         if textView.text.isEmpty {
             saveButton.title = "Hide"
@@ -142,21 +141,18 @@ class WriterViewController: UIViewController, UITextViewDelegate, PageViewContro
     }
 
     @IBAction func boldToolbarButtonTapped(sender: AnyObject) {
-        boldButton.title = "UnBold"
+        if boldButton.title == "UnBold" {
+            boldButton.title = "Bold"
+        } else {
+            boldButton.title = "UnBold"
+        }
     }
     
     @IBAction func italicToolbarButtonTapped(sender: AnyObject) {
+        if italicButton.title == "UnItalic" {
+            italicButton.title = "Italic"
+        } else {
+            italicButton.title = "UnItalic"
+        }
     }
-    
-    
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }

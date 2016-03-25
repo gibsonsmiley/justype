@@ -23,6 +23,7 @@ class WriterViewController: UIViewController, UITextViewDelegate, PageViewContro
     var pageView: UIPageViewController?
     var note: Note?
     
+    
     // MARK: - View
     
     override func viewDidAppear(animated: Bool) {
@@ -55,6 +56,7 @@ class WriterViewController: UIViewController, UITextViewDelegate, PageViewContro
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
+    
     
     // MARK: - Actions
     
@@ -89,6 +91,14 @@ class WriterViewController: UIViewController, UITextViewDelegate, PageViewContro
         }
     }
     
+    func updateWithNote(note: Note) {
+        self.note = note
+        self.writerTextView.text = note.text
+    }
+    
+    
+    // MARK: - Keyboard
+    
     func setupKeyboardNotifications() {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(WriterViewController.keyboardWasShown(_:)), name: UIKeyboardDidShowNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(WriterViewController.keyboardWillBeHidden(_:)), name: UIKeyboardWillHideNotification, object: nil)
@@ -109,10 +119,6 @@ class WriterViewController: UIViewController, UITextViewDelegate, PageViewContro
         writerTextView.scrollIndicatorInsets = contentInsets
     }
     
-    func updateWithNote(note: Note) {
-        self.note = note
-        self.writerTextView.text = note.text
-    }
     
     // MARK: - Toolbar Actions
     

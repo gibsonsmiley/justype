@@ -42,6 +42,6 @@ class NoteController {
     }
     
     static func orderNotes(notes: [Note]) -> [Note] {
-        return notes.sort({$0.0.identifier < $0.1.identifier})
+        return notes.sort({$0.0.identifier > $0.1.identifier})
     }
 }

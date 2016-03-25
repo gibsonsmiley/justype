@@ -16,9 +16,9 @@ class PageViewController: UIPageViewController, UIPageViewControllerDataSource, 
 
     override func viewDidLoad() {
         super.viewDidLoad()
-    
         delegate = self
         dataSource = self
+        
         if let firstViewController = orderedViewControllers.first {
             setViewControllers([firstViewController], direction: .Forward, animated: true, completion: nil)
         }
@@ -45,8 +45,7 @@ class PageViewController: UIPageViewController, UIPageViewControllerDataSource, 
     lazy var orderedViewControllers: [UIViewController] = {
         return [
             self.newViewController("WriterViewController"),
-            self.newViewController("NoteListTableViewController"),
-            self.newViewController("SearchResultsTableViewController")
+            self.newViewController("NoteListTableViewController")
         ]
     }()
     
@@ -58,6 +57,7 @@ class PageViewController: UIPageViewController, UIPageViewControllerDataSource, 
         return vc
     }
 
+    
     // MARK: - Page View Controller Data Source
     
     override func setViewControllers(viewControllers: [UIViewController]?, direction: UIPageViewControllerNavigationDirection, animated: Bool, completion: ((Bool) -> Void)?) {
@@ -97,6 +97,7 @@ class PageViewController: UIPageViewController, UIPageViewControllerDataSource, 
         return orderedViewControllers[nextIndex]
     }
     
+    
     // MARK: - Get Rid Of Bounce
     
     var currentPage: Int = 0
@@ -128,17 +129,3 @@ class PageViewController: UIPageViewController, UIPageViewControllerDataSource, 
         }
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-

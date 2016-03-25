@@ -8,7 +8,7 @@
 
 import UIKit
 
-class NoteListTableViewController: UITableViewController, UISearchResultsUpdating, PageViewControllerChild {
+class NoteListTableViewController: UITableViewController, UISearchBarDelegate, PageViewControllerChild {
 
     @IBOutlet weak var navBar: UINavigationBar!
     @IBOutlet weak var searchBar: UISearchBar!
@@ -16,6 +16,7 @@ class NoteListTableViewController: UITableViewController, UISearchResultsUpdatin
     var pageView: UIPageViewController?
     var user = UserController.currentUser
     var notes = [Note]()
+    var filteredNotes: [Note] = []
     var selectedRow: NSIndexPath?
     
     override func viewDidLoad() {
@@ -26,7 +27,8 @@ class NoteListTableViewController: UITableViewController, UISearchResultsUpdatin
         let longPressRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(NoteListTableViewController.longPress(_:)))
         self.view.addGestureRecognizer(longPressRecognizer)
 
-        setupSearchController()
+        let titleFont : UIFont = UIFont(name: "Avenir-Medium", size: 22.0)!
+        UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName : UIColor.blackColor(), NSFontAttributeName: titleFont]        
     }
 
     override func viewDidAppear(animated: Bool) {
@@ -44,6 +46,7 @@ class NoteListTableViewController: UITableViewController, UISearchResultsUpdatin
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
+    
     
     // MARK: - Actions
     
@@ -67,7 +70,6 @@ class NoteListTableViewController: UITableViewController, UISearchResultsUpdatin
     
     func localNotificationFired() {
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
-        
         let shareAction = UIAlertAction(title: "Share", style: .Default) { (share) in
             let shareSheet = UIActivityViewController(activityItems: [UIActivityTypeMail, UIActivityTypeMessage, UIActivityTypePostToFacebook, UIActivityTypePostToTwitter, UIActivityTypeCopyToPasteboard], applicationActivities: [])
             self.presentViewController(shareSheet, animated: true, completion: nil)
@@ -82,48 +84,33 @@ class NoteListTableViewController: UITableViewController, UISearchResultsUpdatin
             }
         })
         let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel, handler: nil)
-        
         alertController.addAction(shareAction)
         alertController.addAction(deleteAction)
         alertController.addAction(cancelAction)
-        
         presentViewController(alertController, animated: true, completion: nil)
     }
     
-    // MARK: - Search Controller
     
-    var searchController: UISearchController!
+    // MARK: - Search
     
-    func setupSearchController() {
-        let resultsController = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("SearchResultsTableViewController")
-        
-        searchController = UISearchController(searchResultsController: resultsController)
-        searchController.searchResultsUpdater = self
-        searchBar = searchController.searchBar
-        searchController.searchBar.sizeToFit()
-        searchController.hidesNavigationBarDuringPresentation = false
-//        tableView.tableHeaderView = searchController.searchBar
-        
-        definesPresentationContext = true
+    func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
+        filteredNotes = notes.filter({$0.text.lowercaseString.containsString(searchText.lowercaseString)})
+        tableView.reloadData()
     }
-    
-    func updateSearchResultsForSearchController(searchController: UISearchController) {
-        let searchTerm = searchController.searchBar.text!.lowercaseString
-        let resultsViewController = searchController.searchResultsController as? SearchResultsTableViewController
-        resultsViewController?.searchResultsDataSource = notes.filter({$0.text.lowercaseString.containsString(searchTerm)})
-        resultsViewController?.tableView.reloadData()
-    }
+
 
     // MARK: - Table view data source
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if filteredNotes.count > 0 {
+            return filteredNotes.count
+        }
         return notes.count
     }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("noteCell", forIndexPath: indexPath)
-        let note = notes[indexPath.row]
-        
+        let note = filteredNotes.count > 0 ? filteredNotes[indexPath.row]: notes[indexPath.row]
         cell.textLabel?.text = note.text
         return cell
     }
@@ -150,6 +137,7 @@ class NoteListTableViewController: UITableViewController, UISearchResultsUpdatin
             pageViewController.currentPage = 0
         }
     }
+    
 
     // MARK: - Navigation
     
@@ -165,4 +153,3 @@ class NoteListTableViewController: UITableViewController, UISearchResultsUpdatin
         }
     }
 }
-

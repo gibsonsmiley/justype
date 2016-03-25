@@ -56,7 +56,8 @@ class UserController {
                     })
                 }
                 dispatch_group_notify(group, dispatch_get_main_queue(), { () -> Void in
-                    user.notes = notes
+                    let orderedNotes = NoteController.orderNotes(notes)
+                    user.notes = orderedNotes
                     completion()
                 })
             } else {

@@ -28,7 +28,9 @@ class NoteListTableViewController: UITableViewController, UISearchBarDelegate, P
         self.view.addGestureRecognizer(longPressRecognizer)
 
         let titleFont : UIFont = UIFont(name: "Avenir-Medium", size: 22.0)!
-        UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName : UIColor.blackColor(), NSFontAttributeName: titleFont]        
+        UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName : UIColor.blackColor(), NSFontAttributeName: titleFont]
+        
+//        NSNotificationCenter.defaultCenter().addObserver(self, selector: "preferredContentSizeChanged", name: UIContentSizeCategoryDidChangeNotification, object: nil)
     }
 
     override func viewDidAppear(animated: Bool) {
@@ -46,6 +48,13 @@ class NoteListTableViewController: UITableViewController, UISearchBarDelegate, P
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
+    
+    
+    // MARK: - Text Kit
+    
+//    func preferredContentSizeChange(notificaiton: NSNotification) {
+//        tableView.reloadData()
+//    }
     
     
     // MARK: - Actions
@@ -112,6 +121,22 @@ class NoteListTableViewController: UITableViewController, UISearchBarDelegate, P
         let cell = tableView.dequeueReusableCellWithIdentifier("noteCell", forIndexPath: indexPath)
         let note = filteredNotes.count > 0 ? filteredNotes[indexPath.row]: notes[indexPath.row]
         cell.textLabel?.text = note.text
+//        let font = UIFont.preferredFontForTextStyle(UIFontTextStyleHeadline) This make the tableView all bold and shit and I don't know if I like that
+
+        
+        // Letterpress effect, not that great, but could be useful somewhere
+//        let font = UIFont.preferredFontForTextStyle(UIFontTextStyleHeadline)
+//        let textColor = UIColor(red: 0.175, green: 0.458, blue: 0.831, alpha: 1)
+//        let attributes = [
+//            NSForegroundColorAttributeName : textColor,
+//            NSFontAttributeName : font,
+//            NSTextEffectAttributeName : NSTextEffectLetterpressStyle
+//        ]
+//        let attributedString = NSAttributedString(string: note.title, attributes: attributes)
+//        
+//        cell.textLabel?.attributedText = attributedString
+
+        
         return cell
     }
     
@@ -137,6 +162,18 @@ class NoteListTableViewController: UITableViewController, UISearchBarDelegate, P
             pageViewController.currentPage = 0
         }
     }
+    
+//    let label: UILabel = {
+//        let temporaryLabel = UILabel(frame: CGRect(x: 0, y: 0, width: Int.max, height: Int.max))
+//        temporaryLabel.text = "text"
+//        return temporaryLabel
+//    }()
+//    
+//    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+//            label.font = UIFont.preferredFontForTextStyle(UIFontTextStyleHeadline)
+//            label.sizeToFit()
+//            return label.frame.height * 1.7
+//    }
     
 
     // MARK: - Navigation

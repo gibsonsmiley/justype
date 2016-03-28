@@ -10,7 +10,6 @@ import UIKit
 
 class WriterViewController: UIViewController, UITextViewDelegate, PageViewControllerChild {
     
-    @IBOutlet weak var writerTextView: UITextView!
     @IBOutlet var toolbar: UIToolbar!
     @IBOutlet weak var successLabel: UILabel!
     @IBOutlet weak var saveButton: UIBarButtonItem!
@@ -25,6 +24,10 @@ class WriterViewController: UIViewController, UITextViewDelegate, PageViewContro
     
     
     // MARK: - View
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+    }
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(true)
@@ -41,10 +44,13 @@ class WriterViewController: UIViewController, UITextViewDelegate, PageViewContro
     override func viewDidLoad() {
         super.viewDidLoad()
         toolbar.sizeToFit()
-        writerTextView.inputAccessoryView = toolbar
         setupKeyboardNotifications()
         let titleFont : UIFont = UIFont(name: "Avenir-Black", size: 17.0)!
         saveButton.setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.darkGrayColor(), NSFontAttributeName: titleFont], forState: .Normal)
+        
+//        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("preferredContentSizeChanged"), name: UIContentSizeCategoryDidChangeNotification, object: nil)
+        
+        createTextView()
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -56,6 +62,49 @@ class WriterViewController: UIViewController, UITextViewDelegate, PageViewContro
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+    }
+    
+    
+    // MARK: - Text Kit
+    
+    var writerTextView: UITextView!
+    var textStorage: SyntaxHighlightTextStorage!
+    
+    func preferredContentSizeChanged(notification: NSNotification) {
+        writerTextView.font = UIFont(name: "Avenir-Medium", size: 17.0)!
+    }
+    
+    func createTextView() {
+        let attrs = [NSFontAttributeName: UIFont(name: "Avenir-Medium", size: 17.0)!]
+        
+        let attrString = NSAttributedString(string: note?.text ?? "", attributes: attrs)
+        textStorage = SyntaxHighlightTextStorage()
+        textStorage.appendAttributedString(attrString)
+        
+        let newTextViewRect = view.bounds
+        
+        let layoutManager = NSLayoutManager()
+        
+        let containerSize = CGSize(width: newTextViewRect.width, height: CGFloat.max)
+        let container = NSTextContainer(size: containerSize)
+        container.widthTracksTextView = true
+        layoutManager.addTextContainer(container)
+        textStorage.addLayoutManager(layoutManager)
+        
+        writerTextView = UITextView(frame: newTextViewRect, textContainer: container)
+        writerTextView.delegate = self
+        view.addSubview(writerTextView)
+        
+        writerTextView.frame = view.bounds
+        
+        
+        writerTextView.inputAccessoryView = toolbar
+    }
+    
+    
     
     
     // MARK: - Actions
@@ -93,7 +142,6 @@ class WriterViewController: UIViewController, UITextViewDelegate, PageViewContro
     
     func updateWithNote(note: Note) {
         self.note = note
-        self.writerTextView.text = note.text
     }
     
     
@@ -145,12 +193,14 @@ class WriterViewController: UIViewController, UITextViewDelegate, PageViewContro
     @IBAction func listToolbarButtonTapped(sender: AnyObject) {
         writerTextView.insertText("•")
     }
-
+    
     @IBAction func boldToolbarButtonTapped(sender: AnyObject) {
         if boldButton.title == "UnBold" {
             boldButton.title = "Bold"
+            writerTextView.insertText("*")
         } else {
             boldButton.title = "UnBold"
+            writerTextView.insertText("*")
         }
     }
     

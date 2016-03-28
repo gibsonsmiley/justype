@@ -122,6 +122,16 @@ class WriterViewController: UIViewController, UITextViewDelegate, PageViewContro
     
     // MARK: - Toolbar Actions
     
+    func applyStyleToSelection(style: String) {
+        let range = writerTextView.selectedRange
+        let styledFont = UIFont(name: style, size: 17.0)!
+        
+        writerTextView.textStorage.beginEditing()
+        let dict = [NSFontAttributeName: styledFont]
+        writerTextView.textStorage.setAttributes(dict, range: range)
+        writerTextView.textStorage.endEditing()
+    }
+    
     func textViewDidBeginEditing(textView: UITextView) {
         if textView.text.isEmpty {
             saveButton.title = "Hide"
@@ -147,18 +157,22 @@ class WriterViewController: UIViewController, UITextViewDelegate, PageViewContro
     }
 
     @IBAction func boldToolbarButtonTapped(sender: AnyObject) {
-        if boldButton.title == "UnBold" {
-            boldButton.title = "Bold"
-        } else {
-            boldButton.title = "UnBold"
-        }
+        applyStyleToSelection("AvenirNext-Bold")
+        
+//        if boldButton.title == "UnBold" {
+//            boldButton.title = "Bold"
+//        } else {
+//            boldButton.title = "UnBold"
+//        }
     }
     
     @IBAction func italicToolbarButtonTapped(sender: AnyObject) {
-        if italicButton.title == "UnItalic" {
-            italicButton.title = "Italic"
-        } else {
-            italicButton.title = "UnItalic"
-        }
+        applyStyleToSelection("AvenirNext-MediumItalic")
+        
+//        if italicButton.title == "UnItalic" {
+//            italicButton.title = "Italic"
+//        } else {
+//            italicButton.title = "UnItalic"
+//        }
     }
 }

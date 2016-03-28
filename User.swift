@@ -37,11 +37,12 @@ class User: FirebaseType, Equatable {
     }
     
     required init?(json: [String : AnyObject], identifier: String) {
-        guard let email = json[kEmail] as? String,
-            noteIDs = json[kNotes] as? [String] else { return nil }
+        guard let email = json[kEmail] as? String else { return nil }
         self.email = email
-        self.noteIDs = noteIDs
         self.identifier = identifier
+        if let noteIDs = json[kNotes] as? [String] {
+            self.noteIDs = noteIDs
+        }
     }
 }
 

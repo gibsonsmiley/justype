@@ -27,6 +27,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(application: UIApplication, didReceiveLocalNotification notification: UILocalNotification) {
         NSNotificationCenter.defaultCenter().postNotificationName("NoteActionSheet", object: nil, userInfo: nil)
+        NSNotificationCenter.defaultCenter().postNotificationName("AccountActionSheet", object: nil, userInfo: nil)
     }
 
     func applicationWillResignActive(application: UIApplication) {

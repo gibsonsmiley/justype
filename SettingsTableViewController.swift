@@ -15,6 +15,8 @@ class SettingsTableViewController: UITableViewController {
         super.viewDidLoad()
         let titleFont : UIFont = UIFont(name: "Avenir-Medium", size: 22.0)!
         UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName : UIColor.blackColor(), NSFontAttributeName: titleFont]
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(SettingsTableViewController.localNotificationFired), name: "AccountActionSheet", object: nil)
     }
 
     override func didReceiveMemoryWarning() {
@@ -28,6 +30,24 @@ class SettingsTableViewController: UITableViewController {
         self.dismissViewControllerAnimated(true, completion: nil)
     }
 
+    @IBAction func accountButtonTapped(sender: AnyObject) {
+        let notifcation = UILocalNotification()
+        UIApplication.sharedApplication().scheduleLocalNotification(notifcation)
+    }
+    
+    func localNotificationFired() {
+        let alertController = UIAlertController(title: "Account: \(UserController.currentUser.email)", message: nil, preferredStyle: .ActionSheet)
+        
+        let deleteAction = UIAlertAction(title: "Log Out", style: .Destructive, handler: {
+            (alert: UIAlertAction!) -> Void in
+            UserController.logoutUser()
+        })
+        let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel, handler: nil)
+
+        alertController.addAction(deleteAction)
+        alertController.addAction(cancelAction)
+        presentViewController(alertController, animated: true, completion: nil)
+    }
     /*
     // MARK: - Navigation
 

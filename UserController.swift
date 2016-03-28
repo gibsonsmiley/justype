@@ -72,12 +72,14 @@ class UserController {
                 print("Error authenticating user: \(error.localizedDescription)")
                 completion(success: false, user: nil)
             } else {
-                print("User authenticated successfully")
                 UserController.fetchUserForID(authData.uid, completion: { (user) -> Void in
                     if let user = user {
                         currentUser = user
+                        completion(success: true, user: user)
+                        print("User authenticated successfully")
+                    } else {
+                        completion(success: false, user: nil)
                     }
-                    completion(success: true, user: user)
                 })
             }
         }
@@ -107,5 +109,6 @@ class UserController {
     
     static func logoutUser() {
         FirebaseController.base.unauth()
+        currentUser = nil
     }
 }

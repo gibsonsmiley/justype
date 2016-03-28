@@ -44,6 +44,7 @@ class AuthViewController: UIViewController {
     }
     
     @IBAction func signupButtonTapped(sender: AnyObject) {
+        self.errorLabel.hidden = true
         signupEmailTextField.resignFirstResponder()
         signupPasswordTextField.resignFirstResponder()
         
@@ -75,6 +76,7 @@ class AuthViewController: UIViewController {
     }
     
     @IBAction func loginButtonTapped(sender: AnyObject) {
+        self.errorLabel.hidden = true
         loginPasswordTextField.resignFirstResponder()
         loginPasswordTextField.resignFirstResponder()
         

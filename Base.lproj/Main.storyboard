@@ -151,7 +151,7 @@
                                 </connections>
                             </button>
                         </subviews>
-                        <color key="backgroundColor" red="0.93725490196078431" green="0.93725490196078431" blue="0.93725490196078431" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="rVB-ia-9kT" firstAttribute="top" secondItem="jsn-zD-dVu" secondAttribute="bottom" constant="8" id="078-t9-PPB">
                                 <variation key="heightClass=regular-widthClass=compact" constant="20"/>
@@ -357,11 +357,14 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="Cc7-rR-yCc">
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" usesAttributedText="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Cc7-rR-yCc">
                                 <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="17"/>
+                                <attributedString key="attributedText"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                <variation key="heightClass=regular-widthClass=compact">
+                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                </variation>
                                 <connections>
                                     <outlet property="delegate" destination="BBQ-sZ-NwY" id="Rct-6Z-aob"/>
                                 </connections>
@@ -666,6 +669,9 @@
                                             <include reference="PUs-yk-rc1"/>
                                         </mask>
                                     </variation>
+                                    <connections>
+                                        <action selector="accountButtonTapped:" destination="og4-X8-hM6" eventType="touchUpInside" id="XEl-3B-dQe"/>
+                                    </connections>
                                 </button>
                                 <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="avi-Je-Nb8">
                                     <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
@@ -1625,6 +1631,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="hMg-z4-vDb"/>
+        <segue reference="UdP-wQ-ug4"/>
     </inferredMetricsTieBreakers>
 </document>

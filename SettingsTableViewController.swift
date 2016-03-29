@@ -9,10 +9,16 @@
 import UIKit
 import SafariServices
 
-class SettingsTableViewController: UITableViewController {
+class SettingsTableViewController: UITableViewController, UIPickerViewDelegate, UIPickerViewDataSource {
+    
+    @IBOutlet var fontPickerView: UIPickerView!
+    @IBOutlet var fontSizePickerView: UIPickerView!
+    
+    var pickerData: [String] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        darkModeTrue()
         let titleFont : UIFont = UIFont(name: "Avenir-Medium", size: 22.0)!
         UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName : UIColor.blackColor(), NSFontAttributeName: titleFont]
         
@@ -48,6 +54,45 @@ class SettingsTableViewController: UITableViewController {
         alertController.addAction(cancelAction)
         presentViewController(alertController, animated: true, completion: nil)
     }
+    @IBAction func darkModeSwitched(sender: UISwitch) {
+        if true {
+            AppearanceController.darkMode = true
+        } else if false {
+            AppearanceController.darkMode = false
+        }
+    }
+    
+    @IBAction func fontPickerTapped(sender: AnyObject) {
+    }
+    
+    @IBAction func fontSizePickerTapped(sender: AnyObject) {
+    }
+    
+    @IBAction func contactButtonTapped(sender: AnyObject) {
+        if let url = NSURL(string: "http://gibsonsmiley.com") {
+        let viewController = SFSafariViewController(URL: url)
+        presentViewController(viewController, animated: true, completion: nil)
+        }
+    }
+    
+    @IBAction func donateButtonTapped(sender: AnyObject) {
+        if let url = NSURL(string: "https://venmo.com/Gibson") {
+            let viewController = SFSafariViewController(URL: url)
+            presentViewController(viewController, animated: true, completion: nil)
+        }
+    }
+    
+    
+    // MARK: - Picker View Data Source
+    
+    func numberOfComponentsInPickerView(pickerView: UIPickerView) -> Int {
+        
+    }
+    func pickerView(pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        
+    }
+    
+    
     /*
     // MARK: - Navigation
 
@@ -58,4 +103,21 @@ class SettingsTableViewController: UITableViewController {
     }
     */
 
+    
+    // MARK: - Themes
+    
+    // Dark Mode
+    
+    func darkModeTrue() {
+        if AppearanceController.darkMode == true {
+            tableView.backgroundColor = UIColor.offBlackColor()
+            tableView.tableHeaderView?.backgroundColor = UIColor.offBlackColor()
+        }
+    }
+    
+    override func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
+        if AppearanceController.darkMode == true {
+            cell.backgroundColor = UIColor.clearColor()
+        }
+    }
 }

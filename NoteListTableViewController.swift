@@ -12,6 +12,7 @@ class NoteListTableViewController: UITableViewController, UISearchBarDelegate, P
 
     @IBOutlet weak var navBar: UINavigationBar!
     @IBOutlet weak var searchBar: UISearchBar!
+    @IBOutlet var toolbar: UIToolbar!
     
     var pageView: UIPageViewController?
     var user = UserController.currentUser
@@ -21,6 +22,7 @@ class NoteListTableViewController: UITableViewController, UISearchBarDelegate, P
     let titleFont : UIFont = UIFont(name: "Avenir-Medium", size: 22.0)!
     
     override func viewDidLoad() {
+        searchBar.inputAccessoryView = toolbar
         darkModeTrue()
         super.viewDidLoad()
 
@@ -30,7 +32,7 @@ class NoteListTableViewController: UITableViewController, UISearchBarDelegate, P
         self.view.addGestureRecognizer(longPressRecognizer)
 
         let titleFont : UIFont = UIFont(name: "Avenir-Medium", size: 22.0)!
-        UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName : UIColor.blackColor(), NSFontAttributeName: titleFont]        
+        UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName : UIColor.blackColor(), NSFontAttributeName: titleFont]
     }
 
     override func viewDidAppear(animated: Bool) {
@@ -61,6 +63,10 @@ class NoteListTableViewController: UITableViewController, UISearchBarDelegate, P
                 UIApplication.sharedApplication().scheduleLocalNotification(notifcation)
             }
         }
+    }
+
+    @IBAction func doneButtonTapped(sender: AnyObject) {
+        searchBar.resignFirstResponder()
     }
 
     func loadNotesForUser(user: User) {
@@ -117,11 +123,6 @@ class NoteListTableViewController: UITableViewController, UISearchBarDelegate, P
         return cell
     }
     
-    
-    override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        return true
-    }
-    
     override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         if editingStyle == .Delete {
             let note = notes[indexPath.row]
@@ -161,15 +162,17 @@ class NoteListTableViewController: UITableViewController, UISearchBarDelegate, P
     
     func darkModeTrue() {
         if AppearanceController.darkMode == true {
-            UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName : UIColor.whiteColor(), NSFontAttributeName: titleFont]
-            UINavigationBar.appearance().backgroundColor = UIColor.offBlackColor()
-            UINavigationBar.appearance().tintColor = UIColor.offBlackColor()
             tableView.backgroundColor = UIColor.offBlackColor()
-            UINavigationBar.appearance().tintColor = UIColor.offBlackColor()
-            tableView.tintColor = UIColor.offBlackColor()
-            UIBarButtonItem.appearance().tintColor = UIColor.whiteColor()
             searchBar.keyboardAppearance = UIKeyboardAppearance.Dark
-            searchBar.barStyle = .Black
+            tableView.tableHeaderView?.backgroundColor = UIColor.offBlackColor()
+            toolbar.barTintColor = UIColor.offBlackColor()
+        }
+    }
+    
+    override func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
+        if AppearanceController.darkMode == true {
+            cell.backgroundColor = UIColor.clearColor()
+            cell.textLabel?.textColor = UIColor.whiteColor()
         }
     }
 }

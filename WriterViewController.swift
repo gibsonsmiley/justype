@@ -121,17 +121,7 @@ class WriterViewController: UIViewController, UITextViewDelegate, PageViewContro
     }
     
     
-    // MARK: - Toolbar Actions
-    
-    func applyStyleToSelection(style: String) {
-        let range = writerTextView.selectedRange
-        let styledFont = UIFont(name: style, size: 17.0)!
-        
-        writerTextView.textStorage.beginEditing()
-        let dict = [NSFontAttributeName: styledFont]
-        writerTextView.textStorage.setAttributes(dict, range: range)
-        writerTextView.textStorage.endEditing()
-    }
+    // MARK: - Text View
     
     func textViewDidBeginEditing(textView: UITextView) {
         if textView.text.isEmpty {
@@ -147,6 +137,38 @@ class WriterViewController: UIViewController, UITextViewDelegate, PageViewContro
         } else {
             saveButton.title = "Save"
         }
+    }
+    
+//    func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool {
+//        if text == "/n" {
+//            if range.location == textView.text.characters.count {
+//                let updatedText = textView.text.stringByAppendingString("•")
+//                textView.text = updatedText
+//            } else {
+//                let beginning = textView.beginningOfDocument
+//                let start = textView.positionFromPosition(beginning, offset: range.location)
+//                let end = textView.positionFromPosition(start!, offset: range.length)
+//                let textRange = textView.textRangeFromPosition(start!, toPosition: end!)
+//                textView.replaceRange(textRange!, withText: "•")
+//                let cursor = NSMakeRange(range.location + "•".characters.count, 0)
+//                textView.selectedRange = cursor
+//            }
+//            return false
+//        }
+//        return true
+//    }
+    
+    
+    // MARK: - Toolbar Actions
+    
+    func applyStyleToSelection(style: String) {
+        let range = writerTextView.selectedRange
+        let styledFont = UIFont(name: style, size: 17.0)!
+        
+        writerTextView.textStorage.beginEditing()
+        let dict = [NSFontAttributeName: styledFont]
+        writerTextView.textStorage.setAttributes(dict, range: range)
+        writerTextView.textStorage.endEditing()
     }
     
     @IBAction func tagToolbarButtonTapped(sender: AnyObject) {

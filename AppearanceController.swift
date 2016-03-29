@@ -11,7 +11,7 @@ import UIKit
 
 class AppearanceController {
     
-    static var darkMode: Bool = true
+    static var darkMode: Bool = false
    
     static func initializeAppearance() {
         UITextView.appearance().tintColor = UIColor.blackColor()

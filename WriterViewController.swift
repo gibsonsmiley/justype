@@ -42,6 +42,7 @@ class WriterViewController: UIViewController, UITextViewDelegate, PageViewContro
         super.viewDidLoad()
         toolbar.sizeToFit()
         writerTextView.inputAccessoryView = toolbar
+        darkModeTrue()
         setupKeyboardNotifications()
         let titleFont : UIFont = UIFont(name: "Avenir-Black", size: 17.0)!
         saveButton.setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.darkGrayColor(), NSFontAttributeName: titleFont], forState: .Normal)
@@ -174,5 +175,23 @@ class WriterViewController: UIViewController, UITextViewDelegate, PageViewContro
 //        } else {
 //            italicButton.title = "UnItalic"
 //        }
+    }
+    
+    // MARK: - Themes
+    
+    // Dark Mode
+    
+    func darkModeTrue() {
+        if AppearanceController.darkMode == true {
+            writerTextView.backgroundColor = UIColor.offBlackColor()
+            view.backgroundColor = UIColor.offBlackColor()
+            toolbar.tintColor = UIColor.whiteColor()
+            writerTextView.textColor = UIColor.whiteColor()
+            successLabel.textColor = UIColor.whiteColor()
+            toolbar.barTintColor = UIColor.offBlackColor()
+            writerTextView.keyboardAppearance = UIKeyboardAppearance.Dark
+            UITextView.appearance().tintColor = UIColor.whiteColor()
+
+        }
     }
 }

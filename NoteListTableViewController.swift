@@ -18,8 +18,10 @@ class NoteListTableViewController: UITableViewController, UISearchBarDelegate, P
     var notes = [Note]()
     var filteredNotes: [Note] = []
     var selectedRow: NSIndexPath?
+    let titleFont : UIFont = UIFont(name: "Avenir-Medium", size: 22.0)!
     
     override func viewDidLoad() {
+        darkModeTrue()
         super.viewDidLoad()
 
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(NoteListTableViewController.localNotificationFired), name: "NoteActionSheet", object: nil)
@@ -150,6 +152,24 @@ class NoteListTableViewController: UITableViewController, UISearchBarDelegate, P
                     destinationViewController.updateWithNote(note)
                 }
             }
+        }
+    }
+    
+    // MARK: - Themes
+    
+    // Dark Mode
+    
+    func darkModeTrue() {
+        if AppearanceController.darkMode == true {
+            UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName : UIColor.whiteColor(), NSFontAttributeName: titleFont]
+            UINavigationBar.appearance().backgroundColor = UIColor.offBlackColor()
+            UINavigationBar.appearance().tintColor = UIColor.offBlackColor()
+            tableView.backgroundColor = UIColor.offBlackColor()
+            UINavigationBar.appearance().tintColor = UIColor.offBlackColor()
+            tableView.tintColor = UIColor.offBlackColor()
+            UIBarButtonItem.appearance().tintColor = UIColor.whiteColor()
+            searchBar.keyboardAppearance = UIKeyboardAppearance.Dark
+            searchBar.barStyle = .Black
         }
     }
 }

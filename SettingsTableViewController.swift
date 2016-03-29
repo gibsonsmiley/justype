@@ -86,10 +86,10 @@ class SettingsTableViewController: UITableViewController, UIPickerViewDelegate, 
     // MARK: - Picker View Data Source
     
     func numberOfComponentsInPickerView(pickerView: UIPickerView) -> Int {
-        
+        return pickerData.count
     }
     func pickerView(pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        
+        return pickerData.count
     }
     
     

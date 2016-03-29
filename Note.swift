@@ -6,14 +6,14 @@
 //  Copyright © 2016 Gibson Smiley. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 class Note: FirebaseType, Equatable {
     
     let kText = "text"
     let kOwner = "ownerID"
     
-    var text: String
+    var text: NSMutableAttributedString
     var tagIDs: [String] = []
     var ownerID: String?
     var identifier: String?
@@ -21,17 +21,25 @@ class Note: FirebaseType, Equatable {
         return "notes"
     }
     var jsonValue: [String: AnyObject] {
-        return [kText: text, kOwner: ownerID!]
+        var json: [String: AnyObject] = [:]
+        if let textData = try? self.text.dataFromRange(NSMakeRange(0, text.length), documentAttributes: [NSDocumentTypeDocumentAttribute:NSRTFTextDocumentType]) {
+            json[kText] = textData
+        }
+        if let ownerID = ownerID {
+            json[kOwner] = ownerID
+        }
+        return json
     }
     
-    init(text: String, ownerID: String) {
+    init(text: NSMutableAttributedString, ownerID: String) {
         self.text = text
         self.ownerID = ownerID
     }
     
     required init?(json: [String: AnyObject], identifier: String) {
-        guard let text = json[kText] as? String,
-        let ownerID = json[kOwner] as? String else { self.text = ""; self.ownerID = ""; return nil }
+        guard let textData = json[kText] as? NSData,
+            text = try? NSMutableAttributedString(data: textData, options: [NSDocumentTypeDocumentAttribute:NSRTFTextDocumentType], documentAttributes: nil),
+            let ownerID = json[kOwner] as? String else { return nil }
         self.text = text
         self.identifier = identifier
         self.ownerID = ownerID

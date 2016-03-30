@@ -42,7 +42,7 @@ class NoteListTableViewController: UITableViewController, UISearchBarDelegate, P
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(true)
-        tableView.reloadData()
+        //tableView.reloadData()
         loadNotesForUser(user)
         NoteController.orderNotes(notes)
     }
@@ -120,7 +120,25 @@ class NoteListTableViewController: UITableViewController, UISearchBarDelegate, P
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("noteCell", forIndexPath: indexPath)
         let note = filteredNotes.count > 0 ? filteredNotes[indexPath.row]: notes[indexPath.row]
-        cell.textLabel?.text =  note.title //WriterViewController.sharedInstance.writerTextView.textStorage.appendAttributedString(note.text)
+        if note.title != "" {
+            cell.textLabel?.text = note.title
+        } else {
+            let textViewText = String(note.text.mutableString)
+            if let range = textViewText.rangeOfString("\n") {
+                let rangeOfString = textViewText.startIndex ..< range.endIndex
+                let firstLine = textViewText.substringWithRange(rangeOfString)
+                cell.textLabel?.text = firstLine
+            } else {
+                let length = textViewText.characters.count
+                if length > 30 {
+                    let firstLine = (textViewText as NSString).substringToIndex(30)
+                    cell.textLabel?.text = firstLine
+                } else {
+                    let firstLine = (textViewText as NSString).substringToIndex(length)
+                    cell.textLabel?.text = firstLine
+                }
+            }
+        }
         return cell
     }
     

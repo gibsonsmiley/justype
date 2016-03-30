@@ -57,16 +57,3 @@ class Note: FirebaseType, Equatable {
 func == (lhs: Note, rhs: Note) -> Bool {
     return ObjectIdentifier(lhs) == ObjectIdentifier(rhs)
 }
-
-//extension NSMutableAttributedString {
-//    var base64String: String? {
-//        guard let data = __ {
-//            return nil
-//        }
-//        return data.encode
-//    }
-//    
-//    convenience init?(base64: String) {
-//        if let textData = NSData(base64EncodedData: base64, options: .)
-//    }
-//}

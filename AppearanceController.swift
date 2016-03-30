@@ -21,6 +21,16 @@ class AppearanceController {
         
         UIBarButtonItem.appearance().tintColor = UIColor.darkGrayColor()
     }
+    
+    func initializeThemeChange() {
+        NSNotificationCenter.defaultCenter().postNotificationName(Themes.kDarkMode, object: nil)
+    }
+    
+    func darkModeActivated() {
+        if AppearanceController.darkMode == true {
+            
+        }
+    }
 
     static func changeColorMode() {
         if self.darkMode == true {
@@ -31,4 +41,9 @@ class AppearanceController {
             UIKeyboardAppearance.Dark
         }
     }
+}
+
+struct Themes {
+    static let kDarkMode = "DarkMode"
+    
 }

@@ -19,6 +19,7 @@ class WriterViewController: UIViewController, UITextViewDelegate, PageViewContro
     @IBOutlet weak var boldButton: UIBarButtonItem!
     @IBOutlet weak var italicButton: UIBarButtonItem!
     @IBOutlet weak var titleTextField: UITextField!
+    @IBOutlet weak var helperLabel: UILabel!
     
     
     var pageView: UIPageViewController?
@@ -45,7 +46,7 @@ class WriterViewController: UIViewController, UITextViewDelegate, PageViewContro
         toolbar.sizeToFit()
         writerTextView.inputAccessoryView = toolbar
         titleTextField.inputAccessoryView = toolbar
-        darkModeTrue()
+//        darkModeTrue()
         setupKeyboardNotifications()
         writerTextView.textStorage.delegate = self
         let titleFont : UIFont = UIFont(name: "Avenir-Black", size: 17.0)!
@@ -56,6 +57,8 @@ class WriterViewController: UIViewController, UITextViewDelegate, PageViewContro
         super.viewWillDisappear(animated)
         
         writerTextView.resignFirstResponder()
+
+
     }
     
     override func didReceiveMemoryWarning() {
@@ -95,10 +98,13 @@ class WriterViewController: UIViewController, UITextViewDelegate, PageViewContro
             }
             writerTextView.text = ""
             titleTextField.text = ""
+            self.note = nil
         }
     }
     
     func updateWithNote(note: Note) {
+        writerTextView.text = ""
+        titleTextField.text = ""
         self.note = note
         self.titleTextField.text = note.title
         self.writerTextView.textStorage.appendAttributedString(note.text)
@@ -146,26 +152,6 @@ class WriterViewController: UIViewController, UITextViewDelegate, PageViewContro
         }
     }
     
-//    func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool {
-//        if text == "/n" {
-//            if range.location == textView.text.characters.count {
-//                let updatedText = textView.text.stringByAppendingString("•")
-//                textView.text = updatedText
-//            } else {
-//                let beginning = textView.beginningOfDocument
-//                let start = textView.positionFromPosition(beginning, offset: range.location)
-//                let end = textView.positionFromPosition(start!, offset: range.length)
-//                let textRange = textView.textRangeFromPosition(start!, toPosition: end!)
-//
-//                textView.replaceRange(textRange!, withText: "•")
-//                let cursor = NSMakeRange(range.location + "•".characters.count, 0)
-//                textView.selectedRange = cursor
-//            }
-//            return false
-//        }
-//        return true
-//    }
-    
     
     // MARK: - Toolbar Actions
     
@@ -184,34 +170,32 @@ class WriterViewController: UIViewController, UITextViewDelegate, PageViewContro
     }
     
     @IBAction func listToolbarButtonTapped(sender: AnyObject) {
-        writerTextView.insertText("•")
+        writerTextView.insertText("   • ")
     }
 
     @IBAction func boldToolbarButtonTapped(sender: AnyObject) {
         applyStyleToSelection("AvenirNext-Bold")
         
-//        if boldButton.title == "UnBold" {
-//            boldButton.title = "Bold"
-//        } else {
-//            boldButton.title = "UnBold"
-//        }
+        if writerTextView.selectedTextRange == nil {
+            helperLabel.hidden = false
+            helperLabel.text = "You'll need to first select the text you'd like to format 🤓"
+            
+        }
     }
     
     @IBAction func italicToolbarButtonTapped(sender: AnyObject) {
         applyStyleToSelection("AvenirNext-MediumItalic")
-        
-//        if italicButton.title == "UnItalic" {
-//            italicButton.title = "Italic"
-//        } else {
-//            italicButton.title = "UnItalic"
-//        }
     }
     
     // MARK: - Themes
     
     // Dark Mode
     
-    func darkModeTrue() {
+    func themeNotification() {
+       
+    }
+    
+    func darkModeTrue(notification: NSNotification) {
         if AppearanceController.darkMode == true {
             writerTextView.backgroundColor = UIColor.offBlackColor()
             view.backgroundColor = UIColor.offBlackColor()
@@ -227,7 +211,6 @@ class WriterViewController: UIViewController, UITextViewDelegate, PageViewContro
     
     func textStorage(textStorage: NSTextStorage, didProcessEditing editedMask: NSTextStorageEditActions, range editedRange: NSRange, changeInLength delta: Int) {
         if editedMask == NSTextStorageEditActions.EditedAttributes {
-            //writerTextView.textStorage.attri
         }
     }
 }

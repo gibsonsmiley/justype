@@ -8,7 +8,7 @@
 
 import UIKit
 
-class WriterViewController: UIViewController, UITextViewDelegate, PageViewControllerChild {
+class WriterViewController: UIViewController, UITextViewDelegate, PageViewControllerChild, NSTextStorageDelegate {
     
     @IBOutlet weak var writerTextView: UITextView!
     @IBOutlet var toolbar: UIToolbar!
@@ -18,10 +18,12 @@ class WriterViewController: UIViewController, UITextViewDelegate, PageViewContro
     @IBOutlet weak var listButton: UIBarButtonItem!
     @IBOutlet weak var boldButton: UIBarButtonItem!
     @IBOutlet weak var italicButton: UIBarButtonItem!
+    @IBOutlet weak var titleTextField: UITextField!
     
     
     var pageView: UIPageViewController?
     var note: Note?
+    static let sharedInstance = WriterViewController()
     
     
     // MARK: - View
@@ -42,8 +44,10 @@ class WriterViewController: UIViewController, UITextViewDelegate, PageViewContro
         super.viewDidLoad()
         toolbar.sizeToFit()
         writerTextView.inputAccessoryView = toolbar
+        titleTextField.inputAccessoryView = toolbar
         darkModeTrue()
         setupKeyboardNotifications()
+        writerTextView.textStorage.delegate = self
         let titleFont : UIFont = UIFont(name: "Avenir-Black", size: 17.0)!
         saveButton.setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.darkGrayColor(), NSFontAttributeName: titleFont], forState: .Normal)
     }
@@ -68,7 +72,7 @@ class WriterViewController: UIViewController, UITextViewDelegate, PageViewContro
             writerTextView.resignFirstResponder()
         } else {
             if let note = self.note {
-                note.text = self.writerTextView.text
+                note.text = self.writerTextView.attributedText.mutableCopy() as! NSMutableAttributedString
                 NoteController.updateNote(note, completion: { (success, note) in
                     if success {
                         self.writerTextView.resignFirstResponder()
@@ -81,20 +85,22 @@ class WriterViewController: UIViewController, UITextViewDelegate, PageViewContro
                 successLabel.hidden = false
                 successLabel.text = "Note saved. It's over there 👉"
                 if let user = UserController.currentUser.identifier {
-                    NoteController.createNote(writerTextView.text, ownerID: user, completion: { (note) -> Void in
+                    NoteController.createNote(titleTextField.text, text:writerTextView.attributedText.mutableCopy() as! NSMutableAttributedString, ownerID: user, completion: { (note) -> Void in
                         if let note = self.note {
-                            note.text = self.writerTextView.text
+                            note.text = self.writerTextView.attributedText.mutableCopy() as! NSMutableAttributedString
                         }
                     })
                 }
             }
             writerTextView.text = ""
+            titleTextField.text = ""
         }
     }
     
     func updateWithNote(note: Note) {
         self.note = note
-        self.writerTextView.text = note.text
+        self.titleTextField.text = note.title
+        self.writerTextView.textStorage.appendAttributedString(note.text)
     }
     
     
@@ -149,6 +155,7 @@ class WriterViewController: UIViewController, UITextViewDelegate, PageViewContro
 //                let start = textView.positionFromPosition(beginning, offset: range.location)
 //                let end = textView.positionFromPosition(start!, offset: range.length)
 //                let textRange = textView.textRangeFromPosition(start!, toPosition: end!)
+//
 //                textView.replaceRange(textRange!, withText: "•")
 //                let cursor = NSMakeRange(range.location + "•".characters.count, 0)
 //                textView.selectedRange = cursor
@@ -214,6 +221,12 @@ class WriterViewController: UIViewController, UITextViewDelegate, PageViewContro
             writerTextView.keyboardAppearance = UIKeyboardAppearance.Dark
             UITextView.appearance().tintColor = UIColor.whiteColor()
 
+        }
+    }
+    
+    func textStorage(textStorage: NSTextStorage, didProcessEditing editedMask: NSTextStorageEditActions, range editedRange: NSRange, changeInLength delta: Int) {
+        if editedMask == NSTextStorageEditActions.EditedAttributes {
+            //writerTextView.textStorage.attri
         }
     }
 }

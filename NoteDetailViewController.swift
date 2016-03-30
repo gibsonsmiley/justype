@@ -49,7 +49,7 @@ class NoteDetailViewController: UIViewController {
     
     func updateWithNote(note: Note) {
         self.note = note
-        self.writerTextView.text = note.text
+        self.writerTextView.text = String(note.text)
     }
 
     /*

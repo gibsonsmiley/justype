@@ -20,7 +20,7 @@ class SearchResultsTableViewController: UITableViewController, PageViewControlle
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("searchResultCell", forIndexPath: indexPath)
         let note = searchResultsDataSource[indexPath.row]
-        cell.textLabel?.text = note.text
+        cell.textLabel?.text = String(note.text)
         return cell
     }
     

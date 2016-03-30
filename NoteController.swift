@@ -10,8 +10,8 @@ import Foundation
 
 class NoteController {
     
-    static func createNote(text: String, ownerID: String = UserController.currentUser.identifier!, completion: (note: Note?) -> Void) {
-        var note = Note(text: text, ownerID: ownerID)
+    static func createNote(title: String?, text: NSMutableAttributedString, ownerID: String = UserController.currentUser.identifier!, completion: (note: Note?) -> Void) {
+        var note = Note(title: title, text: text, ownerID: ownerID)
         note.ownerID = ownerID
         note.save()
         if let identifier = note.identifier {

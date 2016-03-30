@@ -375,6 +375,24 @@
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Title" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="yqB-NA-Mwv">
+                                <rect key="frame" x="-25" y="-30" width="97" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="hIU-uk-BQv"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="AvenirNext-DemiBold" family="Avenir Next" pointSize="20"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="words"/>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="hIU-uk-BQv"/>
+                                    </mask>
+                                </variation>
+                                <variation key="heightClass=regular-widthClass=compact">
+                                    <mask key="constraints">
+                                        <include reference="hIU-uk-BQv"/>
+                                    </mask>
+                                </variation>
+                            </textField>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -385,44 +403,55 @@
                                 <variation key="heightClass=regular-widthClass=compact" constant="8"/>
                             </constraint>
                             <constraint firstAttribute="trailing" secondItem="Cc7-rR-yCc" secondAttribute="trailing" constant="20" id="8FX-x0-xzd"/>
+                            <constraint firstItem="Cc7-rR-yCc" firstAttribute="top" secondItem="yqB-NA-Mwv" secondAttribute="bottom" constant="8" id="E1O-WE-5pN"/>
                             <constraint firstAttribute="trailing" secondItem="NaQ-Ng-fJi" secondAttribute="trailing" constant="20" id="Ioo-eW-FsV"/>
                             <constraint firstItem="cn9-36-79w" firstAttribute="top" secondItem="NaQ-Ng-fJi" secondAttribute="bottom" constant="8" id="MV5-XS-gZM"/>
                             <constraint firstItem="Cc7-rR-yCc" firstAttribute="leading" secondItem="TvT-Ej-skb" secondAttribute="leading" constant="20" id="TC1-7Z-aJs"/>
                             <constraint firstItem="NaQ-Ng-fJi" firstAttribute="leading" secondItem="TvT-Ej-skb" secondAttribute="leading" constant="20" id="jc2-Mn-CDq"/>
-                            <constraint firstItem="Cc7-rR-yCc" firstAttribute="top" secondItem="ANG-9K-BI9" secondAttribute="bottom" id="w4G-zj-Wxg">
-                                <variation key="heightClass=regular-widthClass=compact" constant="23"/>
+                            <constraint firstItem="yqB-NA-Mwv" firstAttribute="leading" secondItem="TvT-Ej-skb" secondAttribute="leading" constant="20" id="pXw-Bg-w2i"/>
+                            <constraint firstItem="yqB-NA-Mwv" firstAttribute="top" secondItem="ANG-9K-BI9" secondAttribute="bottom" id="rUo-C7-ehf">
+                                <variation key="heightClass=regular-widthClass=compact" constant="8"/>
                             </constraint>
+                            <constraint firstAttribute="trailing" secondItem="yqB-NA-Mwv" secondAttribute="trailing" constant="20" id="stL-GX-5W7"/>
                         </constraints>
                         <variation key="default">
                             <mask key="subviews">
                                 <exclude reference="Cc7-rR-yCc"/>
                                 <exclude reference="NaQ-Ng-fJi"/>
+                                <exclude reference="yqB-NA-Mwv"/>
                             </mask>
                             <mask key="constraints">
-                                <exclude reference="MV5-XS-gZM"/>
+                                <exclude reference="pXw-Bg-w2i"/>
+                                <exclude reference="rUo-C7-ehf"/>
+                                <exclude reference="stL-GX-5W7"/>
+                                <exclude reference="0v2-Eh-l4H"/>
+                                <exclude reference="8FX-x0-xzd"/>
+                                <exclude reference="E1O-WE-5pN"/>
+                                <exclude reference="TC1-7Z-aJs"/>
                                 <exclude reference="78s-yk-JLb"/>
                                 <exclude reference="Ioo-eW-FsV"/>
                                 <exclude reference="jc2-Mn-CDq"/>
-                                <exclude reference="0v2-Eh-l4H"/>
-                                <exclude reference="8FX-x0-xzd"/>
-                                <exclude reference="TC1-7Z-aJs"/>
-                                <exclude reference="w4G-zj-Wxg"/>
+                                <exclude reference="MV5-XS-gZM"/>
                             </mask>
                         </variation>
                         <variation key="heightClass=regular-widthClass=compact">
                             <mask key="subviews">
                                 <include reference="Cc7-rR-yCc"/>
                                 <include reference="NaQ-Ng-fJi"/>
+                                <include reference="yqB-NA-Mwv"/>
                             </mask>
                             <mask key="constraints">
-                                <include reference="MV5-XS-gZM"/>
+                                <include reference="pXw-Bg-w2i"/>
+                                <include reference="rUo-C7-ehf"/>
+                                <include reference="stL-GX-5W7"/>
+                                <exclude reference="0v2-Eh-l4H"/>
+                                <include reference="8FX-x0-xzd"/>
+                                <include reference="E1O-WE-5pN"/>
+                                <include reference="TC1-7Z-aJs"/>
                                 <include reference="78s-yk-JLb"/>
                                 <include reference="Ioo-eW-FsV"/>
                                 <include reference="jc2-Mn-CDq"/>
-                                <exclude reference="0v2-Eh-l4H"/>
-                                <include reference="8FX-x0-xzd"/>
-                                <include reference="TC1-7Z-aJs"/>
-                                <include reference="w4G-zj-Wxg"/>
+                                <include reference="MV5-XS-gZM"/>
                             </mask>
                         </variation>
                     </view>
@@ -433,6 +462,7 @@
                         <outlet property="saveButton" destination="4m8-p2-79L" id="Xi8-VD-Moa"/>
                         <outlet property="successLabel" destination="NaQ-Ng-fJi" id="RxZ-zb-m6a"/>
                         <outlet property="tagButton" destination="wEC-1p-38o" id="JNe-rV-bPL"/>
+                        <outlet property="titleTextField" destination="yqB-NA-Mwv" id="pqr-wr-id8"/>
                         <outlet property="toolbar" destination="GFY-gs-a7w" id="kgY-fF-Eoo"/>
                         <outlet property="writerTextView" destination="Cc7-rR-yCc" id="Ce9-Yw-5aq"/>
                         <segue destination="tUO-5Q-Lk9" kind="presentation" identifier="toAuthView" id="UdP-wQ-ug4"/>
@@ -489,7 +519,7 @@
         <scene sceneID="GFw-jS-jep">
             <objects>
                 <tableViewController storyboardIdentifier="NoteListTableViewController" title="Note List View" id="vnb-aR-J90" customClass="NoteListTableViewController" customModule="justype" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="75" sectionHeaderHeight="28" sectionFooterHeight="28" id="KxW-fF-g6q">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="55" sectionHeaderHeight="28" sectionFooterHeight="28" id="KxW-fF-g6q">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -598,22 +628,22 @@
                             </variation>
                         </view>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="noteCell" textLabel="fSg-fc-dg6" rowHeight="75" style="IBUITableViewCellStyleDefault" id="3W9-Pp-Enq" customClass="NoteTableViewCell" customModule="justype" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="noteCell" textLabel="fSg-fc-dg6" rowHeight="55" style="IBUITableViewCellStyleDefault" id="3W9-Pp-Enq" customClass="NoteTableViewCell" customModule="justype" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="156" width="600" height="75"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="3W9-Pp-Enq" id="nlk-qZ-Z0O">
                                     <rect key="frame" x="0.0" y="0.0" width="600" height="74"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="fSg-fc-dg6">
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="fSg-fc-dg6">
                                             <rect key="frame" x="15" y="0.0" width="570" height="74"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <gestureRecognizers/>
-                                            <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="16"/>
+                                            <fontDescription key="fontDescription" name="AvenirNext-DemiBold" family="Avenir Next" pointSize="18"/>
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                             <variation key="heightClass=regular-widthClass=compact">
-                                                <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
+                                                <fontDescription key="fontDescription" name="AvenirNext-DemiBold" family="Avenir Next" pointSize="17"/>
                                             </variation>
                                         </label>
                                     </subviews>

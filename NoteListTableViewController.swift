@@ -102,7 +102,7 @@ class NoteListTableViewController: UITableViewController, UISearchBarDelegate, P
     // MARK: - Search
     
     func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
-        filteredNotes = notes.filter({$0.text.lowercaseString.containsString(searchText.lowercaseString)})
+        filteredNotes = notes.filter({String($0.text).lowercaseString.containsString(searchText.lowercaseString)})
         tableView.reloadData()
     }
 
@@ -119,7 +119,7 @@ class NoteListTableViewController: UITableViewController, UISearchBarDelegate, P
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("noteCell", forIndexPath: indexPath)
         let note = filteredNotes.count > 0 ? filteredNotes[indexPath.row]: notes[indexPath.row]
-        cell.textLabel?.text = note.text
+        cell.textLabel?.text =  note.title //WriterViewController.sharedInstance.writerTextView.textStorage.appendAttributedString(note.text)
         return cell
     }
     

@@ -11,6 +11,7 @@ import SafariServices
 
 class SettingsTableViewController: UITableViewController, UIPickerViewDelegate, UIPickerViewDataSource {
     
+    @IBOutlet weak var darkModeSwitch: UIView!
     @IBOutlet var fontPickerView: UIPickerView!
     @IBOutlet var fontSizePickerView: UIPickerView!
     
@@ -27,6 +28,7 @@ class SettingsTableViewController: UITableViewController, UIPickerViewDelegate, 
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
+        print("Memory warning on SettingsTableView")
     }
     
     
@@ -54,10 +56,11 @@ class SettingsTableViewController: UITableViewController, UIPickerViewDelegate, 
         alertController.addAction(cancelAction)
         presentViewController(alertController, animated: true, completion: nil)
     }
+    
     @IBAction func darkModeSwitched(sender: UISwitch) {
-        if true {
+        if sender.on {
             AppearanceController.darkMode = true
-        } else if false {
+        } else {
             AppearanceController.darkMode = false
         }
     }

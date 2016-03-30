@@ -375,7 +375,7 @@
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Title" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="yqB-NA-Mwv">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="want to set a title? do it here" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="yqB-NA-Mwv">
                                 <rect key="frame" x="-25" y="-30" width="97" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="hIU-uk-BQv"/>
@@ -389,7 +389,7 @@
                                 </variation>
                                 <variation key="heightClass=regular-widthClass=compact">
                                     <mask key="constraints">
-                                        <include reference="hIU-uk-BQv"/>
+                                        <exclude reference="hIU-uk-BQv"/>
                                     </mask>
                                 </variation>
                             </textField>
@@ -410,7 +410,7 @@
                             <constraint firstItem="NaQ-Ng-fJi" firstAttribute="leading" secondItem="TvT-Ej-skb" secondAttribute="leading" constant="20" id="jc2-Mn-CDq"/>
                             <constraint firstItem="yqB-NA-Mwv" firstAttribute="leading" secondItem="TvT-Ej-skb" secondAttribute="leading" constant="20" id="pXw-Bg-w2i"/>
                             <constraint firstItem="yqB-NA-Mwv" firstAttribute="top" secondItem="ANG-9K-BI9" secondAttribute="bottom" id="rUo-C7-ehf">
-                                <variation key="heightClass=regular-widthClass=compact" constant="8"/>
+                                <variation key="heightClass=regular-widthClass=compact" constant="12"/>
                             </constraint>
                             <constraint firstAttribute="trailing" secondItem="yqB-NA-Mwv" secondAttribute="trailing" constant="20" id="stL-GX-5W7"/>
                         </constraints>
@@ -807,7 +807,7 @@
                                                 </label>
                                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="0EG-18-2vI">
                                                     <rect key="frame" x="507" y="132" width="51" height="31"/>
-                                                    <color key="onTintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <color key="onTintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                     <connections>
                                                         <action selector="darkModeSwitched:" destination="og4-X8-hM6" eventType="valueChanged" id="7f1-8d-Ako"/>
                                                     </connections>
@@ -1693,6 +1693,7 @@
                     </tableView>
                     <navigationItem key="navigationItem" title="Settings" id="Oe0-Ly-PJh"/>
                     <connections>
+                        <outlet property="darkModeSwitch" destination="tH5-gO-PL5" id="0oE-BE-bQL"/>
                         <outlet property="fontPickerView" destination="Ete-tI-rpv" id="xva-vU-1cs"/>
                         <outlet property="fontSizePickerView" destination="Htn-jD-XSk" id="vka-0P-j3U"/>
                     </connections>

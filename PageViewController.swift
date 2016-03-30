@@ -40,6 +40,7 @@ class PageViewController: UIPageViewController, UIPageViewControllerDataSource, 
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
+        print("Memory warning on PageView")
     }
     
     lazy var orderedViewControllers: [UIViewController] = {

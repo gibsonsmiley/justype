@@ -49,6 +49,7 @@ class NoteListTableViewController: UITableViewController, UISearchBarDelegate, P
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
+        print("Memory warning on NoteListTableView")
     }
     
     

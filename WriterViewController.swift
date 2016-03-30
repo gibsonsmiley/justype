@@ -60,6 +60,7 @@ class WriterViewController: UIViewController, UITextViewDelegate, PageViewContro
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
+        print("Memory warning on WriterView")
     }
     
     

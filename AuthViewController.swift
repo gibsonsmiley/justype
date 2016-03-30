@@ -30,6 +30,7 @@ class AuthViewController: UIViewController {
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
+        print("Memory warning on AuthView")
     }
 
     // MARK: - Buttons

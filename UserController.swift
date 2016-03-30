@@ -49,7 +49,7 @@ class UserController {
                 for noteID in noteIDs {
                     dispatch_group_enter(group)
                     NoteController.noteForID(noteID, completion: { (note) in
-                        if let note = note {
+                        if let note = note where !notes.contains(note) {
                             notes.append(note)
                         }
                         dispatch_group_leave(group)
@@ -57,6 +57,13 @@ class UserController {
                 }
                 dispatch_group_notify(group, dispatch_get_main_queue(), { () -> Void in
                     let orderedNotes = NoteController.orderNotes(notes)
+                    let unobservedNotes = orderedNotes.filter({!user.notes.contains($0)})
+//                    for note in unobservedNotes {
+//                        NoteController.observeNote(note, completion: {
+//                            completion()
+//                            print(note.identifier)
+//                        })
+//                    }
                     user.notes = orderedNotes
                     completion()
                 })

@@ -28,6 +28,15 @@ class NoteController {
     
     static func deleteNote(note: Note) {
         note.delete()
+        removeNoteFromUser(note, user: UserController.currentUser)
+    }
+    
+    static func removeNoteFromUser(note: Note, user: User) {
+        guard let noteID = note.identifier else {return}
+        var user = user
+        user.noteIDs = user.noteIDs.filter({$0 != noteID})
+        UserController.currentUser = user
+        user.save()
     }
     
     static func noteForID(noteID: String, completion: (note: Note?) -> Void) {
@@ -37,6 +46,22 @@ class NoteController {
                 completion(note: note)
             } else {
                 completion(note: nil)
+            }
+        }
+    }
+    
+    static func observeNote(note: Note, completion: () -> Void) {
+        guard let noteID = note.identifier else {return}
+        FirebaseController.base.childByAppendingPath("notes/\(noteID)").removeAllObservers()
+        FirebaseController.observeDataAtEndpoint("notes/\(noteID)") { (data) -> Void in
+            if let data = data as? [String:AnyObject] {
+                var note = note
+                if let newNote = Note(json: data, identifier: noteID) {
+                    note = newNote
+                }
+                completion()
+            } else {
+                completion()
             }
         }
     }

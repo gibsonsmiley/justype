@@ -76,6 +76,7 @@ class WriterViewController: UIViewController, UITextViewDelegate, PageViewContro
             writerTextView.resignFirstResponder()
         } else {
             if let note = self.note {
+                note.title = titleTextField.text
                 note.text = self.writerTextView.attributedText.mutableCopy() as! NSMutableAttributedString
                 NoteController.updateNote(note, completion: { (success, note) in
                     if success {
@@ -177,9 +178,15 @@ class WriterViewController: UIViewController, UITextViewDelegate, PageViewContro
         applyStyleToSelection("AvenirNext-Bold")
         
         if writerTextView.selectedTextRange == nil {
-            helperLabel.hidden = false
-            helperLabel.text = "You'll need to first select the text you'd like to format 🤓"
-            
+            self.helperLabel.text = "You'll need to first select the \n text you'd like to format 🤓"
+            self.helperLabel.hidden = false
+            self.helperLabel.fadeOut(completion: {
+                
+                
+                (finished: Bool) -> Void in
+                self.helperLabel.alpha = 1.0
+                self.helperLabel.hidden = true
+            })
         }
     }
     

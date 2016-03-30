@@ -26,6 +26,8 @@ class NoteListTableViewController: UITableViewController, UISearchBarDelegate, P
         darkModeTrue()
         super.viewDidLoad()
 
+                loadNotesForUser(user)
+      
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(NoteListTableViewController.localNotificationFired), name: "NoteActionSheet", object: nil)
     
         let longPressRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(NoteListTableViewController.longPress(_:)))
@@ -33,18 +35,6 @@ class NoteListTableViewController: UITableViewController, UISearchBarDelegate, P
 
         let titleFont : UIFont = UIFont(name: "Avenir-Medium", size: 22.0)!
         UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName : UIColor.blackColor(), NSFontAttributeName: titleFont]
-    }
-
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(true)
-        tableView.reloadData()
-    }
-    
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(true)
-        //tableView.reloadData()
-        loadNotesForUser(user)
-        NoteController.orderNotes(notes)
     }
     
     override func didReceiveMemoryWarning() {
@@ -85,11 +75,13 @@ class NoteListTableViewController: UITableViewController, UISearchBarDelegate, P
         }
         let deleteAction = UIAlertAction(title: "Delete", style: .Destructive, handler: {
             (alert: UIAlertAction!) -> Void in
-                if let selectedRow = self.selectedRow {
-                let note = self.notes[selectedRow.row]
+            if let indexPath = self.selectedRow {
+                let note = self.notes[indexPath.row]
                 NoteController.deleteNote(note)
-                self.notes.removeAtIndex(selectedRow.row)
-                self.tableView.deleteRowsAtIndexPaths([selectedRow], withRowAnimation: .Fade)
+                self.tableView.beginUpdates()
+                self.notes.removeAtIndex(indexPath.row)
+                self.tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
+                self.tableView.endUpdates()
             }
         })
         let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel, handler: nil)
@@ -146,8 +138,10 @@ class NoteListTableViewController: UITableViewController, UISearchBarDelegate, P
         if editingStyle == .Delete {
             let note = notes[indexPath.row]
             NoteController.deleteNote(note)
+            tableView.beginUpdates()
             self.notes.removeAtIndex(indexPath.row)
             tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
+            tableView.endUpdates()
         }
     }
     

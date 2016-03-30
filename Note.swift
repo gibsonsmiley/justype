@@ -55,5 +55,5 @@ class Note: FirebaseType, Equatable {
 }
 
 func == (lhs: Note, rhs: Note) -> Bool {
-    return ObjectIdentifier(lhs) == ObjectIdentifier(rhs)
+    return lhs.identifier == rhs.identifier
 }

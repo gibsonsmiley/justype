@@ -12,7 +12,6 @@ class WriterViewController: UIViewController, UITextViewDelegate, PageViewContro
     
     @IBOutlet weak var writerTextView: UITextView!
     @IBOutlet var toolbar: UIToolbar!
-    @IBOutlet weak var successLabel: UILabel!
     @IBOutlet weak var saveButton: UIBarButtonItem!
     @IBOutlet weak var tagButton: UIBarButtonItem!
     @IBOutlet weak var listButton: UIBarButtonItem!
@@ -37,7 +36,6 @@ class WriterViewController: UIViewController, UITextViewDelegate, PageViewContro
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(true)
-        successLabel.hidden = true
         if NSUserDefaults.standardUserDefaults().boolForKey(kFirstTime) == false {
             firstTimer()
             NSUserDefaults.standardUserDefaults().setBool(true, forKey: kFirstTime)
@@ -248,7 +246,6 @@ class WriterViewController: UIViewController, UITextViewDelegate, PageViewContro
             view.backgroundColor = UIColor.offBlackColor()
             toolbar.tintColor = UIColor.whiteColor()
             writerTextView.textColor = UIColor.whiteColor()
-            successLabel.textColor = UIColor.whiteColor()
             toolbar.barTintColor = UIColor.offBlackColor()
             titleTextField.keyboardAppearance = UIKeyboardAppearance.Dark
             writerTextView.keyboardAppearance = UIKeyboardAppearance.Dark

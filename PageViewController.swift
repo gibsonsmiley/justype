@@ -33,7 +33,7 @@ class PageViewController: UIPageViewController, UIPageViewControllerDataSource, 
     }
     
     override func viewDidAppear(animated: Bool) {
-        if UserController.currentUser == nil {
+        if UserController.sharedController.currentUser == nil {
             performSegueWithIdentifier("toAuthView", sender: self)
         }
     }

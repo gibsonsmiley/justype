@@ -20,21 +20,29 @@ class WriterViewController: UIViewController, UITextViewDelegate, PageViewContro
     @IBOutlet weak var italicButton: UIBarButtonItem!
     @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var helperLabel: UILabel!
+    @IBOutlet weak var welcomeLabel: UILabel!
     
     
     var pageView: UIPageViewController?
     var note: Note?
     static let sharedInstance = WriterViewController()
+    var firstTime: Bool {
+        return NSUserDefaults.standardUserDefaults().boolForKey(kFirstTime)
+    }
+    private let kFirstTime = "firstTime"
     
     
     // MARK: - View
     
+    
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(true)
         successLabel.hidden = true
-        
-        // Something is happening with the page view controller after the writerview is initialy loaded, so that once returning to the writer view from the list view something in the page controller is "catching" the first responder, therefor stopping it. This hacky fix pauses the firstresponder long enough to avoid being "caught." firstresponder will be caught at 0.25.
-        // Possible fix putting this code or a seperate function holding the becomefirstresponder and putting it in either writerview or pageview or both.
+        if NSUserDefaults.standardUserDefaults().boolForKey(kFirstTime) == false {
+            firstTimer()
+            NSUserDefaults.standardUserDefaults().setBool(true, forKey: kFirstTime)
+            NSUserDefaults.standardUserDefaults().synchronize()
+        }
         let seconds = Int64(0.0 * Double(NSEC_PER_SEC))
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, seconds), dispatch_get_main_queue()) {
             self.writerTextView.becomeFirstResponder()
@@ -51,14 +59,13 @@ class WriterViewController: UIViewController, UITextViewDelegate, PageViewContro
         writerTextView.textStorage.delegate = self
         let titleFont : UIFont = UIFont(name: "Avenir-Black", size: 17.0)!
         saveButton.setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.darkGrayColor(), NSFontAttributeName: titleFont], forState: .Normal)
+        self.hideKeyboardWhenTappedAround()
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(WriterViewController.reload), name: "userLoggedOut", object: nil)
     }
     
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
-        
         writerTextView.resignFirstResponder()
-
-
     }
     
     override func didReceiveMemoryWarning() {
@@ -69,6 +76,11 @@ class WriterViewController: UIViewController, UITextViewDelegate, PageViewContro
     
     // MARK: - Actions
     
+    func reload() {
+        writerTextView.text = ""
+        titleTextField.text = ""
+    }
+    
     @IBAction func saveButtonTapped(sender: AnyObject) {
         if writerTextView.text.isEmpty {
             self.helperLabel.text = "Swipe left to see your notes 👉"
@@ -78,8 +90,6 @@ class WriterViewController: UIViewController, UITextViewDelegate, PageViewContro
                 self.helperLabel.alpha = 1.0
                 self.helperLabel.hidden = true
             })
-//            successLabel.hidden = false
-//            successLabel.text = "Swipe left to see your notes 👉"
             writerTextView.resignFirstResponder()
         } else {
             if let note = self.note {
@@ -95,9 +105,6 @@ class WriterViewController: UIViewController, UITextViewDelegate, PageViewContro
                             self.helperLabel.alpha = 1.0
                             self.helperLabel.hidden = true
                         })
-
-//                        self.successLabel.hidden = false
-//                        self.successLabel.text = "Note updated 👍"
                     }
                 })
             } else {
@@ -109,9 +116,7 @@ class WriterViewController: UIViewController, UITextViewDelegate, PageViewContro
                     self.helperLabel.alpha = 1.0
                     self.helperLabel.hidden = true
                 })
-//                successLabel.hidden = false
-//                successLabel.text = "Note saved. It's over there 👉"
-                if let user = UserController.currentUser.identifier {
+                if let user = UserController.sharedController.currentUser.identifier {
                     NoteController.createNote(titleTextField.text, text:writerTextView.attributedText.mutableCopy() as! NSMutableAttributedString, ownerID: user, completion: { (note) -> Void in
                         if let note = self.note {
                             note.text = self.writerTextView.attributedText.mutableCopy() as! NSMutableAttributedString
@@ -131,6 +136,15 @@ class WriterViewController: UIViewController, UITextViewDelegate, PageViewContro
         self.note = note
         self.titleTextField.text = note.title
         self.writerTextView.textStorage.appendAttributedString(note.text)
+    }
+    
+    func firstTimer() {
+        self.welcomeLabel.hidden = false
+        self.welcomeLabel.longestFadeOut(completion : {
+            (finished: Bool) -> Void in
+            self.welcomeLabel.alpha = 1.0
+            self.welcomeLabel.hidden = true
+        })
     }
     
     
@@ -217,6 +231,10 @@ class WriterViewController: UIViewController, UITextViewDelegate, PageViewContro
     }
     
     // MARK: - Themes
+    
+    override func prefersStatusBarHidden() -> Bool {
+        return true
+    }
     
     // Dark Mode
     

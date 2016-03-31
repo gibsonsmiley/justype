@@ -16,7 +16,7 @@ class User: FirebaseType, Equatable {
     let email: String
     var noteIDs: [String] = [] {
         didSet {
-            if self.identifier == UserController.currentUser.identifier {
+            if self.identifier == UserController.sharedController.currentUser.identifier {
                 NSUserDefaults.standardUserDefaults().setValue(jsonValue, forKey: UserController.sharedController.kUser)
                 NSUserDefaults.standardUserDefaults().synchronize()
             }

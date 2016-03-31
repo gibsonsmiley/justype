@@ -26,10 +26,41 @@
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon" translatesAutoresizingMaskIntoConstraints="NO" id="Wf6-0g-7sf">
+                                <rect key="frame" x="216" y="233" width="168" height="135"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="135" id="OVt-ii-2dD"/>
+                                    <constraint firstAttribute="width" constant="46" id="PNU-87-VlL">
+                                        <variation key="heightClass=regular-widthClass=compact" constant="60"/>
+                                    </constraint>
+                                    <constraint firstAttribute="width" constant="168" id="Pux-II-70R"/>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="46" id="YX0-TB-2r5"/>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="60" id="kgV-iD-fNO"/>
+                                    <constraint firstAttribute="height" constant="46" id="pVZ-le-GN3"/>
+                                </constraints>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="PNU-87-VlL"/>
+                                        <exclude reference="YX0-TB-2r5"/>
+                                        <exclude reference="kgV-iD-fNO"/>
+                                        <exclude reference="pVZ-le-GN3"/>
+                                    </mask>
+                                </variation>
+                                <variation key="heightClass=regular-widthClass=compact">
+                                    <mask key="constraints">
+                                        <include reference="PNU-87-VlL"/>
+                                        <include reference="YX0-TB-2r5"/>
+                                        <include reference="kgV-iD-fNO"/>
+                                        <include reference="pVZ-le-GN3"/>
+                                    </mask>
+                                </variation>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="Wf6-0g-7sf" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="2VK-sZ-8YB"/>
                             <constraint firstItem="f9A-00-sVz" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="ALq-ZV-O3W"/>
+                            <constraint firstItem="Wf6-0g-7sf" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="B3F-9C-TPY"/>
                             <constraint firstItem="f9A-00-sVz" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="DcI-GI-3Tv"/>
                         </constraints>
                     </view>
@@ -39,4 +70,7 @@
             <point key="canvasLocation" x="53" y="375"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="icon" width="522" height="411"/>
+    </resources>
 </document>

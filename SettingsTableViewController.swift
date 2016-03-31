@@ -45,11 +45,13 @@ class SettingsTableViewController: UITableViewController, UIPickerViewDelegate, 
     }
     
     func localNotificationFired() {
-        let alertController = UIAlertController(title: "Account: \(UserController.currentUser.email)", message: nil, preferredStyle: .ActionSheet)
+        let alertController = UIAlertController(title: "Account: \(UserController.sharedController.currentUser.email)", message: nil, preferredStyle: .ActionSheet)
         
         let deleteAction = UIAlertAction(title: "Log Out", style: .Destructive, handler: {
             (alert: UIAlertAction!) -> Void in
             UserController.logoutUser()
+            self.dismissViewControllerAnimated(true, completion: nil)
+            NSNotificationCenter.defaultCenter().postNotificationName("userLoggedOut", object: nil, userInfo: nil)
         })
         let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel, handler: nil)
 
@@ -109,6 +111,10 @@ class SettingsTableViewController: UITableViewController, UIPickerViewDelegate, 
 
     
     // MARK: - Themes
+    
+    override func prefersStatusBarHidden() -> Bool {
+        return false
+    }
     
     // Dark Mode
     

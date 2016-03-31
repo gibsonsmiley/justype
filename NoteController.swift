@@ -10,13 +10,13 @@ import Foundation
 
 class NoteController {
     
-    static func createNote(title: String?, text: NSMutableAttributedString, ownerID: String = UserController.currentUser.identifier!, completion: (note: Note?) -> Void) {
+    static func createNote(title: String?, text: NSMutableAttributedString, ownerID: String = UserController.sharedController.currentUser.identifier!, completion: (note: Note?) -> Void) {
         var note = Note(title: title, text: text, ownerID: ownerID)
         note.ownerID = ownerID
         note.save()
         if let identifier = note.identifier {
-            UserController.currentUser.noteIDs.append(identifier)
-            UserController.currentUser.save()
+            UserController.sharedController.currentUser.noteIDs.append(identifier)
+            UserController.sharedController.currentUser.save()
         }
         completion(note: note)
     }
@@ -28,14 +28,14 @@ class NoteController {
     
     static func deleteNote(note: Note) {
         note.delete()
-        removeNoteFromUser(note, user: UserController.currentUser)
+        removeNoteFromUser(note, user: UserController.sharedController.currentUser)
     }
     
     static func removeNoteFromUser(note: Note, user: User) {
         guard let noteID = note.identifier else {return}
         var user = user
         user.noteIDs = user.noteIDs.filter({$0 != noteID})
-        UserController.currentUser = user
+        UserController.sharedController.currentUser = user
         user.save()
     }
     

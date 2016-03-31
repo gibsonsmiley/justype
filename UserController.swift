@@ -13,17 +13,17 @@ class UserController {
     
     static let sharedController = UserController()
     let kUser = "userKey"
-    static var currentUser: User! {
+    var currentUser: User! {
         get {
-        guard let uid = FirebaseController.base.authData?.uid, let userDictionary = NSUserDefaults.standardUserDefaults().valueForKey(sharedController.kUser) as? [String: AnyObject] else { return nil }
+        guard let uid = FirebaseController.base.authData?.uid, let userDictionary = NSUserDefaults.standardUserDefaults().valueForKey(kUser) as? [String: AnyObject] else { return nil }
         return User(json: userDictionary, identifier: uid)
         }
         set {
             if let newValue = newValue {
-                NSUserDefaults.standardUserDefaults().setValue(newValue.jsonValue, forKey: sharedController.kUser)
+                NSUserDefaults.standardUserDefaults().setValue(newValue.jsonValue, forKey: kUser)
                 NSUserDefaults.standardUserDefaults().synchronize()
             } else {
-                NSUserDefaults.standardUserDefaults().removeObjectForKey(sharedController.kUser)
+                NSUserDefaults.standardUserDefaults().removeObjectForKey(kUser)
                 NSUserDefaults.standardUserDefaults().synchronize()
             }
         }
@@ -57,7 +57,7 @@ class UserController {
                 }
                 dispatch_group_notify(group, dispatch_get_main_queue(), { () -> Void in
                     let orderedNotes = NoteController.orderNotes(notes)
-                    let unobservedNotes = orderedNotes.filter({!user.notes.contains($0)})
+//                    let unobservedNotes = orderedNotes.filter({!user.notes.contains($0)})
 //                    for note in unobservedNotes {
 //                        NoteController.observeNote(note, completion: {
 //                            completion()
@@ -81,7 +81,7 @@ class UserController {
             } else {
                 UserController.fetchUserForID(authData.uid, completion: { (user) -> Void in
                     if let user = user {
-                        currentUser = user
+                        sharedController.currentUser = user
                         completion(success: true, user: user)
                         print("User authenticated successfully")
                     } else {
@@ -116,6 +116,6 @@ class UserController {
     
     static func logoutUser() {
         FirebaseController.base.unauth()
-        currentUser = nil
+        sharedController.currentUser = nil
     }
 }

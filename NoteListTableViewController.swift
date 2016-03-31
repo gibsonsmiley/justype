@@ -13,20 +13,22 @@ class NoteListTableViewController: UITableViewController, UISearchBarDelegate, P
     @IBOutlet weak var navBar: UINavigationBar!
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet var toolbar: UIToolbar!
+    @IBOutlet weak var helperLabel: UILabel!
     
     var pageView: UIPageViewController?
-    var user = UserController.currentUser
     var notes = [Note]()
     var filteredNotes: [Note] = []
     var selectedRow: NSIndexPath?
     let titleFont : UIFont = UIFont(name: "Avenir-Medium", size: 22.0)!
+    var firstTime: Bool {
+        return NSUserDefaults.standardUserDefaults().boolForKey(kLongPressOptions)
+    }
+    private let kLongPressOptions = "longPressOptions"
     
     override func viewDidLoad() {
+        super.viewDidLoad()
         searchBar.inputAccessoryView = toolbar
         darkModeTrue()
-        super.viewDidLoad()
-
-                loadNotesForUser(user)
       
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(NoteListTableViewController.localNotificationFired), name: "NoteActionSheet", object: nil)
     
@@ -35,6 +37,23 @@ class NoteListTableViewController: UITableViewController, UISearchBarDelegate, P
 
         let titleFont : UIFont = UIFont(name: "Avenir-Medium", size: 22.0)!
         UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName : UIColor.blackColor(), NSFontAttributeName: titleFont]
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(NoteListTableViewController.reload), name: "userLoggedOut", object: nil)
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        tableView.reloadData()
+        loadNotesForUser(UserController.sharedController.currentUser)
+        
+        if NSUserDefaults.standardUserDefaults().boolForKey(kLongPressOptions) == false {
+            firstTimer()
+            NSUserDefaults.standardUserDefaults().setBool(true, forKey: kLongPressOptions)
+            NSUserDefaults.standardUserDefaults().synchronize()
+        }
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        tableView.reloadData()
     }
     
     override func didReceiveMemoryWarning() {
@@ -44,6 +63,11 @@ class NoteListTableViewController: UITableViewController, UISearchBarDelegate, P
     
     
     // MARK: - Actions
+    
+    func reload() {
+        notes = []
+        tableView.reloadData()
+    }
     
     func longPress(longPressGestureRecognizer: UILongPressGestureRecognizer) {
         if longPressGestureRecognizer.state == UIGestureRecognizerState.Began {
@@ -65,6 +89,15 @@ class NoteListTableViewController: UITableViewController, UISearchBarDelegate, P
             self.notes = user.notes
             self.tableView.reloadData()
         }
+    }
+    
+    func firstTimer() {
+        self.helperLabel.hidden = false
+        self.helperLabel.longFadeOut(completion : {
+            (finished: Bool) -> Void in
+            self.helperLabel.alpha = 1.0
+            self.helperLabel.hidden = true
+        })
     }
     
     func localNotificationFired() {
@@ -170,6 +203,7 @@ class NoteListTableViewController: UITableViewController, UISearchBarDelegate, P
     }
     
     // MARK: - Themes
+
     
     // Dark Mode
     

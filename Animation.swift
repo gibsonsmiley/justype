@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 
 extension UIView {
-    func fadeOut(duration: NSTimeInterval = 1.5, delay: NSTimeInterval = 0.0, completion: (Bool) -> Void = {(finished: Bool) -> Void in}) {
+    func fadeOut(duration: NSTimeInterval = 2.0, delay: NSTimeInterval = 0.0, completion: (Bool) -> Void = {(finished: Bool) -> Void in}) {
         UIView.animateWithDuration(duration, delay: delay, options: .CurveEaseIn, animations: { 
             self.alpha = 0.0
             }, completion: completion)

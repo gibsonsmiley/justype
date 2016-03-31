@@ -14,6 +14,7 @@ class SettingsTableViewController: UITableViewController, UIPickerViewDelegate, 
     @IBOutlet weak var darkModeSwitch: UIView!
     @IBOutlet var fontPickerView: UIPickerView!
     @IBOutlet var fontSizePickerView: UIPickerView!
+    @IBOutlet weak var navBar: UINavigationBar!
     
     var pickerData: [String] = []
     
@@ -115,6 +116,8 @@ class SettingsTableViewController: UITableViewController, UIPickerViewDelegate, 
         if AppearanceController.darkMode == true {
             tableView.backgroundColor = UIColor.offBlackColor()
             tableView.tableHeaderView?.backgroundColor = UIColor.offBlackColor()
+            navBar.barTintColor = UIColor.offBlackColor()
+            navBar.tintColor = UIColor.whiteColor()
         }
     }
     

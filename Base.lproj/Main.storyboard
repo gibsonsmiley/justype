@@ -10,7 +10,7 @@
         <!--Page View Controller-->
         <scene sceneID="Nnf-xK-73Q">
             <objects>
-                <pageViewController storyboardIdentifier="PageViewController" autoresizesArchivedViewToFullSize="NO" transitionStyle="scroll" navigationOrientation="horizontal" spineLocation="none" id="69E-aT-rfO" customClass="PageViewController" customModule="justype" customModuleProvider="target" sceneMemberID="viewController">
+                <pageViewController storyboardIdentifier="PageViewController" autoresizesArchivedViewToFullSize="NO" transitionStyle="scroll" navigationOrientation="horizontal" spineLocation="none" id="69E-aT-rfO" customClass="PageViewController" customModule="Justype" customModuleProvider="target" sceneMemberID="viewController">
                     <extendedEdge key="edgesForExtendedLayout"/>
                     <navigationItem key="navigationItem" id="lQ3-eZ-H5y"/>
                     <nil key="simulatedStatusBarMetrics"/>
@@ -26,7 +26,7 @@
         <!--Auth View Controller-->
         <scene sceneID="zCi-bc-bKh">
             <objects>
-                <viewController storyboardIdentifier="AuthViewController" id="tUO-5Q-Lk9" customClass="AuthViewController" customModule="justype" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="AuthViewController" id="tUO-5Q-Lk9" customClass="AuthViewController" customModule="Justype" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="1Xw-Xu-DQF"/>
                         <viewControllerLayoutGuide type="bottom" id="lJt-kY-pNq"/>
@@ -348,7 +348,7 @@
         <!--Writer View-->
         <scene sceneID="qOb-v5-RA6">
             <objects>
-                <viewController storyboardIdentifier="WriterViewController" title="Writer View" id="BBQ-sZ-NwY" customClass="WriterViewController" customModule="justype" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="WriterViewController" title="Writer View" id="BBQ-sZ-NwY" customClass="WriterViewController" customModule="Justype" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="ANG-9K-BI9"/>
                         <viewControllerLayoutGuide type="bottom" id="cn9-36-79w"/>
@@ -375,7 +375,7 @@
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="want to set a title? do it here" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="yqB-NA-Mwv">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Want a title? Put it here" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="yqB-NA-Mwv">
                                 <rect key="frame" x="-25" y="-30" width="97" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="hIU-uk-BQv"/>
@@ -395,7 +395,7 @@
                             </textField>
                             <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Helper Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8LM-yT-09H">
                                 <rect key="frame" x="-42" y="-21" width="42" height="21"/>
-                                <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="17"/>
+                                <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="22"/>
                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
@@ -533,7 +533,7 @@
         <!--Note List View-->
         <scene sceneID="GFw-jS-jep">
             <objects>
-                <tableViewController storyboardIdentifier="NoteListTableViewController" title="Note List View" id="vnb-aR-J90" customClass="NoteListTableViewController" customModule="justype" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="NoteListTableViewController" title="Note List View" id="vnb-aR-J90" customClass="NoteListTableViewController" customModule="Justype" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="55" sectionHeaderHeight="28" sectionFooterHeight="28" id="KxW-fF-g6q">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -643,7 +643,7 @@
                             </variation>
                         </view>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="noteCell" textLabel="fSg-fc-dg6" rowHeight="55" style="IBUITableViewCellStyleDefault" id="3W9-Pp-Enq" customClass="NoteTableViewCell" customModule="justype" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="noteCell" textLabel="fSg-fc-dg6" rowHeight="55" style="IBUITableViewCellStyleDefault" id="3W9-Pp-Enq" customClass="NoteTableViewCell" customModule="Justype" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="156" width="600" height="75"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="3W9-Pp-Enq" id="nlk-qZ-Z0O">
@@ -703,7 +703,7 @@
         <!--Settings-->
         <scene sceneID="UP2-2I-NNy">
             <objects>
-                <tableViewController storyboardIdentifier="SettingsTableViewController" id="og4-X8-hM6" customClass="SettingsTableViewController" customModule="justype" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="SettingsTableViewController" id="og4-X8-hM6" customClass="SettingsTableViewController" customModule="Justype" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="none" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" id="D3B-KF-C5g">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1583,7 +1583,7 @@
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="settingCell" rowHeight="159" id="wuK-RO-wd1">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="settingCell" rowHeight="260" id="wuK-RO-wd1">
                                         <rect key="frame" x="0.0" y="808" width="600" height="159"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="wuK-RO-wd1" id="dFD-3E-RJh">
@@ -1614,29 +1614,16 @@
                                                 </button>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Gibson Smiley © 2016" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kki-ik-PvA">
                                                     <rect key="frame" x="-42" y="-21" width="42" height="21"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" constant="156" id="Evp-Mq-wvN"/>
-                                                    </constraints>
                                                     <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
-                                                    <variation key="default">
-                                                        <mask key="constraints">
-                                                            <exclude reference="Evp-Mq-wvN"/>
-                                                        </mask>
-                                                    </variation>
-                                                    <variation key="heightClass=regular-widthClass=compact">
-                                                        <mask key="constraints">
-                                                            <include reference="Evp-Mq-wvN"/>
-                                                        </mask>
-                                                    </variation>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="10" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AAo-31-oFJ">
                                                     <rect key="frame" x="-42" y="-21" width="42" height="21"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="102" id="YJz-Qz-71V"/>
                                                     </constraints>
-                                                    <string key="text">App icon by Barbara Walters, love you baby. Icons throughout the app from The Noun Project   http://thenounproject.com Your notes are yours and I as the developer  do not have access to them.  By using Justype you agree to not participate in  actitivies your grandmom would frown upon.</string>
+                                                    <mutableString key="text">Your notes are yours and always will be. I, as the developer, do not see them, can't change them, and don't claim any form of ownership over them. Your email is used only so I can notify you whenever big changes happen with this app, otherwise you'll hear nothing from me (Not like I want to talk to you anyway). Your password is so encoded by Google's Firebase I couldn't get it even if I wanted to. App icon made with help from Manav Dhiman. 💃🏼</mutableString>
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -1647,20 +1634,47 @@
                                                     </variation>
                                                     <variation key="heightClass=regular-widthClass=compact">
                                                         <mask key="constraints">
-                                                            <include reference="YJz-Qz-71V"/>
+                                                            <exclude reference="YJz-Qz-71V"/>
                                                         </mask>
                                                     </variation>
                                                 </label>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon" translatesAutoresizingMaskIntoConstraints="NO" id="oP5-oV-YI1">
+                                                    <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="46" id="g2i-yX-FqP">
+                                                            <variation key="heightClass=regular-widthClass=compact" constant="60"/>
+                                                        </constraint>
+                                                        <constraint firstAttribute="height" constant="46" id="y0A-q9-dyK"/>
+                                                    </constraints>
+                                                    <variation key="default">
+                                                        <mask key="constraints">
+                                                            <exclude reference="g2i-yX-FqP"/>
+                                                            <exclude reference="y0A-q9-dyK"/>
+                                                        </mask>
+                                                    </variation>
+                                                    <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
+                                                        <rect key="frame" x="170" y="204" width="60" height="46"/>
+                                                        <mask key="constraints">
+                                                            <include reference="g2i-yX-FqP"/>
+                                                            <include reference="y0A-q9-dyK"/>
+                                                        </mask>
+                                                    </variation>
+                                                </imageView>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="KKB-nT-p51" firstAttribute="centerY" secondItem="kki-ik-PvA" secondAttribute="centerY" id="7PJ-B9-0Q8"/>
-                                                <constraint firstItem="KKB-nT-p51" firstAttribute="leading" secondItem="dFD-3E-RJh" secondAttribute="leadingMargin" id="Ok7-W8-Nut"/>
-                                                <constraint firstItem="KKB-nT-p51" firstAttribute="centerY" secondItem="dFD-3E-RJh" secondAttribute="centerY" id="SZR-ip-whI">
-                                                    <variation key="heightClass=regular-widthClass=compact" constant="-57"/>
+                                                <constraint firstItem="KKB-nT-p51" firstAttribute="leading" secondItem="dFD-3E-RJh" secondAttribute="leading" constant="8" id="2ss-wJ-wgr"/>
+                                                <constraint firstAttribute="trailing" secondItem="AAo-31-oFJ" secondAttribute="trailing" constant="8" id="3Em-90-aiY"/>
+                                                <constraint firstAttribute="trailing" secondItem="kki-ik-PvA" secondAttribute="trailing" constant="8" id="8u1-oB-Fmz"/>
+                                                <constraint firstItem="kki-ik-PvA" firstAttribute="top" secondItem="dFD-3E-RJh" secondAttribute="top" constant="15" id="BdZ-MO-Fng"/>
+                                                <constraint firstItem="oP5-oV-YI1" firstAttribute="centerX" secondItem="dFD-3E-RJh" secondAttribute="centerX" id="LQT-dk-Tl2"/>
+                                                <constraint firstItem="AAo-31-oFJ" firstAttribute="top" secondItem="KKB-nT-p51" secondAttribute="bottom" constant="8" id="MoG-p4-0f7"/>
+                                                <constraint firstAttribute="bottom" secondItem="oP5-oV-YI1" secondAttribute="bottom" constant="8" id="S6m-Qu-P2K">
+                                                    <variation key="heightClass=regular-widthClass=compact" constant="0.0"/>
                                                 </constraint>
                                                 <constraint firstItem="AAo-31-oFJ" firstAttribute="leading" secondItem="KKB-nT-p51" secondAttribute="leading" id="Sac-Kh-6hc"/>
+                                                <constraint firstItem="AAo-31-oFJ" firstAttribute="leading" secondItem="dFD-3E-RJh" secondAttribute="leading" constant="8" id="Yh5-RQ-q3O"/>
                                                 <constraint firstItem="AAo-31-oFJ" firstAttribute="trailing" secondItem="kki-ik-PvA" secondAttribute="trailing" id="dnu-uc-Ggd"/>
-                                                <constraint firstItem="kki-ik-PvA" firstAttribute="trailing" secondItem="dFD-3E-RJh" secondAttribute="trailingMargin" id="tdj-LA-a7x"/>
+                                                <constraint firstItem="KKB-nT-p51" firstAttribute="top" secondItem="dFD-3E-RJh" secondAttribute="top" constant="8" id="str-Cq-skP"/>
                                                 <constraint firstItem="AAo-31-oFJ" firstAttribute="top" secondItem="KKB-nT-p51" secondAttribute="bottom" constant="8" symbolic="YES" id="zOo-Ar-RXp"/>
                                             </constraints>
                                             <variation key="default">
@@ -1668,15 +1682,21 @@
                                                     <exclude reference="KKB-nT-p51"/>
                                                     <exclude reference="kki-ik-PvA"/>
                                                     <exclude reference="AAo-31-oFJ"/>
+                                                    <exclude reference="oP5-oV-YI1"/>
                                                 </mask>
                                                 <mask key="constraints">
-                                                    <exclude reference="7PJ-B9-0Q8"/>
-                                                    <exclude reference="Ok7-W8-Nut"/>
-                                                    <exclude reference="SZR-ip-whI"/>
+                                                    <exclude reference="2ss-wJ-wgr"/>
+                                                    <exclude reference="str-Cq-skP"/>
+                                                    <exclude reference="3Em-90-aiY"/>
+                                                    <exclude reference="MoG-p4-0f7"/>
                                                     <exclude reference="Sac-Kh-6hc"/>
+                                                    <exclude reference="Yh5-RQ-q3O"/>
                                                     <exclude reference="dnu-uc-Ggd"/>
                                                     <exclude reference="zOo-Ar-RXp"/>
-                                                    <exclude reference="tdj-LA-a7x"/>
+                                                    <exclude reference="LQT-dk-Tl2"/>
+                                                    <exclude reference="S6m-Qu-P2K"/>
+                                                    <exclude reference="8u1-oB-Fmz"/>
+                                                    <exclude reference="BdZ-MO-Fng"/>
                                                 </mask>
                                             </variation>
                                             <variation key="heightClass=regular-widthClass=compact">
@@ -1684,15 +1704,21 @@
                                                     <include reference="KKB-nT-p51"/>
                                                     <include reference="kki-ik-PvA"/>
                                                     <include reference="AAo-31-oFJ"/>
+                                                    <include reference="oP5-oV-YI1"/>
                                                 </mask>
                                                 <mask key="constraints">
-                                                    <include reference="7PJ-B9-0Q8"/>
-                                                    <include reference="Ok7-W8-Nut"/>
-                                                    <include reference="SZR-ip-whI"/>
-                                                    <include reference="Sac-Kh-6hc"/>
-                                                    <include reference="dnu-uc-Ggd"/>
-                                                    <include reference="zOo-Ar-RXp"/>
-                                                    <include reference="tdj-LA-a7x"/>
+                                                    <include reference="2ss-wJ-wgr"/>
+                                                    <include reference="str-Cq-skP"/>
+                                                    <include reference="3Em-90-aiY"/>
+                                                    <include reference="MoG-p4-0f7"/>
+                                                    <exclude reference="Sac-Kh-6hc"/>
+                                                    <include reference="Yh5-RQ-q3O"/>
+                                                    <exclude reference="dnu-uc-Ggd"/>
+                                                    <exclude reference="zOo-Ar-RXp"/>
+                                                    <include reference="LQT-dk-Tl2"/>
+                                                    <include reference="S6m-Qu-P2K"/>
+                                                    <include reference="8u1-oB-Fmz"/>
+                                                    <include reference="BdZ-MO-Fng"/>
                                                 </mask>
                                             </variation>
                                         </tableViewCellContentView>
@@ -1711,6 +1737,7 @@
                         <outlet property="darkModeSwitch" destination="tH5-gO-PL5" id="0oE-BE-bQL"/>
                         <outlet property="fontPickerView" destination="Ete-tI-rpv" id="xva-vU-1cs"/>
                         <outlet property="fontSizePickerView" destination="Htn-jD-XSk" id="vka-0P-j3U"/>
+                        <outlet property="navBar" destination="avi-Je-Nb8" id="JE3-mG-HoX"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FNj-oI-yBu" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1734,6 +1761,9 @@
             <point key="canvasLocation" x="2158.5" y="543"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="icon" width="522" height="411"/>
+    </resources>
     <inferredMetricsTieBreakers>
         <segue reference="UdP-wQ-ug4"/>
     </inferredMetricsTieBreakers>

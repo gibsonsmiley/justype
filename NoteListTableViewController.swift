@@ -122,8 +122,8 @@ class NoteListTableViewController: UITableViewController, UISearchBarDelegate, P
                 cell.textLabel?.text = firstLine
             } else {
                 let length = textViewText.characters.count
-                if length > 30 {
-                    let firstLine = (textViewText as NSString).substringToIndex(30)
+                if length > 60 {
+                    let firstLine = (textViewText as NSString).substringToIndex(60)
                     cell.textLabel?.text = firstLine
                 } else {
                     let firstLine = (textViewText as NSString).substringToIndex(length)
@@ -179,6 +179,8 @@ class NoteListTableViewController: UITableViewController, UISearchBarDelegate, P
             searchBar.keyboardAppearance = UIKeyboardAppearance.Dark
             tableView.tableHeaderView?.backgroundColor = UIColor.offBlackColor()
             toolbar.barTintColor = UIColor.offBlackColor()
+            navBar.barTintColor = UIColor.offBlackColor()
+            navBar.tintColor = UIColor.whiteColor()
         }
     }
     

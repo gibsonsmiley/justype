@@ -46,7 +46,7 @@ class WriterViewController: UIViewController, UITextViewDelegate, PageViewContro
         toolbar.sizeToFit()
         writerTextView.inputAccessoryView = toolbar
         titleTextField.inputAccessoryView = toolbar
-//        darkModeTrue()
+        darkModeTrue()
         setupKeyboardNotifications()
         writerTextView.textStorage.delegate = self
         let titleFont : UIFont = UIFont(name: "Avenir-Black", size: 17.0)!
@@ -71,8 +71,15 @@ class WriterViewController: UIViewController, UITextViewDelegate, PageViewContro
     
     @IBAction func saveButtonTapped(sender: AnyObject) {
         if writerTextView.text.isEmpty {
-            successLabel.hidden = false
-            successLabel.text = "Swipe left to see your notes 👉"
+            self.helperLabel.text = "Swipe left to see your notes 👉"
+            self.helperLabel.hidden = false
+            self.helperLabel.fadeOut(completion: {
+                (finished: Bool) -> Void in
+                self.helperLabel.alpha = 1.0
+                self.helperLabel.hidden = true
+            })
+//            successLabel.hidden = false
+//            successLabel.text = "Swipe left to see your notes 👉"
             writerTextView.resignFirstResponder()
         } else {
             if let note = self.note {
@@ -81,14 +88,29 @@ class WriterViewController: UIViewController, UITextViewDelegate, PageViewContro
                 NoteController.updateNote(note, completion: { (success, note) in
                     if success {
                         self.writerTextView.resignFirstResponder()
-                        self.successLabel.hidden = false
-                        self.successLabel.text = "Note updated 👍"
+                        self.helperLabel.text = "Note updated 👍"
+                        self.helperLabel.hidden = false
+                        self.helperLabel.fadeOut(completion: {
+                            (finished: Bool) -> Void in
+                            self.helperLabel.alpha = 1.0
+                            self.helperLabel.hidden = true
+                        })
+
+//                        self.successLabel.hidden = false
+//                        self.successLabel.text = "Note updated 👍"
                     }
                 })
             } else {
                 writerTextView.resignFirstResponder()
-                successLabel.hidden = false
-                successLabel.text = "Note saved. It's over there 👉"
+                self.helperLabel.text = "Note saved. It's over there 👉"
+                self.helperLabel.hidden = false
+                self.helperLabel.fadeOut(completion: {
+                    (finished: Bool) -> Void in
+                    self.helperLabel.alpha = 1.0
+                    self.helperLabel.hidden = true
+                })
+//                successLabel.hidden = false
+//                successLabel.text = "Note saved. It's over there 👉"
                 if let user = UserController.currentUser.identifier {
                     NoteController.createNote(titleTextField.text, text:writerTextView.attributedText.mutableCopy() as! NSMutableAttributedString, ownerID: user, completion: { (note) -> Void in
                         if let note = self.note {
@@ -202,7 +224,7 @@ class WriterViewController: UIViewController, UITextViewDelegate, PageViewContro
        
     }
     
-    func darkModeTrue(notification: NSNotification) {
+    func darkModeTrue() {
         if AppearanceController.darkMode == true {
             writerTextView.backgroundColor = UIColor.offBlackColor()
             view.backgroundColor = UIColor.offBlackColor()
@@ -210,14 +232,12 @@ class WriterViewController: UIViewController, UITextViewDelegate, PageViewContro
             writerTextView.textColor = UIColor.whiteColor()
             successLabel.textColor = UIColor.whiteColor()
             toolbar.barTintColor = UIColor.offBlackColor()
+            titleTextField.keyboardAppearance = UIKeyboardAppearance.Dark
             writerTextView.keyboardAppearance = UIKeyboardAppearance.Dark
             UITextView.appearance().tintColor = UIColor.whiteColor()
+            titleTextField.textColor = UIColor.whiteColor()
+            helperLabel.textColor = UIColor.whiteColor()
 
-        }
-    }
-    
-    func textStorage(textStorage: NSTextStorage, didProcessEditing editedMask: NSTextStorageEditActions, range editedRange: NSRange, changeInLength delta: Int) {
-        if editedMask == NSTextStorageEditActions.EditedAttributes {
         }
     }
 }

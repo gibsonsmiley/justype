@@ -20,7 +20,7 @@ class SettingsTableViewController: UITableViewController, UIPickerViewDelegate, 
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        darkModeTrue()
+//        darkModeTrue()
         let titleFont : UIFont = UIFont(name: "Avenir-Medium", size: 22.0)!
         UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName : UIColor.blackColor(), NSFontAttributeName: titleFont]
         
@@ -118,6 +118,7 @@ class SettingsTableViewController: UITableViewController, UIPickerViewDelegate, 
     
     // Dark Mode
     
+    /*
     func darkModeTrue() {
         if AppearanceController.darkMode == true {
             tableView.backgroundColor = UIColor.offBlackColor()
@@ -132,4 +133,5 @@ class SettingsTableViewController: UITableViewController, UIPickerViewDelegate, 
             cell.backgroundColor = UIColor.clearColor()
         }
     }
+    */
 }

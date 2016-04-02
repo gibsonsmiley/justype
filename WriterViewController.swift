@@ -36,11 +36,7 @@ class WriterViewController: UIViewController, UITextViewDelegate, PageViewContro
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(true)
-        if NSUserDefaults.standardUserDefaults().boolForKey(kFirstTime) == false {
-            firstTimer()
-            NSUserDefaults.standardUserDefaults().setBool(true, forKey: kFirstTime)
-            NSUserDefaults.standardUserDefaults().synchronize()
-        }
+
         let seconds = Int64(0.0 * Double(NSEC_PER_SEC))
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, seconds), dispatch_get_main_queue()) {
             self.writerTextView.becomeFirstResponder()
@@ -52,13 +48,26 @@ class WriterViewController: UIViewController, UITextViewDelegate, PageViewContro
         toolbar.sizeToFit()
         writerTextView.inputAccessoryView = toolbar
         titleTextField.inputAccessoryView = toolbar
-        darkModeTrue()
+//        darkModeTrue()
         setupKeyboardNotifications()
+        writerTextView.delegate = self
+        
         writerTextView.textStorage.delegate = self
-        let titleFont : UIFont = UIFont(name: "Avenir-Black", size: 17.0)!
+        let titleFont = TextController.avenirNext("Bold", size: 17.0)
         saveButton.setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.darkGrayColor(), NSFontAttributeName: titleFont], forState: .Normal)
         self.hideKeyboardWhenTappedAround()
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(WriterViewController.reload), name: "userLoggedOut", object: nil)
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        if UserController.sharedController.currentUser != nil {
+            if NSUserDefaults.standardUserDefaults().boolForKey(kFirstTime) == false {
+                NSUserDefaults.standardUserDefaults().setBool(true, forKey: kFirstTime)
+                NSUserDefaults.standardUserDefaults().synchronize()
+                self.helper(welcomeLabel, text: welcomeLabel.text)
+            }
+        }
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -79,55 +88,6 @@ class WriterViewController: UIViewController, UITextViewDelegate, PageViewContro
         titleTextField.text = ""
     }
     
-    @IBAction func saveButtonTapped(sender: AnyObject) {
-        if writerTextView.text.isEmpty {
-            self.helperLabel.text = "Swipe left to see your notes 👉"
-            self.helperLabel.hidden = false
-            self.helperLabel.fadeOut(completion: {
-                (finished: Bool) -> Void in
-                self.helperLabel.alpha = 1.0
-                self.helperLabel.hidden = true
-            })
-            writerTextView.resignFirstResponder()
-        } else {
-            if let note = self.note {
-                note.title = titleTextField.text
-                note.text = self.writerTextView.attributedText.mutableCopy() as! NSMutableAttributedString
-                NoteController.updateNote(note, completion: { (success, note) in
-                    if success {
-                        self.writerTextView.resignFirstResponder()
-                        self.helperLabel.text = "Note updated 👍"
-                        self.helperLabel.hidden = false
-                        self.helperLabel.fadeOut(completion: {
-                            (finished: Bool) -> Void in
-                            self.helperLabel.alpha = 1.0
-                            self.helperLabel.hidden = true
-                        })
-                    }
-                })
-            } else {
-                writerTextView.resignFirstResponder()
-                self.helperLabel.text = "Note saved. It's over there 👉"
-                self.helperLabel.hidden = false
-                self.helperLabel.fadeOut(completion: {
-                    (finished: Bool) -> Void in
-                    self.helperLabel.alpha = 1.0
-                    self.helperLabel.hidden = true
-                })
-                if let user = UserController.sharedController.currentUser.identifier {
-                    NoteController.createNote(titleTextField.text, text:writerTextView.attributedText.mutableCopy() as! NSMutableAttributedString, ownerID: user, completion: { (note) -> Void in
-                        if let note = self.note {
-                            note.text = self.writerTextView.attributedText.mutableCopy() as! NSMutableAttributedString
-                        }
-                    })
-                }
-            }
-            writerTextView.text = ""
-            titleTextField.text = ""
-            self.note = nil
-        }
-    }
-    
     func updateWithNote(note: Note) {
         writerTextView.text = ""
         titleTextField.text = ""
@@ -136,12 +96,22 @@ class WriterViewController: UIViewController, UITextViewDelegate, PageViewContro
         self.writerTextView.textStorage.appendAttributedString(note.text)
     }
     
-    func firstTimer() {
-        self.welcomeLabel.hidden = false
-        self.welcomeLabel.longestFadeOut(completion : {
+//    func firstTimer() {
+//        self.welcomeLabel.hidden = false
+//        self.welcomeLabel.longestFadeOut(completion : {
+//            (finished: Bool) -> Void in
+//            self.welcomeLabel.alpha = 1.0
+//            self.welcomeLabel.hidden = true
+//        })
+//    }
+    
+    func helper(label: UILabel, text: String?) {
+        label.text = text
+        label.hidden = false
+        self.helperLabel.fadeOut(completion: {
             (finished: Bool) -> Void in
-            self.welcomeLabel.alpha = 1.0
-            self.welcomeLabel.hidden = true
+            label.alpha = 1.0
+            label.hidden = true
         })
     }
     
@@ -190,14 +160,71 @@ class WriterViewController: UIViewController, UITextViewDelegate, PageViewContro
     
     // MARK: - Toolbar Actions
     
-    func applyStyleToSelection(style: String) {
+    @IBAction func saveButtonTapped(sender: AnyObject) {
+        if writerTextView.text.isEmpty {
+            self.helper(self.helperLabel, text: "Swipe left to see your notes 👉")
+            writerTextView.resignFirstResponder()
+        } else {
+            if let note = self.note {
+                note.title = titleTextField.text
+                note.text = self.writerTextView.attributedText.mutableCopy() as! NSMutableAttributedString
+                NoteController.updateNote(note, completion: { (success, note) in
+                    if success {
+                        self.writerTextView.resignFirstResponder()
+                        self.helper(self.helperLabel, text: "Note updated 👍")
+                    }
+                })
+            } else {
+                writerTextView.resignFirstResponder()
+                self.helper(helperLabel, text: "Note saved. It's over there 👉")
+                if let user = UserController.sharedController.currentUser.identifier {
+                    NoteController.createNote(titleTextField.text, text:writerTextView.attributedText.mutableCopy() as! NSMutableAttributedString, ownerID: user, completion: { (note) -> Void in
+                        if let note = self.note {
+                            note.text = self.writerTextView.attributedText.mutableCopy() as! NSMutableAttributedString
+                        }
+                    })
+                }
+            }
+            writerTextView.text = ""
+            titleTextField.text = ""
+            self.note = nil
+        }
+    }
+    
+    func applyStyleToSelection(attributes: [String: AnyObject]) {
         let range = writerTextView.selectedRange
-        let styledFont = UIFont(name: style, size: 17.0)!
-        
         writerTextView.textStorage.beginEditing()
-        let dict = [NSFontAttributeName: styledFont]
-        writerTextView.textStorage.setAttributes(dict, range: range)
+        writerTextView.textStorage.setAttributes(attributes, range: range)
         writerTextView.textStorage.endEditing()
+    }
+    
+    func properStyleForSelection(range: NSRange, style: TextController.TextStyle) -> [String: AnyObject] {
+        let attributes = writerTextView.textStorage.attributesAtIndex(range.location, effectiveRange: nil)
+        guard let currentFont = attributes[NSFontAttributeName] as? UIFont else {
+            return [NSFontAttributeName: UIFont(name: style.rawValue, size: 17.0)!]
+        }
+        switch currentFont.fontName {
+        case TextController.TextStyle.BoldItalic.rawValue:
+            if style == TextController.TextStyle.Italic {
+                return [NSFontAttributeName: UIFont(name: TextController.TextStyle.Bold.rawValue, size: 17.0)!]
+            } else {
+                return [NSFontAttributeName: UIFont(name: TextController.TextStyle.Italic.rawValue, size: 17.0)!]
+            }
+        case TextController.TextStyle.Bold.rawValue:
+            if style == TextController.TextStyle.Bold {
+                return [NSFontAttributeName: UIFont(name: TextController.TextStyle.Normal.rawValue, size: 17.0)!]
+            } else {
+                return [NSFontAttributeName: UIFont(name: TextController.TextStyle.BoldItalic.rawValue, size: 17.0)!]
+            }
+        case TextController.TextStyle.Italic.rawValue:
+            if style == TextController.TextStyle.Italic {
+                return [NSFontAttributeName: UIFont(name: TextController.TextStyle.Normal.rawValue, size: 17.0)!]
+            } else {
+                return [NSFontAttributeName: UIFont(name: TextController.TextStyle.BoldItalic.rawValue, size: 17.0)!]
+            }
+        default:
+            return [NSFontAttributeName: UIFont(name: style.rawValue, size: 17.0)!]
+        }
     }
     
     @IBAction func tagToolbarButtonTapped(sender: AnyObject) {
@@ -209,37 +236,40 @@ class WriterViewController: UIViewController, UITextViewDelegate, PageViewContro
     }
 
     @IBAction func boldToolbarButtonTapped(sender: AnyObject) {
-        applyStyleToSelection("AvenirNext-Bold")
-        
-        if writerTextView.selectedTextRange == nil {
-            self.helperLabel.text = "You'll need to first select the \n text you'd like to format 🤓"
-            self.helperLabel.hidden = false
-            self.helperLabel.fadeOut(completion: {
+        if titleTextField.isFirstResponder().boolValue == false {
+            if writerTextView.selectedTextRange?.empty == true {
+                self.helper(helperLabel, text: "You'll need to first select the \n text you'd like to format 🤓")
+            } else {
+                let selectedRange: NSRange = writerTextView.selectedRange
                 
-                
-                (finished: Bool) -> Void in
-                self.helperLabel.alpha = 1.0
-                self.helperLabel.hidden = true
-            })
+                let attributes = properStyleForSelection(selectedRange, style: TextController.TextStyle.Bold)
+                applyStyleToSelection(attributes)
+            }
+        } else {
+            self.helper(helperLabel, text: "You can't format the title 😁")
         }
     }
     
     @IBAction func italicToolbarButtonTapped(sender: AnyObject) {
-        applyStyleToSelection("AvenirNext-MediumItalic")
+        if titleTextField.isFirstResponder().boolValue == false {
+            if writerTextView.selectedTextRange?.empty == true {
+                self.helper(helperLabel, text: "You'll need to first select the \n text you'd like to format 🤓")
+            } else {
+                let selectedRange: NSRange = writerTextView.selectedRange
+                let attributes = properStyleForSelection(selectedRange, style: TextController.TextStyle.Italic)
+                applyStyleToSelection(attributes)
+            }
+        } else {
+            self.helper(helperLabel, text: "You can't format the title 😁")
+        }
+        
     }
     
     // MARK: - Themes
     
-    override func prefersStatusBarHidden() -> Bool {
-        return true
-    }
-    
     // Dark Mode
     
-    func themeNotification() {
-       
-    }
-    
+    /*
     func darkModeTrue() {
         if AppearanceController.darkMode == true {
             writerTextView.backgroundColor = UIColor.offBlackColor()
@@ -252,7 +282,7 @@ class WriterViewController: UIViewController, UITextViewDelegate, PageViewContro
             UITextView.appearance().tintColor = UIColor.whiteColor()
             titleTextField.textColor = UIColor.whiteColor()
             helperLabel.textColor = UIColor.whiteColor()
-
         }
-    }
+    } 
+ */
 }

@@ -22,7 +22,7 @@ extension UIView {
             }, completion: completion)
     }
     
-    func longestFadeOut(duration: NSTimeInterval = 20.0, delay: NSTimeInterval = 10.0, completion: (Bool) -> Void = {(finished: Bool) -> Void in}) {
+    func longestFadeOut(duration: NSTimeInterval = 5.0, delay: NSTimeInterval = 0.0, completion: (Bool) -> Void = {(finished: Bool) -> Void in}) {
         UIView.animateWithDuration(duration, delay: delay, options: .CurveEaseIn, animations: {
             self.alpha = 0.0
             }, completion: completion)

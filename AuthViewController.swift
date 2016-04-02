@@ -58,8 +58,8 @@ class AuthViewController: UIViewController {
         } else {
             UserController.createUser(signupEmailTextField.text!, password: signupPasswordTextField.text!, completion: { (success, user) -> Void in
                 if success, let _ = user {
+                    NSUserDefaults.standardUserDefaults().setBool(false, forKey: "firstTime")
                     self.dismissViewControllerAnimated(true, completion: nil)
-                    WriterViewController.sharedInstance.firstTimer()
                 } else {
                     self.errorLabel.hidden = false
                     self.errorLabel.text = "There was an error creating your account. Please try again."

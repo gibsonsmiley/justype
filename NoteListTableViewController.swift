@@ -15,6 +15,7 @@ class NoteListTableViewController: UITableViewController, UISearchBarDelegate, P
     @IBOutlet var toolbar: UIToolbar!
     @IBOutlet weak var helperLabel: UILabel!
     
+    static let sharedController = NoteListTableViewController()
     var pageView: UIPageViewController?
     var notes = [Note]()
     var filteredNotes: [Note] = []
@@ -23,12 +24,12 @@ class NoteListTableViewController: UITableViewController, UISearchBarDelegate, P
     var firstTime: Bool {
         return NSUserDefaults.standardUserDefaults().boolForKey(kLongPressOptions)
     }
-    private let kLongPressOptions = "longPressOptions"
+    let kLongPressOptions = "longPressOptions"
     
     override func viewDidLoad() {
         super.viewDidLoad()
         searchBar.inputAccessoryView = toolbar
-        darkModeTrue()
+//        darkModeTrue()
       
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(NoteListTableViewController.localNotificationFired), name: "NoteActionSheet", object: nil)
     
@@ -45,16 +46,18 @@ class NoteListTableViewController: UITableViewController, UISearchBarDelegate, P
         tableView.reloadData()
         loadNotesForUser(UserController.sharedController.currentUser)
         
-        if NSUserDefaults.standardUserDefaults().boolForKey(kLongPressOptions) == false {
-            firstTimer()
-            NSUserDefaults.standardUserDefaults().setBool(true, forKey: kLongPressOptions)
-            NSUserDefaults.standardUserDefaults().synchronize()
+        if UserController.sharedController.currentUser != nil {
+            if NSUserDefaults.standardUserDefaults().boolForKey(kLongPressOptions) == false {
+                firstTimer()
+                NSUserDefaults.standardUserDefaults().setBool(true, forKey: kLongPressOptions)
+                NSUserDefaults.standardUserDefaults().synchronize()
+            }
         }
     }
     
-    override func viewWillAppear(animated: Bool) {
-        tableView.reloadData()
-    }
+//    override func viewWillAppear(animated: Bool) {
+//        tableView.reloadData()
+//    }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -207,6 +210,7 @@ class NoteListTableViewController: UITableViewController, UISearchBarDelegate, P
     
     // Dark Mode
     
+    /*
     func darkModeTrue() {
         if AppearanceController.darkMode == true {
             tableView.backgroundColor = UIColor.offBlackColor()
@@ -224,4 +228,5 @@ class NoteListTableViewController: UITableViewController, UISearchBarDelegate, P
             cell.textLabel?.textColor = UIColor.whiteColor()
         }
     }
+    */
 }

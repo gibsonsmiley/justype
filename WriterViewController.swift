@@ -50,12 +50,13 @@ class WriterViewController: UIViewController, UITextViewDelegate, PageViewContro
         self.hideKeyboardWhenTappedAround()
 //        darkModeTrue()
 
-        
         toolbar.sizeToFit()
-        
+
+        writerTextView.keyboardDismissMode = .Interactive
         writerTextView.inputAccessoryView = toolbar
         writerTextView.delegate = self
         writerTextView.textStorage.delegate = self
+
         titleTextField.inputAccessoryView = toolbar
 
         let titleFont = TextController.avenirNext("Bold", size: 17.0)
@@ -118,16 +119,7 @@ class WriterViewController: UIViewController, UITextViewDelegate, PageViewContro
         self.titleTextField.text = note.title
         self.writerTextView.textStorage.appendAttributedString(note.text)
     }
-    
-//    func firstTimer() {
-//        self.welcomeLabel.hidden = false
-//        self.welcomeLabel.longestFadeOut(completion : {
-//            (finished: Bool) -> Void in
-//            self.welcomeLabel.alpha = 1.0
-//            self.welcomeLabel.hidden = true
-//        })
-//    }
-    
+        
     func helper(label: UILabel, text: String?) {
         label.text = text
         label.hidden = false
@@ -138,8 +130,9 @@ class WriterViewController: UIViewController, UITextViewDelegate, PageViewContro
         })
     }
     
-    func saveNote() {
-        
+    override func prefersStatusBarHidden() -> Bool {
+        return true
+        // This doesn't work because the status bar is technically on the PageViewController. And disabling it on the PageViewController will disable it for all pages.
     }
     
     
@@ -169,11 +162,18 @@ class WriterViewController: UIViewController, UITextViewDelegate, PageViewContro
     // MARK: - Text View
     
     func textViewDidBeginEditing(textView: UITextView) {
+        performSelector(#selector(setCursorToEnd), withObject: textView)
+//        performSelector(#selector(setCursorToEnd), withObject: textView, afterDelay: 0.01)
+        
         if textView.text.isEmpty {
             saveButton.title = "Hide"
         } else {
             saveButton.title = "Save"
         }
+    }
+    
+    func setCursorToEnd(textView: UITextView) {
+        textView.selectedRange = NSMakeRange(textView.endOfDocument.hashValue, 0)
     }
     
     func textViewDidChange(textView: UITextView) {
@@ -220,6 +220,7 @@ class WriterViewController: UIViewController, UITextViewDelegate, PageViewContro
     
     func applyStyleToSelection(attributes: [String: AnyObject]) {
         let range = writerTextView.selectedRange
+        print(range)
         writerTextView.textStorage.beginEditing()
         writerTextView.textStorage.setAttributes(attributes, range: range)
         writerTextView.textStorage.endEditing()

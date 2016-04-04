@@ -29,6 +29,7 @@ class NoteListTableViewController: UITableViewController, UISearchBarDelegate, P
     override func viewDidLoad() {
         super.viewDidLoad()
         searchBar.inputAccessoryView = toolbar
+        tableView.keyboardDismissMode = .Interactive
 //        darkModeTrue()
       
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(NoteListTableViewController.localNotificationFired), name: "NoteActionSheet", object: nil)
@@ -102,11 +103,17 @@ class NoteListTableViewController: UITableViewController, UISearchBarDelegate, P
     
     func localNotificationFired() {
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
+        let confirmController = UIAlertController(title: "Are you sure you'd like to delete this note? \n This action cannot be undone. 🤔", message: nil, preferredStyle: .ActionSheet)
         let shareAction = UIAlertAction(title: "Share", style: .Default) { (share) in
             let shareSheet = UIActivityViewController(activityItems: [UIActivityTypeMail, UIActivityTypeMessage, UIActivityTypePostToFacebook, UIActivityTypePostToTwitter, UIActivityTypeCopyToPasteboard], applicationActivities: [])
             self.presentViewController(shareSheet, animated: true, completion: nil)
         }
-        let deleteAction = UIAlertAction(title: "Delete", style: .Destructive, handler: {
+        let deleteAction = UIAlertAction(title: "Delete", style: .Destructive) { (delete) in
+            self.presentViewController(confirmController, animated: true, completion: nil)
+        }
+        let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel, handler: nil)
+        
+        let deleteConfirmed = UIAlertAction(title: "Delete", style: .Destructive, handler: {
             (alert: UIAlertAction!) -> Void in
             if let indexPath = self.selectedRow {
                 let note = self.notes[indexPath.row]
@@ -117,7 +124,14 @@ class NoteListTableViewController: UITableViewController, UISearchBarDelegate, P
                 self.tableView.endUpdates()
             }
         })
-        let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel, handler: nil)
+        let cancelConfirmed = UIAlertAction(title: "Cancel", style: .Cancel) { (cancel) in
+            self.presentViewController(alertController, animated: true, completion: nil)
+        }
+
+        
+        confirmController.addAction(deleteConfirmed)
+        confirmController.addAction(cancelConfirmed)
+        
         alertController.addAction(shareAction)
         alertController.addAction(deleteAction)
         alertController.addAction(cancelAction)

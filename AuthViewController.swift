@@ -59,6 +59,7 @@ class AuthViewController: UIViewController {
             UserController.createUser(signupEmailTextField.text!, password: signupPasswordTextField.text!, completion: { (success, user) -> Void in
                 if success, let _ = user {
                     NSUserDefaults.standardUserDefaults().setBool(false, forKey: "firstTime")
+                    NSNotificationCenter.defaultCenter().postNotificationName("userLoggedOut", object: nil, userInfo: nil)
                     self.dismissViewControllerAnimated(true, completion: nil)
                 } else {
                     self.errorLabel.hidden = false
@@ -84,6 +85,8 @@ class AuthViewController: UIViewController {
         
         UserController.authenticateUser(loginEmailTextField.text!, password: loginPasswordTextField.text!) { (success, user) -> Void in
             if success, let _ = user {
+                NSUserDefaults.standardUserDefaults().setBool(false, forKey: "firstTime")
+                NSNotificationCenter.defaultCenter().postNotificationName("userLoggedOut", object: nil, userInfo: nil) // This and notification above might cause some problems.
                 self.dismissViewControllerAnimated(true, completion: nil)
             } else {
                 self.errorLabel.text = "There was an error logging in. Please check to see if your email and password are correct and try again."

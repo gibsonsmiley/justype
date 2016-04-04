@@ -105,7 +105,7 @@ class NoteListTableViewController: UITableViewController, UISearchBarDelegate, P
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
         let confirmController = UIAlertController(title: "Are you sure you'd like to delete this note? \n This action cannot be undone. 🤔", message: nil, preferredStyle: .ActionSheet)
         let shareAction = UIAlertAction(title: "Share", style: .Default) { (share) in
-            let shareSheet = UIActivityViewController(activityItems: [UIActivityTypeMail, UIActivityTypeMessage, UIActivityTypePostToFacebook, UIActivityTypePostToTwitter, UIActivityTypeCopyToPasteboard], applicationActivities: [])
+            let shareSheet = UIActivityViewController(activityItems: [UIActivityTypeMail as String, UIActivityTypeMessage as String, UIActivityTypePostToFacebook as String, UIActivityTypePostToTwitter as String, UIActivityTypeCopyToPasteboard as String], applicationActivities: [])
             self.presentViewController(shareSheet, animated: true, completion: nil)
         }
         let deleteAction = UIAlertAction(title: "Delete", style: .Destructive) { (delete) in

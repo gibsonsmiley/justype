@@ -45,18 +45,21 @@ class WriterViewController: UIViewController, UITextViewDelegate, PageViewContro
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        toolbar.sizeToFit()
-        writerTextView.inputAccessoryView = toolbar
-        titleTextField.inputAccessoryView = toolbar
-//        darkModeTrue()
         setupKeyboardNotifications()
-        writerTextView.delegate = self
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(WriterViewController.reload), name: "userLoggedOut", object: nil)
+        self.hideKeyboardWhenTappedAround()
+//        darkModeTrue()
+
         
+        toolbar.sizeToFit()
+        
+        writerTextView.inputAccessoryView = toolbar
+        writerTextView.delegate = self
         writerTextView.textStorage.delegate = self
+        titleTextField.inputAccessoryView = toolbar
+
         let titleFont = TextController.avenirNext("Bold", size: 17.0)
         saveButton.setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.darkGrayColor(), NSFontAttributeName: titleFont], forState: .Normal)
-        self.hideKeyboardWhenTappedAround()
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(WriterViewController.reload), name: "userLoggedOut", object: nil)
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -73,6 +76,26 @@ class WriterViewController: UIViewController, UITextViewDelegate, PageViewContro
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
         writerTextView.resignFirstResponder()
+        
+        if writerTextView.text.isEmpty != true {
+            if let note = self.note {
+                note.title = titleTextField.text
+                note.text = self.writerTextView.attributedText.mutableCopy() as! NSMutableAttributedString
+                NoteController.updateNote(note, completion: { (success, note) in
+                    if success {
+                        
+                    }
+                })
+            } else {
+                if let user = UserController.sharedController.currentUser.identifier {
+                    NoteController.createNote(titleTextField.text, text:writerTextView.attributedText.mutableCopy() as! NSMutableAttributedString, ownerID: user, completion: { (note) -> Void in
+                        if let note = self.note {
+                            note.text = self.writerTextView.attributedText.mutableCopy() as! NSMutableAttributedString
+                        }
+                    })
+                }
+            }
+        }
     }
     
     override func didReceiveMemoryWarning() {
@@ -113,6 +136,10 @@ class WriterViewController: UIViewController, UITextViewDelegate, PageViewContro
             label.alpha = 1.0
             label.hidden = true
         })
+    }
+    
+    func saveNote() {
+        
     }
     
     
@@ -228,11 +255,15 @@ class WriterViewController: UIViewController, UITextViewDelegate, PageViewContro
     }
     
     @IBAction func tagToolbarButtonTapped(sender: AnyObject) {
-        writerTextView.insertText("#")
+        if writerTextView.selectedTextRange?.empty == true {
+            writerTextView.insertText("#")
+        }
     }
     
     @IBAction func listToolbarButtonTapped(sender: AnyObject) {
-        writerTextView.insertText("   • ")
+        if writerTextView.selectedTextRange?.empty == true {
+            writerTextView.insertText("   • ")
+        }
     }
 
     @IBAction func boldToolbarButtonTapped(sender: AnyObject) {

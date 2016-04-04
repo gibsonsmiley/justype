@@ -43,10 +43,11 @@ class NoteListTableViewController: UITableViewController, UISearchBarDelegate, P
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        tableView.reloadData()
-        loadNotesForUser(UserController.sharedController.currentUser)
         
         if UserController.sharedController.currentUser != nil {
+            loadNotesForUser(UserController.sharedController.currentUser)
+            tableView.reloadData()
+
             if NSUserDefaults.standardUserDefaults().boolForKey(kLongPressOptions) == false {
                 firstTimer()
                 NSUserDefaults.standardUserDefaults().setBool(true, forKey: kLongPressOptions)
@@ -54,10 +55,6 @@ class NoteListTableViewController: UITableViewController, UISearchBarDelegate, P
             }
         }
     }
-    
-//    override func viewWillAppear(animated: Bool) {
-//        tableView.reloadData()
-//    }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

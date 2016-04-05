@@ -31,6 +31,8 @@ class NoteListTableViewController: UITableViewController, UISearchBarDelegate, P
         searchBar.inputAccessoryView = toolbar
         tableView.keyboardDismissMode = .Interactive
 //        darkModeTrue()
+        
+        
       
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(NoteListTableViewController.localNotificationFired), name: "NoteActionSheet", object: nil)
     

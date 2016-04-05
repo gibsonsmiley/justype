@@ -8,7 +8,7 @@
 
 import UIKit
 
-class WriterViewController: UIViewController, UITextViewDelegate, PageViewControllerChild, NSTextStorageDelegate {
+class WriterViewController: UIViewController, UITextViewDelegate, PageViewControllerChild, NSTextStorageDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     @IBOutlet weak var writerTextView: UITextView!
     @IBOutlet var toolbar: UIToolbar!
@@ -20,10 +20,13 @@ class WriterViewController: UIViewController, UITextViewDelegate, PageViewContro
     @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var helperLabel: UILabel!
     @IBOutlet weak var welcomeLabel: UILabel!
+    @IBOutlet weak var cameraButton: UIBarButtonItem!
+    @IBOutlet weak var noteImageView: UIImageView!
     
     
     var pageView: UIPageViewController?
     var note: Note?
+    var image: UIImage?
     static let sharedInstance = WriterViewController()
     var firstTime: Bool {
         return NSUserDefaults.standardUserDefaults().boolForKey(kFirstTime)
@@ -36,7 +39,23 @@ class WriterViewController: UIViewController, UITextViewDelegate, PageViewContro
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(true)
-
+        
+        noteImageView.translatesAutoresizingMaskIntoConstraints = false
+        titleTextField.translatesAutoresizingMaskIntoConstraints = false
+        self.view.translatesAutoresizingMaskIntoConstraints = false
+        if let image = image {
+            noteImageView.image = image
+            
+//            titleTextField.addConstraint(NSLayoutConstraint(item: titleTextField, attribute: .Top, relatedBy: .Equal, toItem: noteImageView, attribute: .Bottom, multiplier: 1.0, constant: 12.0))
+//            let imageView = UIImageView(image: image)
+//            let path = UIBezierPath(rect: CGRectMake(0, 0, 360.0, 180.0))
+//            writerTextView.textContainer.exclusionPaths = [path]
+//            writerTextView.addSubview(imageView)
+        } /*else {
+            titleTextField.addConstraint(NSLayoutConstraint(item: titleTextField, attribute: .Top, relatedBy: .Equal, toItem: self.view, attribute: .Top, multiplier: 1.0, constant: 12.0))
+//            noteImageView.frame.size = CGSizeMake(0.1, 0.1)
+        } */
+        self.writerTextView.isFirstResponder() // Need keyboard to appear after logging in
         let seconds = Int64(0.0 * Double(NSEC_PER_SEC))
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, seconds), dispatch_get_main_queue()) {
             self.writerTextView.becomeFirstResponder()
@@ -49,6 +68,7 @@ class WriterViewController: UIViewController, UITextViewDelegate, PageViewContro
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(WriterViewController.reload), name: "userLoggedOut", object: nil)
         self.hideKeyboardWhenTappedAround()
 //        darkModeTrue()
+       
 
         toolbar.sizeToFit()
 
@@ -89,7 +109,7 @@ class WriterViewController: UIViewController, UITextViewDelegate, PageViewContro
                 })
             } else {
                 if let user = UserController.sharedController.currentUser.identifier {
-                    NoteController.createNote(titleTextField.text, text:writerTextView.attributedText.mutableCopy() as! NSMutableAttributedString, ownerID: user, completion: { (note) -> Void in
+                    NoteController.createNote(titleTextField.text, text: writerTextView.attributedText.mutableCopy() as! NSMutableAttributedString, timestamp: NSDate(), image: self.image,  ownerID: user, completion: { (note) -> Void in
                         if let note = self.note {
                             note.text = self.writerTextView.attributedText.mutableCopy() as! NSMutableAttributedString
                         }
@@ -183,7 +203,7 @@ class WriterViewController: UIViewController, UITextViewDelegate, PageViewContro
             saveButton.title = "Save"
         }
     }
-    
+
     
     // MARK: - Toolbar Actions
     
@@ -205,7 +225,7 @@ class WriterViewController: UIViewController, UITextViewDelegate, PageViewContro
                 writerTextView.resignFirstResponder()
                 self.helper(helperLabel, text: "Note saved. It's over there 👉")
                 if let user = UserController.sharedController.currentUser.identifier {
-                    NoteController.createNote(titleTextField.text, text:writerTextView.attributedText.mutableCopy() as! NSMutableAttributedString, ownerID: user, completion: { (note) -> Void in
+                    NoteController.createNote(titleTextField.text, text: writerTextView.attributedText.mutableCopy() as! NSMutableAttributedString, timestamp: NSDate(), image: self.image, ownerID: user, completion: { (note) in
                         if let note = self.note {
                             note.text = self.writerTextView.attributedText.mutableCopy() as! NSMutableAttributedString
                         }
@@ -296,6 +316,44 @@ class WriterViewController: UIViewController, UITextViewDelegate, PageViewContro
         }
         
     }
+    
+    // MARK: - Image Actions and Methods
+    
+    @IBAction func cameraToolbarButtonTapped(sender: AnyObject) {
+        let imagePicker = UIImagePickerController()
+        imagePicker.delegate = self
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
+        
+        if UIImagePickerController.isSourceTypeAvailable(.PhotoLibrary) {
+            alert.addAction(UIAlertAction(title: "Photo Library", style: .Default, handler: { (_) in
+                imagePicker.sourceType = .PhotoLibrary
+                self.presentViewController(imagePicker, animated: true, completion: nil)
+            }))
+        }
+        if UIImagePickerController.isSourceTypeAvailable(.Camera) {
+            alert.addAction(UIAlertAction(title: "Camera", style: .Default, handler: { (_) in
+                imagePicker.sourceType = .Camera
+                self.presentViewController(imagePicker, animated: true, completion: nil)
+            }))
+        }
+        alert.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: nil))
+        presentViewController(alert, animated: true, completion: nil)
+    }
+    
+//    func imageUploaded(image: UIImage) {
+//        let image = UIImageView(image: self.image)
+//        let path = UIBezierPath(rect: CGRectMake(0, 0, image.frame.width, image.frame.width))
+//        writerTextView.textContainer.exclusionPaths = [path]
+//        writerTextView.addSubview(image)
+//    }
+    
+    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String: AnyObject]) {
+        picker.dismissViewControllerAnimated(true, completion: nil)
+        let image = info[UIImagePickerControllerOriginalImage] as? UIImage
+        self.image = image
+        self.reload()
+    }
+    
     
     // MARK: - Themes
     

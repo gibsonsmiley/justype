@@ -14,10 +14,12 @@ class Note: FirebaseType, Equatable {
     let kText = "text"
     let kTimestamp = "timestamp"
     let kOwner = "ownerID"
+    let kImageEndpoint = "image"
     
     var title: String?
     var text: NSMutableAttributedString
-//    var timestamp: NSDate
+    var timestamp: NSDate
+    var imageEndpoint: String?
     var tagIDs: [String] = []
     var ownerID: String?
     var identifier: String?
@@ -25,23 +27,27 @@ class Note: FirebaseType, Equatable {
         return "notes"
     }
     var jsonValue: [String: AnyObject] {
-        var json: [String: AnyObject] = [kText:NSAttributedString(attributedString: text)]
+        var json: [String: AnyObject] = [kText: NSAttributedString(attributedString: text)]
         if let textData = try? self.text.dataFromRange(NSMakeRange(0, text.length), documentAttributes: [NSDocumentTypeDocumentAttribute:NSRTFTextDocumentType]) {
             let textDataString = textData.base64EncodedStringWithOptions(.EncodingEndLineWithLineFeed)
             json[kText] = textDataString
         }
+        
         if let ownerID = ownerID {
             json[kOwner] = ownerID
             json[kTitle] = title
+            json[kTimestamp] = timestamp.timeIntervalSince1970
+            json[kImageEndpoint] = imageEndpoint
         }
         return json
     }
     
-    init(title: String?, text: NSMutableAttributedString, /*timestamp: NSDate = NSDate(),*/ ownerID: String) {
+    init(title: String?, text: NSMutableAttributedString, timestamp: NSDate = NSDate(), imageEndpoint: String?, ownerID: String) {
         self.text = text
         self.ownerID = ownerID
         self.title = title
-//        self.timestamp = timestamp
+        self.imageEndpoint = imageEndpoint
+        self.timestamp = timestamp
     }
     
     required init?(json: [String: AnyObject], identifier: String) {
@@ -49,11 +55,13 @@ class Note: FirebaseType, Equatable {
             textData = NSData(base64EncodedString: textDataString, options: NSDataBase64DecodingOptions.IgnoreUnknownCharacters),
             text = try? NSMutableAttributedString(data: textData, options: [NSDocumentTypeDocumentAttribute: NSRTFTextDocumentType], documentAttributes: nil),
             let title = json[kTitle] as? String,
-            /*let timestamp = json[kTimestamp] as? NSDate,*/
+//            let imageEndpoint = json[kImageEndpoint] as? String,
+            let timestamp = json[kTimestamp] as? NSTimeInterval,
             let ownerID = json[kOwner] as? String else { return nil }
         self.title = title
         self.text = text
-//        self.timestamp = timestamp
+        self.imageEndpoint = json[kImageEndpoint] as? String ?? ""
+        self.timestamp = NSDate(timeIntervalSince1970: timestamp)
         self.identifier = identifier
         self.ownerID = ownerID
     }

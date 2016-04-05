@@ -7,11 +7,26 @@
 //
 
 import Foundation
+import UIKit
 
 class NoteController {
     
-    static func createNote(title: String?, text: NSMutableAttributedString, ownerID: String = UserController.sharedController.currentUser.identifier!, completion: (note: Note?) -> Void) {
-        var note = Note(title: title, text: text, ownerID: ownerID)
+    static func createNote(title: String?, text: NSMutableAttributedString, timestamp: NSDate = NSDate(), image: UIImage?, ownerID: String = UserController.sharedController.currentUser.identifier!, completion: (note: Note?) -> Void) {
+        if let image = image {
+            ImageController.uploadImage(image, completion: { (imageID) in
+                if let imageID = imageID {
+                    var note = Note(title: title, text: text, timestamp: timestamp, imageEndpoint: imageID, ownerID: ownerID)
+                    note.ownerID = ownerID
+                    note.save()
+                    if let identifier = note.identifier {
+                        UserController.sharedController.currentUser.noteIDs.append(identifier)
+                        UserController.sharedController.currentUser.save()
+                    }
+                    completion(note: note)
+                }
+            })
+        }
+        var note = Note(title: title, text: text, timestamp: timestamp, imageEndpoint: nil, ownerID: ownerID)
         note.ownerID = ownerID
         note.save()
         if let identifier = note.identifier {
@@ -22,7 +37,10 @@ class NoteController {
     }
     
     static func updateNote(note: Note, completion: (success: Bool, note: Note?) -> Void) {
-        FirebaseController.base.childByAppendingPath("notes").childByAppendingPath(note.identifier).updateChildValues(note.jsonValue)
+        note.timestamp = NSDate()
+        var note = note
+        note.save()
+//        FirebaseController.base.childByAppendingPath("notes").childByAppendingPath(note.identifier).updateChildValues(note.jsonValue)
         completion(success: true, note: note)
     }
     
@@ -67,6 +85,6 @@ class NoteController {
     }
     
     static func orderNotes(notes: [Note]) -> [Note] {
-        return notes.sort({$0.0.identifier > $0.1.identifier})
+        return notes.sort({$0.0.timestamp.hashValue > $0.1.timestamp.hashValue})
     }
 }

@@ -10,8 +10,8 @@ import Foundation
 
 class NoteController {
     
-    static func createNote(title: String?, text: NSMutableAttributedString, ownerID: String = UserController.sharedController.currentUser.identifier!, completion: (note: Note?) -> Void) {
-        var note = Note(title: title, text: text, ownerID: ownerID)
+    static func createNote(title: String?, text: NSMutableAttributedString, timestamp: NSDate = NSDate(), ownerID: String = UserController.sharedController.currentUser.identifier!, completion: (note: Note?) -> Void) {
+        var note = Note(title: title, text: text, timestamp: timestamp, ownerID: ownerID)
         note.ownerID = ownerID
         note.save()
         if let identifier = note.identifier {
@@ -22,7 +22,10 @@ class NoteController {
     }
     
     static func updateNote(note: Note, completion: (success: Bool, note: Note?) -> Void) {
-        FirebaseController.base.childByAppendingPath("notes").childByAppendingPath(note.identifier).updateChildValues(note.jsonValue)
+        note.timestamp = NSDate()
+        var note = note
+        note.save()
+//        FirebaseController.base.childByAppendingPath("notes").childByAppendingPath(note.identifier).updateChildValues(note.jsonValue)
         completion(success: true, note: note)
     }
     
@@ -67,6 +70,6 @@ class NoteController {
     }
     
     static func orderNotes(notes: [Note]) -> [Note] {
-        return notes.sort({$0.0.identifier > $0.1.identifier})
+        return notes.sort({$0.0.timestamp.timeIntervalSince1970.hashValue >   $0.1.timestamp.timeIntervalSince1970.hashValue}) // This doesn't do shit.
     }
 }

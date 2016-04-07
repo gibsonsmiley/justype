@@ -11,7 +11,7 @@ import Foundation
 extension NSDate {
     func stringValue() -> String {
         let formatter = NSDateFormatter()
-        formatter.dateStyle = .MediumStyle
+        formatter.dateStyle = .FullStyle
         return formatter.stringFromDate(self)
     }
 }

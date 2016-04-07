@@ -132,7 +132,7 @@ class NoteListTableViewController: UITableViewController, UISearchBarDelegate, P
         confirmController.addAction(deleteConfirmed)
         confirmController.addAction(cancelConfirmed)
         
-        alertController.addAction(shareAction)
+//        alertController.addAction(shareAction)
         alertController.addAction(deleteAction)
         alertController.addAction(cancelAction)
         presentViewController(alertController, animated: true, completion: nil)

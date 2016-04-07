@@ -17,7 +17,7 @@ class Note: FirebaseType, Equatable {
     
     var title: String?
     var text: NSMutableAttributedString
-//    var timestamp: NSDate
+    var timestamp: NSDate
     var tagIDs: [String] = []
     var ownerID: String?
     var identifier: String?
@@ -33,15 +33,16 @@ class Note: FirebaseType, Equatable {
         if let ownerID = ownerID {
             json[kOwner] = ownerID
             json[kTitle] = title
+            json[kTimestamp] = timestamp.timeIntervalSince1970
         }
         return json
     }
     
-    init(title: String?, text: NSMutableAttributedString, /*timestamp: NSDate = NSDate(),*/ ownerID: String) {
+    init(title: String?, text: NSMutableAttributedString, timestamp: NSDate = NSDate(), ownerID: String) {
         self.text = text
         self.ownerID = ownerID
         self.title = title
-//        self.timestamp = timestamp
+        self.timestamp = timestamp
     }
     
     required init?(json: [String: AnyObject], identifier: String) {
@@ -49,11 +50,11 @@ class Note: FirebaseType, Equatable {
             textData = NSData(base64EncodedString: textDataString, options: NSDataBase64DecodingOptions.IgnoreUnknownCharacters),
             text = try? NSMutableAttributedString(data: textData, options: [NSDocumentTypeDocumentAttribute: NSRTFTextDocumentType], documentAttributes: nil),
             let title = json[kTitle] as? String,
-            /*let timestamp = json[kTimestamp] as? NSDate,*/
+            let timestamp = json[kTimestamp] as? NSTimeInterval,
             let ownerID = json[kOwner] as? String else { return nil }
         self.title = title
         self.text = text
-//        self.timestamp = timestamp
+        self.timestamp = NSDate(timeIntervalSince1970: timestamp)
         self.identifier = identifier
         self.ownerID = ownerID
     }

@@ -8,7 +8,7 @@
 
 import UIKit
 
-class WriterViewController: UIViewController, UITextViewDelegate, PageViewControllerChild, NSTextStorageDelegate {
+class WriterViewController: UIViewController, UITextViewDelegate, PageViewControllerChild, NSTextStorageDelegate, UITextFieldDelegate {
     
     @IBOutlet weak var writerTextView: UITextView!
     @IBOutlet var toolbar: UIToolbar!
@@ -58,8 +58,20 @@ class WriterViewController: UIViewController, UITextViewDelegate, PageViewContro
         writerTextView.textStorage.delegate = self
 
         titleTextField.inputAccessoryView = toolbar
+        titleTextField.delegate = self
+        
+        let hashtagFont = TextController.avenirNext("Bold", size: 24.0)
+        tagButton.setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.darkGrayColor(),NSFontAttributeName: hashtagFont], forState: .Normal)
+        
+        let listFont = TextController.avenirNext("Bold", size: 24.0)
+        listButton.setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.darkGrayColor(),NSFontAttributeName: listFont], forState: .Normal)
+        
+        let italicFont = TextController.avenirNext("DemiBoldItalic", size: 24.0)
+        italicButton.setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.darkGrayColor(),NSFontAttributeName: italicFont], forState: .Normal)
 
-        let titleFont = TextController.avenirNext("Bold", size: 17.0)
+        let boldFont = TextController.avenirNext("Bold", size: 24.0)
+        boldButton.setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.darkGrayColor(),NSFontAttributeName: boldFont], forState: .Normal)
+        let titleFont = TextController.avenirNext("Bold", size: 18.0)
         saveButton.setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.darkGrayColor(), NSFontAttributeName: titleFont], forState: .Normal)
     }
     
@@ -89,7 +101,7 @@ class WriterViewController: UIViewController, UITextViewDelegate, PageViewContro
                 })
             } else {
                 if let user = UserController.sharedController.currentUser.identifier {
-                    NoteController.createNote(titleTextField.text, text:writerTextView.attributedText.mutableCopy() as! NSMutableAttributedString, ownerID: user, completion: { (note) -> Void in
+                    NoteController.createNote(titleTextField.text, text:writerTextView.attributedText.mutableCopy() as! NSMutableAttributedString, timestamp: NSDate(), ownerID: user, completion: { (note) -> Void in
                         if let note = self.note {
                             note.text = self.writerTextView.attributedText.mutableCopy() as! NSMutableAttributedString
                         }
@@ -185,6 +197,15 @@ class WriterViewController: UIViewController, UITextViewDelegate, PageViewContro
     }
     
     
+    
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        if textField == self.titleTextField {
+            self.writerTextView.becomeFirstResponder()
+        }
+        return true
+    }
+    
+    
     // MARK: - Toolbar Actions
     
     @IBAction func saveButtonTapped(sender: AnyObject) {
@@ -202,13 +223,13 @@ class WriterViewController: UIViewController, UITextViewDelegate, PageViewContro
                     }
                 })
             } else {
-                writerTextView.resignFirstResponder()
-                self.helper(helperLabel, text: "Note saved. It's over there 👉")
                 if let user = UserController.sharedController.currentUser.identifier {
-                    NoteController.createNote(titleTextField.text, text:writerTextView.attributedText.mutableCopy() as! NSMutableAttributedString, ownerID: user, completion: { (note) -> Void in
+                    NoteController.createNote(titleTextField.text, text:writerTextView.attributedText.mutableCopy() as! NSMutableAttributedString, timestamp: NSDate(), ownerID: user, completion: { (note) -> Void in
                         if let note = self.note {
                             note.text = self.writerTextView.attributedText.mutableCopy() as! NSMutableAttributedString
                         }
+                        self.writerTextView.resignFirstResponder()
+                        self.helper(self.helperLabel, text: "Note saved. It's over there 👉")
                     })
                 }
             }
@@ -262,8 +283,12 @@ class WriterViewController: UIViewController, UITextViewDelegate, PageViewContro
     }
     
     @IBAction func listToolbarButtonTapped(sender: AnyObject) {
+        makeList()
+    }
+    
+    func makeList() {
         if writerTextView.selectedTextRange?.empty == true {
-            writerTextView.insertText("   • ")
+            writerTextView.insertText(" ◎")
         }
     }
 

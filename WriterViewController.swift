@@ -8,7 +8,7 @@
 
 import UIKit
 
-class WriterViewController: UIViewController, UITextViewDelegate, PageViewControllerChild, NSTextStorageDelegate, UITextFieldDelegate {
+class WriterViewController: UIViewController, UITextViewDelegate, PageViewControllerChild, NSTextStorageDelegate, UITextFieldDelegate, UIGestureRecognizerDelegate {
     
     @IBOutlet weak var writerTextView: UITextView!
     @IBOutlet var toolbar: UIToolbar!
@@ -20,6 +20,7 @@ class WriterViewController: UIViewController, UITextViewDelegate, PageViewContro
     @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var helperLabel: UILabel!
     @IBOutlet weak var welcomeLabel: UILabel!
+    @IBOutlet var tapGesture: UITapGestureRecognizer!
     
     
     var pageView: UIPageViewController?
@@ -46,9 +47,12 @@ class WriterViewController: UIViewController, UITextViewDelegate, PageViewContro
         super.viewDidLoad()
         setupKeyboardNotifications()
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(WriterViewController.reload), name: "userLoggedOut", object: nil)
-        self.hideKeyboardWhenTappedAround()
+//        self.hideKeyboardWhenTappedAround()
 //        darkModeTrue()
-
+//
+//        tapGesture.addTarget(writerTextView, action: #selector(WriterViewController.textTapped(_:)))
+//        writerTextView.addGestureRecognizer(tapGesture)
+        
         toolbar.sizeToFit()
 
         writerTextView.keyboardDismissMode = .Interactive
@@ -171,7 +175,8 @@ class WriterViewController: UIViewController, UITextViewDelegate, PageViewContro
     
     func textViewDidBeginEditing(textView: UITextView) {
         performSelector(#selector(setCursorToEnd), withObject: textView)
-//        performSelector(#selector(setCursorToEnd), withObject: textView, afterDelay: 0.01)
+        
+        
         
         if textView.text.isEmpty {
             saveButton.title = "Hide"
@@ -198,6 +203,12 @@ class WriterViewController: UIViewController, UITextViewDelegate, PageViewContro
         }
         return true
     }
+    
+//    func makeBulletsBold() {
+//        if writerTextView.text.containsString("◎") {
+//            writerTextView.text.replace
+//        }
+//    }
     
     
     // MARK: - Toolbar Actions
@@ -280,27 +291,46 @@ class WriterViewController: UIViewController, UITextViewDelegate, PageViewContro
         makeList()
     }
     
-//    let attributesOfTappedText = writerTextView.textStorage.attributesAtIndex(range.location, effectiveRange: nil)
-    let tappableText: NSAttributedString = NSAttributedString(string: "    ◎", attributes: ["   ◉":true])
+    let unfilledBullet = NSMutableAttributedString(string: "◎", attributes: [NSFontAttributeName: TextController.avenirNext("Regular", size: 22.0)])
+    let filledBullet = NSMutableAttributedString(string: "◉", attributes: [NSFontAttributeName: TextController.avenirNext("Regular", size: 22.0)])
+    let normalText = NSMutableAttributedString(string: " ", attributes: [NSFontAttributeName: TextController.avenirNext("Medium", size: 17.0)])
     
-    func textTapped(recognizer: UITapGestureRecognizer) {
-        let textView: UITextView = (recognizer.view as! UITextView)
+    @IBAction func textTapped(recognizer: UITapGestureRecognizer) {
+        let textView: UITextView = (recognizer.view as! UITextView) 
         let layoutManager: NSLayoutManager = textView.layoutManager
         var location: CGPoint = recognizer.locationInView(textView)
         location.x -= textView.textContainerInset.left
         location.y -= textView.textContainerInset.top
-        let characterIndex: NSInteger
+        
+        let characterIndex: Int
         characterIndex = layoutManager.characterIndexForPoint(location, inTextContainer: textView.textContainer, fractionOfDistanceBetweenInsertionPoints: nil)
         if characterIndex < textView.textStorage.length {
-            let range: NSRange
-            var value = textView.attributedText.attribute(" ◉", atIndex: characterIndex, effectiveRange: nil)
+            let range = NSMakeRange(characterIndex, 1)
+            let currentCursorPosition = textView.selectedRange
+            let characterAtIndex = textView.textStorage.attributedSubstringFromRange(range).string
+            if characterAtIndex == (unfilledBullet.string) {
+                textView.textStorage.replaceCharactersInRange(range, withString: "\(filledBullet.string)")
+                textView.textStorage.addAttributes([NSFontAttributeName: TextController.avenirNext("Regular", size: 22.0)], range: range)
+                textView.selectedRange = currentCursorPosition
+            } else if characterAtIndex == (filledBullet.string) {
+                textView.textStorage.replaceCharactersInRange(range, withString: "\(unfilledBullet.string)")
+                textView.textStorage.addAttributes([NSFontAttributeName: TextController.avenirNext("Regular", size: 22.0)], range: range)
+                textView.selectedRange = currentCursorPosition
+            }
         }
-        
+    }
+    
+    func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWithGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
     }
     
     func makeList() {
         if writerTextView.selectedTextRange?.empty == true {
-            writerTextView.insertText(" ◎")
+            let range = writerTextView.selectedRange
+            writerTextView.textStorage.insertAttributedString(unfilledBullet, atIndex: range.location)
+            writerTextView.textStorage.insertAttributedString(normalText, atIndex: range.location + 1)
+            writerTextView.selectedRange = NSMakeRange(range.location + 2, 0)
+            writerTextView.textStorage.addAttributes([NSFontAttributeName: TextController.avenirNext("Medium", size: 17.0)], range: NSMakeRange(range.location + 2, 0))
         }
     }
 
@@ -331,7 +361,6 @@ class WriterViewController: UIViewController, UITextViewDelegate, PageViewContro
         } else {
             self.helper(helperLabel, text: "You can't format the title 😁")
         }
-        
     }
     
     

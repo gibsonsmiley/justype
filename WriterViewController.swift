@@ -33,7 +33,6 @@ class WriterViewController: UIViewController, UITextViewDelegate, PageViewContro
     
     // MARK: - View
     
-    
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(true)
 
@@ -62,13 +61,10 @@ class WriterViewController: UIViewController, UITextViewDelegate, PageViewContro
         
         let hashtagFont = TextController.avenirNext("Bold", size: 24.0)
         tagButton.setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.darkGrayColor(),NSFontAttributeName: hashtagFont], forState: .Normal)
-        
         let listFont = TextController.avenirNext("Bold", size: 24.0)
         listButton.setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.darkGrayColor(),NSFontAttributeName: listFont], forState: .Normal)
-        
         let italicFont = TextController.avenirNext("DemiBoldItalic", size: 24.0)
         italicButton.setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.darkGrayColor(),NSFontAttributeName: italicFont], forState: .Normal)
-
         let boldFont = TextController.avenirNext("Bold", size: 24.0)
         boldButton.setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.darkGrayColor(),NSFontAttributeName: boldFont], forState: .Normal)
         let titleFont = TextController.avenirNext("Bold", size: 18.0)
@@ -196,8 +192,6 @@ class WriterViewController: UIViewController, UITextViewDelegate, PageViewContro
         }
     }
     
-    
-    
     func textFieldShouldReturn(textField: UITextField) -> Bool {
         if textField == self.titleTextField {
             self.writerTextView.becomeFirstResponder()
@@ -286,6 +280,24 @@ class WriterViewController: UIViewController, UITextViewDelegate, PageViewContro
         makeList()
     }
     
+//    let attributesOfTappedText = writerTextView.textStorage.attributesAtIndex(range.location, effectiveRange: nil)
+    let tappableText: NSAttributedString = NSAttributedString(string: "    ◎", attributes: ["   ◉":true])
+    
+    func textTapped(recognizer: UITapGestureRecognizer) {
+        let textView: UITextView = (recognizer.view as! UITextView)
+        let layoutManager: NSLayoutManager = textView.layoutManager
+        var location: CGPoint = recognizer.locationInView(textView)
+        location.x -= textView.textContainerInset.left
+        location.y -= textView.textContainerInset.top
+        let characterIndex: NSInteger
+        characterIndex = layoutManager.characterIndexForPoint(location, inTextContainer: textView.textContainer, fractionOfDistanceBetweenInsertionPoints: nil)
+        if characterIndex < textView.textStorage.length {
+            let range: NSRange
+            var value = textView.attributedText.attribute(" ◉", atIndex: characterIndex, effectiveRange: nil)
+        }
+        
+    }
+    
     func makeList() {
         if writerTextView.selectedTextRange?.empty == true {
             writerTextView.insertText(" ◎")
@@ -322,6 +334,7 @@ class WriterViewController: UIViewController, UITextViewDelegate, PageViewContro
         
     }
     
+    
     // MARK: - Themes
     
     // Dark Mode
@@ -340,6 +353,5 @@ class WriterViewController: UIViewController, UITextViewDelegate, PageViewContro
             titleTextField.textColor = UIColor.whiteColor()
             helperLabel.textColor = UIColor.whiteColor()
         }
-    } 
- */
+    } */
 }

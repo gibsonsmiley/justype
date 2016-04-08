@@ -30,7 +30,7 @@ class NoteListTableViewController: UITableViewController, UISearchBarDelegate, P
         super.viewDidLoad()
         searchBar.inputAccessoryView = toolbar
         tableView.keyboardDismissMode = .Interactive
-//        darkModeTrue()
+        darkModeTrue()
       
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(NoteListTableViewController.localNotificationFired), name: "NoteActionSheet", object: nil)
     
@@ -221,7 +221,7 @@ class NoteListTableViewController: UITableViewController, UISearchBarDelegate, P
     
     // Dark Mode
     
-    /*
+    
     func darkModeTrue() {
         if AppearanceController.darkMode == true {
             tableView.backgroundColor = UIColor.offBlackColor()
@@ -239,5 +239,5 @@ class NoteListTableViewController: UITableViewController, UISearchBarDelegate, P
             cell.textLabel?.textColor = UIColor.whiteColor()
         }
     }
-    */
+ 
 }

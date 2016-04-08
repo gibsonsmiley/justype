@@ -48,10 +48,7 @@ class WriterViewController: UIViewController, UITextViewDelegate, PageViewContro
         setupKeyboardNotifications()
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(WriterViewController.reload), name: "userLoggedOut", object: nil)
 //        self.hideKeyboardWhenTappedAround()
-//        darkModeTrue()
-//
-//        tapGesture.addTarget(writerTextView, action: #selector(WriterViewController.textTapped(_:)))
-//        writerTextView.addGestureRecognizer(tapGesture)
+        darkModeTrue()
         
         toolbar.sizeToFit()
 
@@ -90,25 +87,25 @@ class WriterViewController: UIViewController, UITextViewDelegate, PageViewContro
         super.viewWillDisappear(animated)
         writerTextView.resignFirstResponder()
         
-        if writerTextView.text.isEmpty != true {
-            if let note = self.note {
-                note.title = titleTextField.text
-                note.text = self.writerTextView.attributedText.mutableCopy() as! NSMutableAttributedString
-                NoteController.updateNote(note, completion: { (success, note) in
-                    if success {
-                        
-                    }
-                })
-            } else {
-                if let user = UserController.sharedController.currentUser.identifier {
-                    NoteController.createNote(titleTextField.text, text:writerTextView.attributedText.mutableCopy() as! NSMutableAttributedString, timestamp: NSDate(), ownerID: user, completion: { (note) -> Void in
-                        if let note = self.note {
-                            note.text = self.writerTextView.attributedText.mutableCopy() as! NSMutableAttributedString
-                        }
-                    })
-                }
-            }
-        }
+//        if writerTextView.text.isEmpty != true {
+//            if let note = self.note {
+//                note.title = titleTextField.text
+//                note.text = self.writerTextView.attributedText.mutableCopy() as! NSMutableAttributedString
+//                NoteController.updateNote(note, completion: { (success, note) in
+//                    if success {
+//                        
+//                    }
+//                })
+//            } else {
+//                if let user = UserController.sharedController.currentUser.identifier {
+//                    NoteController.createNote(titleTextField.text, text:writerTextView.attributedText.mutableCopy() as! NSMutableAttributedString, timestamp: NSDate(), ownerID: user, completion: { (note) -> Void in
+//                        if let note = self.note {
+//                            note.text = self.writerTextView.attributedText.mutableCopy() as! NSMutableAttributedString
+//                        }
+//                    })
+//                }
+//            }
+//        }
     }
     
     override func didReceiveMemoryWarning() {
@@ -176,12 +173,34 @@ class WriterViewController: UIViewController, UITextViewDelegate, PageViewContro
     func textViewDidBeginEditing(textView: UITextView) {
         performSelector(#selector(setCursorToEnd), withObject: textView)
         
-        
-        
         if textView.text.isEmpty {
             saveButton.title = "Hide"
         } else {
             saveButton.title = "Save"
+        }
+    }
+    
+    func textViewDidEndEditing(textView: UITextView) {
+        if self.note != nil {
+            if writerTextView.text.isEmpty != true {
+                if let note = self.note {
+                    note.title = titleTextField.text
+                    note.text = self.writerTextView.attributedText.mutableCopy() as! NSMutableAttributedString
+                    NoteController.updateNote(note, completion: { (success, note) in
+                        if success {
+                            
+                        }
+                    })
+                } else {
+                    if let user = UserController.sharedController.currentUser.identifier {
+                        NoteController.createNote(titleTextField.text, text:writerTextView.attributedText.mutableCopy() as! NSMutableAttributedString, timestamp: NSDate(), ownerID: user, completion: { (note) -> Void in
+                            if let note = self.note {
+                                note.text = self.writerTextView.attributedText.mutableCopy() as! NSMutableAttributedString
+                            }
+                        })
+                    }
+                }
+            }
         }
     }
     
@@ -197,18 +216,34 @@ class WriterViewController: UIViewController, UITextViewDelegate, PageViewContro
         }
     }
     
+//    func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool {
+//        if text.containsString("\n") {
+//            if range.location == textView.text.characters.count {
+//                let updatedText = textView.text.stringByAppendingString("\n◎")
+//                textView.text = updatedText
+//            } else {
+//                let beginning = textView.beginningOfDocument
+//                if let start = textView.positionFromPosition(beginning, offset: range.location) {
+//                    if let end = textView.positionFromPosition(start, offset: range.length) {
+//                        if let textRange = textView.textRangeFromPosition(start, toPosition: end) {
+//                            textView.replaceRange(textRange, withText: "\n◎")
+//                            let cursor = NSMakeRange(range.location + "\n◎".characters.count, 0)
+//                            textView.selectedRange = cursor
+//                        }
+//                    }
+//                }
+//            }
+//            return false
+//        }
+//        return true
+//    }
+    
     func textFieldShouldReturn(textField: UITextField) -> Bool {
         if textField == self.titleTextField {
             self.writerTextView.becomeFirstResponder()
         }
         return true
     }
-    
-//    func makeBulletsBold() {
-//        if writerTextView.text.containsString("◎") {
-//            writerTextView.text.replace
-//        }
-//    }
     
     
     // MARK: - Toolbar Actions
@@ -308,6 +343,7 @@ class WriterViewController: UIViewController, UITextViewDelegate, PageViewContro
             let range = NSMakeRange(characterIndex, 1)
             let currentCursorPosition = textView.selectedRange
             let characterAtIndex = textView.textStorage.attributedSubstringFromRange(range).string
+            
             if characterAtIndex == (unfilledBullet.string) {
                 textView.textStorage.replaceCharactersInRange(range, withString: "\(filledBullet.string)")
                 textView.textStorage.addAttributes([NSFontAttributeName: TextController.avenirNext("Regular", size: 22.0)], range: range)
@@ -368,7 +404,7 @@ class WriterViewController: UIViewController, UITextViewDelegate, PageViewContro
     
     // Dark Mode
     
-    /*
+    
     func darkModeTrue() {
         if AppearanceController.darkMode == true {
             writerTextView.backgroundColor = UIColor.offBlackColor()
@@ -382,5 +418,5 @@ class WriterViewController: UIViewController, UITextViewDelegate, PageViewContro
             titleTextField.textColor = UIColor.whiteColor()
             helperLabel.textColor = UIColor.whiteColor()
         }
-    } */
+    }
 }

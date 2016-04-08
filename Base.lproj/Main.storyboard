@@ -582,6 +582,15 @@
                     </items>
                     <color key="barTintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                 </toolbar>
+                <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="YW9-dl-DZ5">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                    <items>
+                        <barButtonItem systemItem="action" id="bor-Xh-aBe"/>
+                        <barButtonItem systemItem="trash" id="RtG-cK-8wC"/>
+                        <barButtonItem systemItem="play" id="zsO-UI-E37"/>
+                    </items>
+                </toolbar>
                 <swipeGestureRecognizer direction="right" id="mPS-lZ-3sG"/>
                 <tapGestureRecognizer id="JKz-bh-L6d">
                     <connections>
@@ -817,7 +826,7 @@
                                         <action selector="accountButtonTapped:" destination="og4-X8-hM6" eventType="touchUpInside" id="XEl-3B-dQe"/>
                                     </connections>
                                 </button>
-                                <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="avi-Je-Nb8">
+                                <navigationBar contentMode="scaleToFill" translucent="NO" translatesAutoresizingMaskIntoConstraints="NO" id="avi-Je-Nb8">
                                     <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <color key="barTintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>

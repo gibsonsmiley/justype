@@ -144,6 +144,7 @@ class NoteListTableViewController: UITableViewController, UISearchBarDelegate, P
     func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
         filteredNotes = notes.filter({String($0.text).lowercaseString.containsString(searchText.lowercaseString)})
         tableView.reloadData()
+        
     }
 
 
@@ -229,7 +230,8 @@ class NoteListTableViewController: UITableViewController, UISearchBarDelegate, P
             tableView.tableHeaderView?.backgroundColor = UIColor.offBlackColor()
             toolbar.barTintColor = UIColor.offBlackColor()
             navBar.barTintColor = UIColor.offBlackColor()
-            navBar.tintColor = UIColor.whiteColor()
+//            navBar.tintColor = UIColor.whiteColor()
+            
         }
     }
     

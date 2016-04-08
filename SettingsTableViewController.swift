@@ -22,7 +22,12 @@ class SettingsTableViewController: UITableViewController, UIPickerViewDelegate, 
         super.viewDidLoad()
         darkModeTrue()
         let titleFont : UIFont = UIFont(name: "Avenir-Medium", size: 22.0)!
-        UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName : UIColor.blackColor(), NSFontAttributeName: titleFont]
+        if AppearanceController.darkMode == true {
+        UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName : UIColor.whiteColor(), NSFontAttributeName: titleFont]
+        } else {
+            UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName : UIColor.blackColor(), NSFontAttributeName: titleFont]
+
+        }
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(SettingsTableViewController.localNotificationFired), name: "AccountActionSheet", object: nil)
     }
@@ -117,8 +122,7 @@ class SettingsTableViewController: UITableViewController, UIPickerViewDelegate, 
     }
     
     // Dark Mode
-    
-    
+        
     func darkModeTrue() {
         if AppearanceController.darkMode == true {
             tableView.backgroundColor = UIColor.offBlackColor()
@@ -133,5 +137,4 @@ class SettingsTableViewController: UITableViewController, UIPickerViewDelegate, 
             cell.backgroundColor = UIColor.clearColor()
         }
     }
- 
 }

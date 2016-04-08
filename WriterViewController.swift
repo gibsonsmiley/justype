@@ -216,7 +216,16 @@ class WriterViewController: UIViewController, UITextViewDelegate, PageViewContro
         }
     }
     
-//    func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool {
+    func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool {
+        if writerTextView.text.isEmpty {
+//            if range.location == textView.text.characters.count {
+                let normalText = NSMutableAttributedString(string: "", attributes: [NSFontAttributeName: TextController.avenirNext("Medium", size: 17.0)])
+                writerTextView.textStorage.setAttributedString(normalText)
+
+//            if writerTextView.textStorage.attributesAtIndex(1, effectiveRange: nil) == unfilledBullet || writerTextView.textStorage.attributesAtIndex(1, effectiveRange: nil) == filledBullet {
+//                }
+//            }
+        }
 //        if text.containsString("\n") {
 //            if range.location == textView.text.characters.count {
 //                let updatedText = textView.text.stringByAppendingString("\n◎")
@@ -235,8 +244,8 @@ class WriterViewController: UIViewController, UITextViewDelegate, PageViewContro
 //            }
 //            return false
 //        }
-//        return true
-//    }
+        return true
+    }
     
     func textFieldShouldReturn(textField: UITextField) -> Bool {
         if textField == self.titleTextField {
@@ -274,6 +283,11 @@ class WriterViewController: UIViewController, UITextViewDelegate, PageViewContro
                 }
             }
             writerTextView.text = ""
+            let length = writerTextView.text.characters.count
+            writerTextView.textStorage.addAttributes([NSFontAttributeName: TextController.avenirNext("Medium", size: 17.0)], range: NSMakeRange(0, length))
+            let normalText = NSMutableAttributedString(string: " ", attributes: [NSFontAttributeName: TextController.avenirNext("Medium", size: 17.0)])
+            writerTextView.textStorage.setAttributedString(normalText)
+            writerTextView.selectedRange = NSMakeRange(0, 0)
             titleTextField.text = ""
             self.note = nil
         }
@@ -285,6 +299,7 @@ class WriterViewController: UIViewController, UITextViewDelegate, PageViewContro
         writerTextView.textStorage.beginEditing()
         writerTextView.textStorage.setAttributes(attributes, range: range)
         writerTextView.textStorage.endEditing()
+        writerTextView.selectedRange = NSMakeRange(range.location + range.length + 1, 0)
     }
     
     func properStyleForSelection(range: NSRange, style: TextController.TextStyle) -> [String: AnyObject] {

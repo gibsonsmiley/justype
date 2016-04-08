@@ -8,7 +8,7 @@
 
 import UIKit
 
-class AuthViewController: UIViewController {
+class AuthViewController: UIViewController, UITextFieldDelegate {
     
     @IBOutlet weak var signupChoiceButton: UIButton!
     @IBOutlet weak var signupEmailTextField: UITextField!
@@ -26,6 +26,11 @@ class AuthViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        signupEmailTextField.delegate = self
+        signupPasswordTextField.delegate = self
+        loginEmailTextField.delegate = self
+        loginPasswordTextField.delegate = self
     }
     
     override func didReceiveMemoryWarning() {
@@ -124,5 +129,20 @@ class AuthViewController: UIViewController {
         loginPasswordTextField.resignFirstResponder()
         signupEmailTextField.resignFirstResponder()
         signupPasswordTextField.resignFirstResponder()
+    }
+    
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        if textField == self.signupEmailTextField {
+            self.signupPasswordTextField.becomeFirstResponder()
+        } else if textField == self.loginEmailTextField {
+            self.loginPasswordTextField.becomeFirstResponder()
+        } else if textField == self.signupPasswordTextField {
+            signupButtonTapped(self)
+            signupPasswordTextField.resignFirstResponder()
+        } else if textField == self.loginPasswordTextField {
+            loginButtonTapped(self)
+            loginPasswordTextField.resignFirstResponder()
+        }
+        return true
     }
 }

@@ -49,6 +49,12 @@ class NoteListTableViewController: UITableViewController, UISearchBarDelegate, P
             loadNotesForUser(UserController.sharedController.currentUser)
             tableView.reloadData()
 
+                if NSUserDefaults.standardUserDefaults().boolForKey(kLongPressOptions) == false {
+                    NSUserDefaults.standardUserDefaults().setBool(true, forKey: kLongPressOptions)
+                    NSUserDefaults.standardUserDefaults().synchronize()
+                    firstTimer()
+                }
+            
             if NSUserDefaults.standardUserDefaults().boolForKey(kLongPressOptions) == false {
                 firstTimer()
                 NSUserDefaults.standardUserDefaults().setBool(true, forKey: kLongPressOptions)
@@ -64,6 +70,17 @@ class NoteListTableViewController: UITableViewController, UISearchBarDelegate, P
     
     
     // MARK: - Actions
+    
+    func helper(label: UILabel, text: String?) {
+        label.text = text
+        label.hidden = false
+        self.helperLabel.fadeOut(completion: {
+            (finished: Bool) -> Void in
+            label.alpha = 1.0
+            label.hidden = true
+        })
+    }
+
     
     func reload() {
         notes = []
@@ -124,6 +141,15 @@ class NoteListTableViewController: UITableViewController, UISearchBarDelegate, P
                 self.tableView.endUpdates()
             }
         })
+        let deleteTitle = UIAlertAction(title: "Delete Note Title", style: .Default) { (_) in
+            if let indexPath = self.selectedRow {
+                let note = self.notes[indexPath.row]
+                note.title = nil
+                NoteController.updateNote(note, completion: { (success, note) in
+                    self.helper(self.helperLabel, text: "Note's title deleted 👌")
+                })
+            }
+        }
         let cancelConfirmed = UIAlertAction(title: "Cancel", style: .Cancel) { (cancel) in
             self.presentViewController(alertController, animated: true, completion: nil)
         }
@@ -133,6 +159,7 @@ class NoteListTableViewController: UITableViewController, UISearchBarDelegate, P
         confirmController.addAction(cancelConfirmed)
         
 //        alertController.addAction(shareAction)
+        alertController.addAction(deleteTitle)
         alertController.addAction(deleteAction)
         alertController.addAction(cancelAction)
         presentViewController(alertController, animated: true, completion: nil)

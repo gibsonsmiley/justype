@@ -23,6 +23,7 @@ class AuthViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var errorLabel: UILabel!
     @IBOutlet weak var cancelButton: UIButton!
     
+    @IBOutlet var toolbar: UIToolbar!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,6 +32,11 @@ class AuthViewController: UIViewController, UITextFieldDelegate {
         signupPasswordTextField.delegate = self
         loginEmailTextField.delegate = self
         loginPasswordTextField.delegate = self
+        
+        signupEmailTextField.inputAccessoryView = toolbar
+        signupPasswordTextField.inputAccessoryView = toolbar
+        loginEmailTextField.inputAccessoryView = toolbar
+        loginPasswordTextField.inputAccessoryView = toolbar
     }
     
     override func didReceiveMemoryWarning() {
@@ -39,6 +45,12 @@ class AuthViewController: UIViewController, UITextFieldDelegate {
     }
 
     // MARK: - Buttons
+    @IBAction func hideButtonTapped(sender: AnyObject) {
+        signupEmailTextField.resignFirstResponder()
+        signupPasswordTextField.resignFirstResponder()
+        loginEmailTextField.resignFirstResponder()
+        loginPasswordTextField.resignFirstResponder()
+    }
     
     @IBAction func SignupChoiceButtonTapped(sender: AnyObject) {
         signupEmailTextField.hidden = false
@@ -111,6 +123,8 @@ class AuthViewController: UIViewController, UITextFieldDelegate {
             errorLabel.hidden = true
             signupEmailTextField.resignFirstResponder()
             signupPasswordTextField.resignFirstResponder()
+            signupEmailTextField.text = ""
+            signupPasswordTextField.text = ""
         } else if loginEmailTextField.hidden == false {
             loginEmailTextField.hidden = true
             loginPasswordTextField.hidden = true
@@ -121,6 +135,8 @@ class AuthViewController: UIViewController, UITextFieldDelegate {
             errorLabel.hidden = true
             loginEmailTextField.resignFirstResponder()
             loginPasswordTextField.resignFirstResponder()
+            loginEmailTextField.text = ""
+            loginPasswordTextField.text = ""
         }
     }
     

@@ -12,7 +12,7 @@ import UIKit
 class AppearanceController {
     
     static var darkMode: Bool = false
-   
+    
     static func initializeAppearance() {
         UITextView.appearance().tintColor = UIColor.blackColor()
         UIButton.appearance().tintColor = UIColor.darkGrayColor()
@@ -31,7 +31,7 @@ class AppearanceController {
             
         }
     }
-
+    
     static func changeColorMode() {
         if self.darkMode == true {
             UIView.appearance().backgroundColor = UIColor.offBlackColor()

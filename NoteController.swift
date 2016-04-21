@@ -25,7 +25,6 @@ class NoteController {
         note.timestamp = NSDate()
         var note = note
         note.save()
-//        FirebaseController.base.childByAppendingPath("notes").childByAppendingPath(note.identifier).updateChildValues(note.jsonValue)
         completion(success: true, note: note)
     }
     
@@ -70,6 +69,6 @@ class NoteController {
     }
     
     static func orderNotes(notes: [Note]) -> [Note] {
-        return notes.sort({$0.0.timestamp.timeIntervalSince1970.hashValue >   $0.1.timestamp.timeIntervalSince1970.hashValue}) // This doesn't do shit.
+        return notes.sort({$0.0.timestamp.timeIntervalSince1970.hashValue >   $0.1.timestamp.timeIntervalSince1970.hashValue})
     }
 }

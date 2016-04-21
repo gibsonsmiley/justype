@@ -11,7 +11,7 @@ import UIKit
 
 extension UIView {
     func fadeOut(duration: NSTimeInterval = 2.0, delay: NSTimeInterval = 0.0, completion: (Bool) -> Void = {(finished: Bool) -> Void in}) {
-        UIView.animateWithDuration(duration, delay: delay, options: .CurveEaseIn, animations: { 
+        UIView.animateWithDuration(duration, delay: delay, options: .CurveEaseIn, animations: {
             self.alpha = 0.0
             }, completion: completion)
     }
@@ -28,16 +28,6 @@ extension UIView {
             }, completion: completion)
     }
 }
-
-//extension UIViewController {
-//    func hideKeyboardWhenTappedAround() {
-//        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(UIViewController.dismissKeyboard))
-//        view.addGestureRecognizer(tap)
-//    }
-//    func dismissKeyboard() {
-//        view.endEditing(true)
-//    }
-//}
 
 extension UITextView {
     

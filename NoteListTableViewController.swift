@@ -9,7 +9,7 @@
 import UIKit
 
 class NoteListTableViewController: UITableViewController, UISearchBarDelegate, PageViewControllerChild {
-
+    
     @IBOutlet weak var navBar: UINavigationBar!
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet var toolbar: UIToolbar!
@@ -31,12 +31,12 @@ class NoteListTableViewController: UITableViewController, UISearchBarDelegate, P
         searchBar.inputAccessoryView = toolbar
         tableView.keyboardDismissMode = .Interactive
         darkModeTrue()
-      
+        
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(NoteListTableViewController.localNotificationFired), name: "NoteActionSheet", object: nil)
-    
+        
         let longPressRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(NoteListTableViewController.longPress(_:)))
         self.view.addGestureRecognizer(longPressRecognizer)
-
+        
         let titleFont : UIFont = UIFont(name: "Avenir-Medium", size: 22.0)!
         UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName : UIColor.blackColor(), NSFontAttributeName: titleFont]
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(NoteListTableViewController.reload), name: "userLoggedOut", object: nil)
@@ -48,12 +48,12 @@ class NoteListTableViewController: UITableViewController, UISearchBarDelegate, P
         if UserController.sharedController.currentUser != nil {
             loadNotesForUser(UserController.sharedController.currentUser)
             tableView.reloadData()
-
-                if NSUserDefaults.standardUserDefaults().boolForKey(kLongPressOptions) == false {
-                    NSUserDefaults.standardUserDefaults().setBool(true, forKey: kLongPressOptions)
-                    NSUserDefaults.standardUserDefaults().synchronize()
-                    firstTimer()
-                }
+            
+            if NSUserDefaults.standardUserDefaults().boolForKey(kLongPressOptions) == false {
+                NSUserDefaults.standardUserDefaults().setBool(true, forKey: kLongPressOptions)
+                NSUserDefaults.standardUserDefaults().synchronize()
+                firstTimer()
+            }
             
             if NSUserDefaults.standardUserDefaults().boolForKey(kLongPressOptions) == false {
                 firstTimer()
@@ -80,7 +80,7 @@ class NoteListTableViewController: UITableViewController, UISearchBarDelegate, P
             label.hidden = true
         })
     }
-
+    
     
     func reload() {
         notes = []
@@ -97,11 +97,11 @@ class NoteListTableViewController: UITableViewController, UISearchBarDelegate, P
             }
         }
     }
-
+    
     @IBAction func doneButtonTapped(sender: AnyObject) {
         searchBar.resignFirstResponder()
     }
-
+    
     func loadNotesForUser(user: User) {
         UserController.observeNotesForUser(user) { () -> Void in
             self.notes = user.notes
@@ -141,25 +141,16 @@ class NoteListTableViewController: UITableViewController, UISearchBarDelegate, P
                 self.tableView.endUpdates()
             }
         })
-        let deleteTitle = UIAlertAction(title: "Delete Note Title", style: .Default) { (_) in
-            if let indexPath = self.selectedRow {
-                let note = self.notes[indexPath.row]
-                note.title = nil
-                NoteController.updateNote(note, completion: { (success, note) in
-                    self.helper(self.helperLabel, text: "Note's title deleted 👌")
-                })
-            }
-        }
+        
         let cancelConfirmed = UIAlertAction(title: "Cancel", style: .Cancel) { (cancel) in
             self.presentViewController(alertController, animated: true, completion: nil)
         }
-
+        
         
         confirmController.addAction(deleteConfirmed)
         confirmController.addAction(cancelConfirmed)
         
-//        alertController.addAction(shareAction)
-        alertController.addAction(deleteTitle)
+        //        alertController.addAction(shareAction)
         alertController.addAction(deleteAction)
         alertController.addAction(cancelAction)
         presentViewController(alertController, animated: true, completion: nil)
@@ -173,38 +164,43 @@ class NoteListTableViewController: UITableViewController, UISearchBarDelegate, P
         tableView.reloadData()
         
     }
-
-
+    
+    
     // MARK: - Table view data source
-
+    
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if filteredNotes.count > 0 {
             return filteredNotes.count
         }
         return notes.count
     }
-
+    
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        
         let cell = tableView.dequeueReusableCellWithIdentifier("noteCell", forIndexPath: indexPath)
         let note = filteredNotes.count > 0 ? filteredNotes[indexPath.row]: notes[indexPath.row]
         if note.title != "" {
-            cell.textLabel?.text = note.title
+            dispatch_async(dispatch_get_main_queue(), {
+                cell.textLabel?.text = note.title
+            })
         } else {
-            let textViewText = String(note.text.mutableString)
-            if let range = textViewText.rangeOfString("\n") {
-                let rangeOfString = textViewText.startIndex ..< range.endIndex
-                let firstLine = textViewText.substringWithRange(rangeOfString)
-                cell.textLabel?.text = firstLine
-            } else {
-                let length = textViewText.characters.count
-                if length > 60 {
-                    let firstLine = (textViewText as NSString).substringToIndex(60)
+            dispatch_async(dispatch_get_main_queue(), {
+                let textViewText = String(note.text.mutableString)
+                if let range = textViewText.rangeOfString("\n") {
+                    let rangeOfString = textViewText.startIndex ..< range.endIndex
+                    let firstLine = textViewText.substringWithRange(rangeOfString)
                     cell.textLabel?.text = firstLine
                 } else {
-                    let firstLine = (textViewText as NSString).substringToIndex(length)
-                    cell.textLabel?.text = firstLine
+                    let length = textViewText.characters.count
+                    if length > 60 {
+                        let firstLine = (textViewText as NSString).substringToIndex(60)
+                        cell.textLabel?.text = firstLine
+                    } else {
+                        let firstLine = (textViewText as NSString).substringToIndex(length)
+                        cell.textLabel?.text = firstLine
+                    }
                 }
-            }
+            })
         }
         return cell
     }
@@ -229,7 +225,7 @@ class NoteListTableViewController: UITableViewController, UISearchBarDelegate, P
         }
     }
     
-
+    
     // MARK: - Navigation
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
@@ -245,7 +241,7 @@ class NoteListTableViewController: UITableViewController, UISearchBarDelegate, P
     }
     
     // MARK: - Themes
-
+    
     
     // Dark Mode
     
@@ -257,8 +253,6 @@ class NoteListTableViewController: UITableViewController, UISearchBarDelegate, P
             tableView.tableHeaderView?.backgroundColor = UIColor.offBlackColor()
             toolbar.barTintColor = UIColor.offBlackColor()
             navBar.barTintColor = UIColor.offBlackColor()
-//            navBar.tintColor = UIColor.whiteColor()
-            
         }
     }
     
@@ -268,5 +262,4 @@ class NoteListTableViewController: UITableViewController, UISearchBarDelegate, P
             cell.textLabel?.textColor = UIColor.whiteColor()
         }
     }
- 
 }

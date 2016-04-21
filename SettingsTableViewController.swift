@@ -23,15 +23,15 @@ class SettingsTableViewController: UITableViewController, UIPickerViewDelegate, 
         darkModeTrue()
         let titleFont : UIFont = UIFont(name: "Avenir-Medium", size: 22.0)!
         if AppearanceController.darkMode == true {
-        UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName : UIColor.whiteColor(), NSFontAttributeName: titleFont]
+            UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName : UIColor.whiteColor(), NSFontAttributeName: titleFont]
         } else {
             UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName : UIColor.blackColor(), NSFontAttributeName: titleFont]
-
+            
         }
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(SettingsTableViewController.localNotificationFired), name: "AccountActionSheet", object: nil)
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         print("Memory warning on SettingsTableView")
@@ -43,7 +43,7 @@ class SettingsTableViewController: UITableViewController, UIPickerViewDelegate, 
     @IBAction func DoneButtonTapped(sender: AnyObject) {
         self.dismissViewControllerAnimated(true, completion: nil)
     }
-
+    
     @IBAction func accountButtonTapped(sender: AnyObject) {
         let notifcation = UILocalNotification()
         UIApplication.sharedApplication().scheduleLocalNotification(notifcation)
@@ -59,7 +59,7 @@ class SettingsTableViewController: UITableViewController, UIPickerViewDelegate, 
             NSNotificationCenter.defaultCenter().postNotificationName("userLoggedOut", object: nil, userInfo: nil)
         })
         let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel, handler: nil)
-
+        
         alertController.addAction(deleteAction)
         alertController.addAction(cancelAction)
         presentViewController(alertController, animated: true, completion: nil)
@@ -81,8 +81,8 @@ class SettingsTableViewController: UITableViewController, UIPickerViewDelegate, 
     
     @IBAction func contactButtonTapped(sender: AnyObject) {
         if let url = NSURL(string: "http://gibsonsmiley.com") {
-        let viewController = SFSafariViewController(URL: url)
-        presentViewController(viewController, animated: true, completion: nil)
+            let viewController = SFSafariViewController(URL: url)
+            presentViewController(viewController, animated: true, completion: nil)
         }
     }
     
@@ -104,17 +104,6 @@ class SettingsTableViewController: UITableViewController, UIPickerViewDelegate, 
     }
     
     
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
-    
     // MARK: - Themes
     
     override func prefersStatusBarHidden() -> Bool {
@@ -122,7 +111,7 @@ class SettingsTableViewController: UITableViewController, UIPickerViewDelegate, 
     }
     
     // Dark Mode
-        
+    
     func darkModeTrue() {
         if AppearanceController.darkMode == true {
             tableView.backgroundColor = UIColor.offBlackColor()

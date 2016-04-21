@@ -36,7 +36,7 @@ class WriterViewController: UIViewController, UITextViewDelegate, PageViewContro
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(true)
-
+        
         let seconds = Int64(0.0 * Double(NSEC_PER_SEC))
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, seconds), dispatch_get_main_queue()) {
             self.writerTextView.becomeFirstResponder()
@@ -47,16 +47,15 @@ class WriterViewController: UIViewController, UITextViewDelegate, PageViewContro
         super.viewDidLoad()
         setupKeyboardNotifications()
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(WriterViewController.reload), name: "userLoggedOut", object: nil)
-//        self.hideKeyboardWhenTappedAround()
         darkModeTrue()
         
         toolbar.sizeToFit()
-
+        
         writerTextView.keyboardDismissMode = .Interactive
         writerTextView.inputAccessoryView = toolbar
         writerTextView.delegate = self
         writerTextView.textStorage.delegate = self
-
+        
         titleTextField.inputAccessoryView = toolbar
         titleTextField.delegate = self
         
@@ -86,26 +85,6 @@ class WriterViewController: UIViewController, UITextViewDelegate, PageViewContro
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
         writerTextView.resignFirstResponder()
-        
-//        if writerTextView.text.isEmpty != true {
-//            if let note = self.note {
-//                note.title = titleTextField.text
-//                note.text = self.writerTextView.attributedText.mutableCopy() as! NSMutableAttributedString
-//                NoteController.updateNote(note, completion: { (success, note) in
-//                    if success {
-//                        
-//                    }
-//                })
-//            } else {
-//                if let user = UserController.sharedController.currentUser.identifier {
-//                    NoteController.createNote(titleTextField.text, text:writerTextView.attributedText.mutableCopy() as! NSMutableAttributedString, timestamp: NSDate(), ownerID: user, completion: { (note) -> Void in
-//                        if let note = self.note {
-//                            note.text = self.writerTextView.attributedText.mutableCopy() as! NSMutableAttributedString
-//                        }
-//                    })
-//                }
-//            }
-//        }
     }
     
     override func didReceiveMemoryWarning() {
@@ -128,7 +107,7 @@ class WriterViewController: UIViewController, UITextViewDelegate, PageViewContro
         self.titleTextField.text = note.title
         self.writerTextView.textStorage.appendAttributedString(note.text)
     }
-        
+    
     func helper(label: UILabel, text: String?) {
         label.text = text
         label.hidden = false
@@ -137,11 +116,6 @@ class WriterViewController: UIViewController, UITextViewDelegate, PageViewContro
             label.alpha = 1.0
             label.hidden = true
         })
-    }
-    
-    override func prefersStatusBarHidden() -> Bool {
-        return true
-        // This doesn't work because the status bar is technically on the PageViewController. And disabling it on the PageViewController will disable it for all pages.
     }
     
     
@@ -218,32 +192,9 @@ class WriterViewController: UIViewController, UITextViewDelegate, PageViewContro
     
     func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool {
         if writerTextView.text.isEmpty {
-//            if range.location == textView.text.characters.count {
-                let normalText = NSMutableAttributedString(string: "", attributes: [NSFontAttributeName: TextController.avenirNext("Medium", size: 17.0)])
-                writerTextView.textStorage.setAttributedString(normalText)
-
-//            if writerTextView.textStorage.attributesAtIndex(1, effectiveRange: nil) == unfilledBullet || writerTextView.textStorage.attributesAtIndex(1, effectiveRange: nil) == filledBullet {
-//                }
-//            }
+            let normalText = NSMutableAttributedString(string: "", attributes: [NSFontAttributeName: TextController.avenirNext("Medium", size: 17.0)])
+            writerTextView.textStorage.setAttributedString(normalText)
         }
-//        if text.containsString("\n") {
-//            if range.location == textView.text.characters.count {
-//                let updatedText = textView.text.stringByAppendingString("\n◎")
-//                textView.text = updatedText
-//            } else {
-//                let beginning = textView.beginningOfDocument
-//                if let start = textView.positionFromPosition(beginning, offset: range.location) {
-//                    if let end = textView.positionFromPosition(start, offset: range.length) {
-//                        if let textRange = textView.textRangeFromPosition(start, toPosition: end) {
-//                            textView.replaceRange(textRange, withText: "\n◎")
-//                            let cursor = NSMakeRange(range.location + "\n◎".characters.count, 0)
-//                            textView.selectedRange = cursor
-//                        }
-//                    }
-//                }
-//            }
-//            return false
-//        }
         return true
     }
     
@@ -267,7 +218,6 @@ class WriterViewController: UIViewController, UITextViewDelegate, PageViewContro
                 note.text = self.writerTextView.attributedText.mutableCopy() as! NSMutableAttributedString
                 NoteController.updateNote(note, completion: { (success, note) in
                     if success {
-                        self.writerTextView.resignFirstResponder()
                         self.helper(self.helperLabel, text: "Note updated 👍")
                     }
                 })
@@ -277,7 +227,6 @@ class WriterViewController: UIViewController, UITextViewDelegate, PageViewContro
                         if let note = self.note {
                             note.text = self.writerTextView.attributedText.mutableCopy() as! NSMutableAttributedString
                         }
-                        self.writerTextView.resignFirstResponder()
                         self.helper(self.helperLabel, text: "Note saved. It's over there 👉")
                     })
                 }
@@ -346,7 +295,7 @@ class WriterViewController: UIViewController, UITextViewDelegate, PageViewContro
     let normalText = NSMutableAttributedString(string: " ", attributes: [NSFontAttributeName: TextController.avenirNext("Medium", size: 17.0)])
     
     @IBAction func textTapped(recognizer: UITapGestureRecognizer) {
-        let textView: UITextView = (recognizer.view as! UITextView) 
+        let textView: UITextView = (recognizer.view as! UITextView)
         let layoutManager: NSLayoutManager = textView.layoutManager
         var location: CGPoint = recognizer.locationInView(textView)
         location.x -= textView.textContainerInset.left
@@ -384,7 +333,7 @@ class WriterViewController: UIViewController, UITextViewDelegate, PageViewContro
             writerTextView.textStorage.addAttributes([NSFontAttributeName: TextController.avenirNext("Medium", size: 17.0)], range: NSMakeRange(range.location + 2, 0))
         }
     }
-
+    
     @IBAction func boldToolbarButtonTapped(sender: AnyObject) {
         if titleTextField.isFirstResponder().boolValue == false {
             if writerTextView.selectedTextRange?.empty == true {
@@ -418,7 +367,6 @@ class WriterViewController: UIViewController, UITextViewDelegate, PageViewContro
     // MARK: - Themes
     
     // Dark Mode
-    
     
     func darkModeTrue() {
         if AppearanceController.darkMode == true {

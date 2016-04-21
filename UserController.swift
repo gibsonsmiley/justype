@@ -15,8 +15,8 @@ class UserController {
     let kUser = "userKey"
     var currentUser: User! {
         get {
-        guard let uid = FirebaseController.base.authData?.uid, let userDictionary = NSUserDefaults.standardUserDefaults().valueForKey(kUser) as? [String: AnyObject] else { return nil }
-        return User(json: userDictionary, identifier: uid)
+            guard let uid = FirebaseController.base.authData?.uid, let userDictionary = NSUserDefaults.standardUserDefaults().valueForKey(kUser) as? [String: AnyObject] else { return nil }
+            return User(json: userDictionary, identifier: uid)
         }
         set {
             if let newValue = newValue {
@@ -57,13 +57,6 @@ class UserController {
                 }
                 dispatch_group_notify(group, dispatch_get_main_queue(), { () -> Void in
                     let orderedNotes = NoteController.orderNotes(notes)
-//                    let unobservedNotes = orderedNotes.filter({!user.notes.contains($0)})
-//                    for note in unobservedNotes {
-//                        NoteController.observeNote(note, completion: {
-//                            completion()
-//                            print(note.identifier)
-//                        })
-//                    }
                     user.notes = orderedNotes
                     completion()
                 })
@@ -98,18 +91,18 @@ class UserController {
                 print("Error creating user: \(error.localizedDescription)")
                 completion(success: false, user: nil)
             } else {
-            if let uid = response["uid"] as? String {
-                let user = User(email: email, indentifier: uid)
-                FirebaseController.base.childByAppendingPath("users").childByAppendingPath(uid).setValue(user.jsonValue)
-                authenticateUser(email, password: password, completion: { (success, user) -> Void in
-                    if success {
-                        completion(success: true, user: user)
-                    } else {
-                        completion(success: false, user: nil)
-                    }
-                })
-                print("User created successfully")
-            }
+                if let uid = response["uid"] as? String {
+                    let user = User(email: email, indentifier: uid)
+                    FirebaseController.base.childByAppendingPath("users").childByAppendingPath(uid).setValue(user.jsonValue)
+                    authenticateUser(email, password: password, completion: { (success, user) -> Void in
+                        if success {
+                            completion(success: true, user: user)
+                        } else {
+                            completion(success: false, user: nil)
+                        }
+                    })
+                    print("User created successfully")
+                }
             }
         }
     }

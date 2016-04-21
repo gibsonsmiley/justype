@@ -24,7 +24,7 @@ class AuthViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var cancelButton: UIButton!
     
     @IBOutlet var toolbar: UIToolbar!
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -43,7 +43,7 @@ class AuthViewController: UIViewController, UITextFieldDelegate {
         super.didReceiveMemoryWarning()
         print("Memory warning on AuthView")
     }
-
+    
     // MARK: - Buttons
     @IBAction func hideButtonTapped(sender: AnyObject) {
         signupEmailTextField.resignFirstResponder()
@@ -111,7 +111,7 @@ class AuthViewController: UIViewController, UITextFieldDelegate {
             }
         }
     }
-
+    
     @IBAction func cancelButtonTapped(sender: AnyObject) {
         if signupEmailTextField.hidden == false {
             signupEmailTextField.hidden = true

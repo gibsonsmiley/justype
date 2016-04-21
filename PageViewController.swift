@@ -13,7 +13,7 @@ protocol PageViewControllerChild {
 }
 
 class PageViewController: UIPageViewController, UIPageViewControllerDataSource, UIPageViewControllerDelegate, UIScrollViewDelegate {
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         delegate = self
@@ -57,7 +57,7 @@ class PageViewController: UIPageViewController, UIPageViewControllerDataSource, 
         }
         return vc
     }
-
+    
     
     // MARK: - Page View Controller Data Source
     

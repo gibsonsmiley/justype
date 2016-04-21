@@ -6,4 +6,8 @@
 //  Copyright © 2016 Gibson Smiley. All rights reserved.
 //
 
-import Foundation
+import UIKit
+
+class ImageController {
+    
+}

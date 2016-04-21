@@ -39,24 +39,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationDidEnterBackground(application: UIApplication) {
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
-        
-        /*if let note = WriterViewController.sharedInstance.note {
-         note.title = WriterViewController.sharedInstance.titleTextField.text
-         note.text = WriterViewController.sharedInstance.writerTextView.attributedText.mutableCopy() as! NSMutableAttributedString
-         NoteController.updateNote(note, completion: { (success, note) in
-         if success {
-         
-         }
-         })
-         } else {
-         if let user = UserController.sharedController.currentUser.identifier {
-         NoteController.createNote(WriterViewController.sharedInstance.titleTextField.text, text: WriterViewController.sharedInstance.writerTextView.attributedText.mutableCopy() as! NSMutableAttributedString, ownerID: user, completion: { (note) -> Void in
-         if let note = WriterViewController.sharedInstance.note {
-         note.text = WriterViewController.sharedInstance.writerTextView.attributedText.mutableCopy() as! NSMutableAttributedString
-         }
-         })
-         }
-         }*/
     }
     
     func applicationWillEnterForeground(application: UIApplication) {
@@ -76,24 +58,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func applicationWillTerminate(application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
-    
-        /*if let note = WriterViewController.sharedInstance.note {
-         note.title = WriterViewController.sharedInstance.titleTextField.text
-         note.text = WriterViewController.sharedInstance.writerTextView.attributedText.mutableCopy() as! NSMutableAttributedString
-         NoteController.updateNote(note, completion: { (success, note) in
-         if success {
-         
-         }
-         })
-         } else {
-         if let user = UserController.sharedController.currentUser.identifier {
-         NoteController.createNote(WriterViewController.sharedInstance.titleTextField.text, text: WriterViewController.sharedInstance.writerTextView.attributedText.mutableCopy() as! NSMutableAttributedString, ownerID: user, completion: { (note) -> Void in
-         if let note = WriterViewController.sharedInstance.note {
-         note.text = WriterViewController.sharedInstance.writerTextView.attributedText.mutableCopy() as! NSMutableAttributedString
-         }
-         })
-         }
-         }*/
     }
 }
 

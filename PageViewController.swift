@@ -14,6 +14,9 @@ protocol PageViewControllerChild {
 
 class PageViewController: UIPageViewController, UIPageViewControllerDataSource, UIPageViewControllerDelegate, UIScrollViewDelegate {
     
+    
+    // MARK: - View
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         delegate = self

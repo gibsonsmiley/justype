@@ -10,6 +10,8 @@ import UIKit
 
 class AuthViewController: UIViewController, UITextFieldDelegate {
     
+    // MARK: - Outlets
+    
     @IBOutlet weak var signupChoiceButton: UIButton!
     @IBOutlet weak var signupEmailTextField: UITextField!
     @IBOutlet weak var signupPasswordTextField: UITextField!
@@ -25,9 +27,21 @@ class AuthViewController: UIViewController, UITextFieldDelegate {
     
     @IBOutlet var toolbar: UIToolbar!
     
+    // MARK: - View
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        textFieldDelegation()
+    }
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        print("Memory warning on AuthView")
+    }
+    
+    // MARK: - Text Fields
+    
+    func textFieldDelegation() {
         signupEmailTextField.delegate = self
         signupPasswordTextField.delegate = self
         loginEmailTextField.delegate = self
@@ -39,12 +53,30 @@ class AuthViewController: UIViewController, UITextFieldDelegate {
         loginPasswordTextField.inputAccessoryView = toolbar
     }
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        print("Memory warning on AuthView")
+    @IBAction func userTappedView(sender: AnyObject) {
+        loginEmailTextField.resignFirstResponder()
+        loginPasswordTextField.resignFirstResponder()
+        signupEmailTextField.resignFirstResponder()
+        signupPasswordTextField.resignFirstResponder()
+    }
+    
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        if textField == self.signupEmailTextField {
+            self.signupPasswordTextField.becomeFirstResponder()
+        } else if textField == self.loginEmailTextField {
+            self.loginPasswordTextField.becomeFirstResponder()
+        } else if textField == self.signupPasswordTextField {
+            signupButtonTapped(self)
+            signupPasswordTextField.resignFirstResponder()
+        } else if textField == self.loginPasswordTextField {
+            loginButtonTapped(self)
+            loginPasswordTextField.resignFirstResponder()
+        }
+        return true
     }
     
     // MARK: - Buttons
+    
     @IBAction func hideButtonTapped(sender: AnyObject) {
         signupEmailTextField.resignFirstResponder()
         signupPasswordTextField.resignFirstResponder()
@@ -138,27 +170,5 @@ class AuthViewController: UIViewController, UITextFieldDelegate {
             loginEmailTextField.text = ""
             loginPasswordTextField.text = ""
         }
-    }
-    
-    @IBAction func userTappedView(sender: AnyObject) {
-        loginEmailTextField.resignFirstResponder()
-        loginPasswordTextField.resignFirstResponder()
-        signupEmailTextField.resignFirstResponder()
-        signupPasswordTextField.resignFirstResponder()
-    }
-    
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
-        if textField == self.signupEmailTextField {
-            self.signupPasswordTextField.becomeFirstResponder()
-        } else if textField == self.loginEmailTextField {
-            self.loginPasswordTextField.becomeFirstResponder()
-        } else if textField == self.signupPasswordTextField {
-            signupButtonTapped(self)
-            signupPasswordTextField.resignFirstResponder()
-        } else if textField == self.loginPasswordTextField {
-            loginButtonTapped(self)
-            loginPasswordTextField.resignFirstResponder()
-        }
-        return true
     }
 }

@@ -103,7 +103,6 @@ class SettingsTableViewController: UITableViewController, UIPickerViewDelegate, 
         return pickerData.count
     }
     
-    
     // MARK: - Themes
     
     override func prefersStatusBarHidden() -> Bool {

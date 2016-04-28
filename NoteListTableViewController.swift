@@ -10,10 +10,14 @@ import UIKit
 
 class NoteListTableViewController: UITableViewController, UISearchBarDelegate, PageViewControllerChild {
     
+    // MARK: - Outlets
+    
     @IBOutlet weak var navBar: UINavigationBar!
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet var toolbar: UIToolbar!
     @IBOutlet weak var helperLabel: UILabel!
+    
+    // MARK: - Properties
     
     static let sharedController = NoteListTableViewController()
     var pageView: UIPageViewController?
@@ -26,25 +30,7 @@ class NoteListTableViewController: UITableViewController, UISearchBarDelegate, P
     }
     let kLongPressOptions = "longPressOptions"
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        searchBar.inputAccessoryView = toolbar
-        tableView.keyboardDismissMode = .Interactive
-        darkModeTrue()
-        
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(NoteListTableViewController.localNotificationFired), name: "NoteActionSheet", object: nil)
-        
-        let longPressRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(NoteListTableViewController.longPress(_:)))
-        self.view.addGestureRecognizer(longPressRecognizer)
-        
-        let titleFont : UIFont = UIFont(name: "Avenir-Medium", size: 22.0)!
-        UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName : UIColor.blackColor(), NSFontAttributeName: titleFont]
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(NoteListTableViewController.reload), name: "userLoggedOut", object: nil)
-    }
-    
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
-        
+    func currentUser() {
         if UserController.sharedController.currentUser != nil {
             loadNotesForUser(UserController.sharedController.currentUser)
             tableView.reloadData()
@@ -61,6 +47,23 @@ class NoteListTableViewController: UITableViewController, UISearchBarDelegate, P
                 NSUserDefaults.standardUserDefaults().synchronize()
             }
         }
+    }
+    
+    // MARK: - View
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        searchBar.inputAccessoryView = toolbar
+        tableView.keyboardDismissMode = .Interactive
+        darkModeTrue()
+        notificationCenter()
+        fontCenter()
+        gestureCenter()
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        currentUser()
     }
     
     override func didReceiveMemoryWarning() {
@@ -81,6 +84,15 @@ class NoteListTableViewController: UITableViewController, UISearchBarDelegate, P
         })
     }
     
+    func gestureCenter() {
+        let longPressRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(NoteListTableViewController.longPress(_:)))
+        self.view.addGestureRecognizer(longPressRecognizer)
+    }
+    
+    func fontCenter() {
+        let titleFont : UIFont = UIFont(name: "Avenir-Medium", size: 22.0)!
+        UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName : UIColor.blackColor(), NSFontAttributeName: titleFont]
+    }
     
     func reload() {
         notes = []
@@ -118,6 +130,12 @@ class NoteListTableViewController: UITableViewController, UISearchBarDelegate, P
         })
     }
     
+    func notificationCenter() {
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(NoteListTableViewController.localNotificationFired), name: "NoteActionSheet", object: nil)
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(NoteListTableViewController.reload), name: "userLoggedOut", object: nil)
+    }
+    
     func localNotificationFired() {
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
         let confirmController = UIAlertController(title: "Are you sure you'd like to delete this note? \n This action cannot be undone. 🤔", message: nil, preferredStyle: .ActionSheet)
@@ -150,7 +168,7 @@ class NoteListTableViewController: UITableViewController, UISearchBarDelegate, P
         confirmController.addAction(deleteConfirmed)
         confirmController.addAction(cancelConfirmed)
         
-        //        alertController.addAction(shareAction)
+//        alertController.addAction(shareAction)
         alertController.addAction(deleteAction)
         alertController.addAction(cancelAction)
         presentViewController(alertController, animated: true, completion: nil)
@@ -176,7 +194,6 @@ class NoteListTableViewController: UITableViewController, UISearchBarDelegate, P
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        
         let cell = tableView.dequeueReusableCellWithIdentifier("noteCell", forIndexPath: indexPath)
         let note = filteredNotes.count > 0 ? filteredNotes[indexPath.row]: notes[indexPath.row]
         if note.title != "" {
@@ -225,6 +242,13 @@ class NoteListTableViewController: UITableViewController, UISearchBarDelegate, P
         }
     }
     
+    override func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
+        if AppearanceController.darkMode == true {
+            cell.backgroundColor = UIColor.clearColor()
+            cell.textLabel?.textColor = UIColor.whiteColor()
+        }
+    }
+    
     
     // MARK: - Navigation
     
@@ -240,11 +264,8 @@ class NoteListTableViewController: UITableViewController, UISearchBarDelegate, P
         }
     }
     
+    
     // MARK: - Themes
-    
-    
-    // Dark Mode
-    
     
     func darkModeTrue() {
         if AppearanceController.darkMode == true {
@@ -253,13 +274,6 @@ class NoteListTableViewController: UITableViewController, UISearchBarDelegate, P
             tableView.tableHeaderView?.backgroundColor = UIColor.offBlackColor()
             toolbar.barTintColor = UIColor.offBlackColor()
             navBar.barTintColor = UIColor.offBlackColor()
-        }
-    }
-    
-    override func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
-        if AppearanceController.darkMode == true {
-            cell.backgroundColor = UIColor.clearColor()
-            cell.textLabel?.textColor = UIColor.whiteColor()
         }
     }
 }

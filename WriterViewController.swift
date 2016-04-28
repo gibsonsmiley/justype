@@ -10,6 +10,8 @@ import UIKit
 
 class WriterViewController: UIViewController, UITextViewDelegate, PageViewControllerChild, NSTextStorageDelegate, UITextFieldDelegate, UIGestureRecognizerDelegate {
     
+    // MARK: - Outlets
+    
     @IBOutlet weak var writerTextView: UITextView!
     @IBOutlet var toolbar: UIToolbar!
     @IBOutlet weak var saveButton: UIBarButtonItem!
@@ -22,6 +24,7 @@ class WriterViewController: UIViewController, UITextViewDelegate, PageViewContro
     @IBOutlet weak var welcomeLabel: UILabel!
     @IBOutlet var tapGesture: UITapGestureRecognizer!
     
+    // MARK: - Properties
     
     var pageView: UIPageViewController?
     var note: Note?

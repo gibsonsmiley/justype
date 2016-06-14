@@ -180,7 +180,6 @@ class NoteListTableViewController: UITableViewController, UISearchBarDelegate, P
     func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
         filteredNotes = notes.filter({String($0.text).lowercaseString.containsString(searchText.lowercaseString)})
         tableView.reloadData()
-        
     }
     
     

@@ -16,6 +16,9 @@ class NoteListTableViewController: UITableViewController, UISearchBarDelegate, P
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet var toolbar: UIToolbar!
     @IBOutlet weak var helperLabel: UILabel!
+    @IBOutlet weak var doneToolbarButton: UIBarButtonItem!
+    @IBOutlet weak var settingsNavBarButton: UIBarButtonItem!
+    @IBOutlet var noteTableView: UITableView!
     
     // MARK: - Properties
     
@@ -29,6 +32,22 @@ class NoteListTableViewController: UITableViewController, UISearchBarDelegate, P
         return NSUserDefaults.standardUserDefaults().boolForKey(kLongPressOptions)
     }
     let kLongPressOptions = "longPressOptions"
+    
+    var colorMode: Int! {
+        return NSUserDefaults.standardUserDefaults().integerForKey("colorMode")
+    }
+    
+    var usersFont: String! {
+        return NSUserDefaults.standardUserDefaults().stringForKey("fontStyle")
+    }
+    
+    var usersFontSize: Float! {
+        if NSUserDefaults.standardUserDefaults().floatForKey("fontSize") == 0.0 {
+            return 17.0
+        } else {
+            return NSUserDefaults.standardUserDefaults().floatForKey("fontSize")
+        }
+    }
     
     func currentUser() {
         if UserController.sharedController.currentUser != nil {
@@ -51,14 +70,19 @@ class NoteListTableViewController: UITableViewController, UISearchBarDelegate, P
     
     // MARK: - View
     
+    override func viewWillAppear(animated: Bool) {
+        changeColorMode()
+        self.tableView.reloadData()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         searchBar.inputAccessoryView = toolbar
         tableView.keyboardDismissMode = .Interactive
-        darkModeTrue()
         notificationCenter()
-        fontCenter()
         gestureCenter()
+        
+        self.searchBar.keyboardAppearance = .Dark
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -88,12 +112,7 @@ class NoteListTableViewController: UITableViewController, UISearchBarDelegate, P
         let longPressRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(NoteListTableViewController.longPress(_:)))
         self.view.addGestureRecognizer(longPressRecognizer)
     }
-    
-    func fontCenter() {
-        let titleFont : UIFont = UIFont(name: "Avenir-Medium", size: 22.0)!
-        UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName : UIColor.blackColor(), NSFontAttributeName: titleFont]
-    }
-    
+        
     func reload() {
         notes = []
         tableView.reloadData()
@@ -242,8 +261,12 @@ class NoteListTableViewController: UITableViewController, UISearchBarDelegate, P
     }
     
     override func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
-        if AppearanceController.darkMode == true {
             cell.backgroundColor = UIColor.clearColor()
+        if colorMode == 0 {
+            cell.textLabel?.textColor = UIColor.blackColor()
+        } else if colorMode == 1 {
+            cell.textLabel?.textColor = UIColor.blackColor()
+        } else if colorMode == 2 {
             cell.textLabel?.textColor = UIColor.whiteColor()
         }
     }
@@ -264,15 +287,78 @@ class NoteListTableViewController: UITableViewController, UISearchBarDelegate, P
     }
     
     
-    // MARK: - Themes
+    // MARK: - Color Mode
     
-    func darkModeTrue() {
-        if AppearanceController.darkMode == true {
-            tableView.backgroundColor = UIColor.offBlackColor()
-            searchBar.keyboardAppearance = UIKeyboardAppearance.Dark
-            tableView.tableHeaderView?.backgroundColor = UIColor.offBlackColor()
-            toolbar.barTintColor = UIColor.offBlackColor()
-            navBar.barTintColor = UIColor.offBlackColor()
+    func changeColorMode() {
+        if self.colorMode == 0 {
+            yellowColorMode()
+        } else if self.colorMode == 1 {
+            whiteColorMode()
+        } else if self.colorMode == 2 {
+            blackColorMode()
         }
+    }
+    
+    func yellowColorMode() {
+        // View
+        view.backgroundColor = UIColor.notesYellow()
+        navBar.barTintColor = UIColor.notesYellow()
+        noteTableView.backgroundColor = UIColor.notesYellow()
+        toolbar.barStyle = .Black
+        searchBar.backgroundColor = UIColor.notesYellow()
+        searchBar.barStyle = .Default
+        searchBar.keyboardAppearance = UIKeyboardAppearance.Dark
+        doneToolbarButton.tintColor = UIColor.whiteColor()
+        UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName : UIColor.blackColor(), NSFontAttributeName: titleFont]
+        settingsNavBarButton.tintColor = UIColor.darkGrayColor()
+        
+        // Table View
+        tableView.backgroundColor = UIColor.notesYellow()
+        
+        // Misc
+        helperLabel.textColor = UIColor.blackColor()
+        
+    }
+    
+    func whiteColorMode() {
+        // View
+        view.backgroundColor = UIColor.whiteColor()
+        navBar.barTintColor = UIColor.whiteColor()
+        noteTableView.backgroundColor = UIColor.whiteColor()
+        toolbar.barStyle = .Default
+        searchBar.backgroundColor = UIColor.whiteColor()
+        searchBar.barStyle = .Default
+        searchBar.keyboardAppearance = UIKeyboardAppearance.Default
+        doneToolbarButton.tintColor = UIColor.blackColor()
+        UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName : UIColor.blackColor(), NSFontAttributeName: titleFont]
+        settingsNavBarButton.tintColor = UIColor.darkGrayColor()
+        
+        // Table View
+        tableView.backgroundColor = UIColor.whiteColor()
+        
+        
+        
+        // Misc
+        helperLabel.textColor = UIColor.blackColor()
+    }
+    
+    func blackColorMode() {
+        // View
+        view.backgroundColor = UIColor.offBlackColor()
+        navBar.barTintColor = UIColor.offBlackColor()
+        noteTableView.backgroundColor = UIColor.offBlackColor()
+        toolbar.barStyle = .Black
+        searchBar.backgroundColor = UIColor.offBlackColor()
+        searchBar.barStyle = .Black
+        searchBar.keyboardAppearance = UIKeyboardAppearance.Dark
+        doneToolbarButton.tintColor = UIColor.whiteColor()
+        UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName : UIColor.whiteColor(), NSFontAttributeName: titleFont]
+        settingsNavBarButton.tintColor = UIColor.lightGrayColor()
+        
+        // Table View
+        tableView.backgroundColor = UIColor.offBlackColor()
+        
+        // Misc
+        helperLabel.textColor = UIColor.whiteColor()
     }
 }

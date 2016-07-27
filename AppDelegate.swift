@@ -21,7 +21,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             NSUserDefaults.standardUserDefaults().synchronize()
         }
         
-        AppearanceController.initializeAppearance()
+//        AppearanceController.initializeAppearance()
         
         return true
     }

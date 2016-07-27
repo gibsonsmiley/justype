@@ -32,6 +32,8 @@ class AuthViewController: UIViewController, UITextFieldDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         textFieldDelegation()
+        
+//        NSUserDefaults.standardUserDefaults().setInteger(1, forKey: "colorMode")
     }
     
     override func didReceiveMemoryWarning() {

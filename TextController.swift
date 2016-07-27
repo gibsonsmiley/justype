@@ -17,6 +17,10 @@ class TextController {
         case BoldItalic = "AvenirNext-BoldItalic"
     }
     
+    static func font(name: String, size: Float) -> UIFont {
+        return UIFont(name: name, size: CGFloat(size))!
+    }
+    
     static func avenirNext(style: String, size: CGFloat) -> UIFont {
     return UIFont(name: "AvenirNext-\(style)", size: size)!
         

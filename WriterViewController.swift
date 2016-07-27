@@ -33,6 +33,25 @@ class WriterViewController: UIViewController, UITextViewDelegate, PageViewContro
         return NSUserDefaults.standardUserDefaults().boolForKey(kFirstTime)
     }
     private let kFirstTime = "firstTime"
+    var colorMode: Int! {
+        return NSUserDefaults.standardUserDefaults().integerForKey("colorMode")
+    }
+    
+    var usersFont: String! {
+        if NSUserDefaults.standardUserDefaults().stringForKey("fontStyle") == nil {
+            return "Avenir Next"
+        } else {
+            return NSUserDefaults.standardUserDefaults().stringForKey("fontStyle")
+        }
+    }
+    
+    var usersFontSize: Float! {
+        if NSUserDefaults.standardUserDefaults().floatForKey("fontSize") == 0.0 {
+            return 17.0
+        } else {
+            return NSUserDefaults.standardUserDefaults().floatForKey("fontSize")
+        }
+    }
     
     
     // MARK: - View
@@ -50,7 +69,6 @@ class WriterViewController: UIViewController, UITextViewDelegate, PageViewContro
         super.viewDidLoad()
         setupKeyboardNotifications()
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(WriterViewController.reload), name: "userLoggedOut", object: nil)
-        darkModeTrue()
         
         toolbar.sizeToFit()
         
@@ -58,20 +76,21 @@ class WriterViewController: UIViewController, UITextViewDelegate, PageViewContro
         writerTextView.inputAccessoryView = toolbar
         writerTextView.delegate = self
         writerTextView.textStorage.delegate = self
+        writerTextView.font = TextController.font(usersFont, size: usersFontSize)
         
         titleTextField.inputAccessoryView = toolbar
         titleTextField.delegate = self
         
         let hashtagFont = TextController.avenirNext("Bold", size: 24.0)
-        tagButton.setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.darkGrayColor(),NSFontAttributeName: hashtagFont], forState: .Normal)
+        tagButton.setTitleTextAttributes([NSFontAttributeName: hashtagFont], forState: .Normal)
         let listFont = TextController.avenirNext("Bold", size: 24.0)
-        listButton.setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.darkGrayColor(),NSFontAttributeName: listFont], forState: .Normal)
+        listButton.setTitleTextAttributes([NSFontAttributeName: listFont], forState: .Normal)
         let italicFont = TextController.avenirNext("DemiBoldItalic", size: 24.0)
-        italicButton.setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.darkGrayColor(),NSFontAttributeName: italicFont], forState: .Normal)
+        italicButton.setTitleTextAttributes([NSFontAttributeName: italicFont], forState: .Normal)
         let boldFont = TextController.avenirNext("Bold", size: 24.0)
-        boldButton.setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.darkGrayColor(),NSFontAttributeName: boldFont], forState: .Normal)
+        boldButton.setTitleTextAttributes([NSFontAttributeName: boldFont], forState: .Normal)
         let titleFont = TextController.avenirNext("Bold", size: 18.0)
-        saveButton.setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.darkGrayColor(), NSFontAttributeName: titleFont], forState: .Normal)
+        saveButton.setTitleTextAttributes([NSFontAttributeName: titleFont], forState: .Normal)
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -83,6 +102,8 @@ class WriterViewController: UIViewController, UITextViewDelegate, PageViewContro
                 self.helper(welcomeLabel, text: welcomeLabel.text)
             }
         }
+        
+        changeColorMode()
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -195,7 +216,7 @@ class WriterViewController: UIViewController, UITextViewDelegate, PageViewContro
     
     func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool {
         if writerTextView.text.isEmpty {
-            let normalText = NSMutableAttributedString(string: "", attributes: [NSFontAttributeName: TextController.avenirNext("Medium", size: 17.0)])
+            let normalText = NSMutableAttributedString(string: "", attributes: [NSFontAttributeName: TextController.font(usersFont, size: usersFontSize)])
             writerTextView.textStorage.setAttributedString(normalText)
         }
         return true
@@ -236,8 +257,8 @@ class WriterViewController: UIViewController, UITextViewDelegate, PageViewContro
             }
             writerTextView.text = ""
             let length = writerTextView.text.characters.count
-            writerTextView.textStorage.addAttributes([NSFontAttributeName: TextController.avenirNext("Medium", size: 17.0)], range: NSMakeRange(0, length))
-            let normalText = NSMutableAttributedString(string: " ", attributes: [NSFontAttributeName: TextController.avenirNext("Medium", size: 17.0)])
+            writerTextView.textStorage.addAttributes([NSFontAttributeName: TextController.font(usersFont, size: usersFontSize)], range: NSMakeRange(0, length))
+            let normalText = NSMutableAttributedString(string: " ", attributes: [NSFontAttributeName: TextController.font(usersFont, size: usersFontSize)])
             writerTextView.textStorage.setAttributedString(normalText)
             writerTextView.selectedRange = NSMakeRange(0, 0)
             titleTextField.text = ""
@@ -293,7 +314,7 @@ class WriterViewController: UIViewController, UITextViewDelegate, PageViewContro
         makeList()
     }
     
-    let unfilledBullet = NSMutableAttributedString(string: "◎", attributes: [NSFontAttributeName: TextController.avenirNext("Regular", size: 22.0)])
+    let unfilledBullet = NSMutableAttributedString(string: "◎", attributes: [NSFontAttributeName: TextController.avenirNext("Regular", size: 22.0)]) // NSForegroundcolor-something?
     let filledBullet = NSMutableAttributedString(string: "◉", attributes: [NSFontAttributeName: TextController.avenirNext("Regular", size: 22.0)])
     let normalText = NSMutableAttributedString(string: " ", attributes: [NSFontAttributeName: TextController.avenirNext("Medium", size: 17.0)])
     
@@ -367,22 +388,74 @@ class WriterViewController: UIViewController, UITextViewDelegate, PageViewContro
     }
     
     
-    // MARK: - Themes
+    // MARK: - Color Mode
     
-    // Dark Mode
-    
-    func darkModeTrue() {
-        if AppearanceController.darkMode == true {
-            writerTextView.backgroundColor = UIColor.offBlackColor()
-            view.backgroundColor = UIColor.offBlackColor()
-            toolbar.tintColor = UIColor.whiteColor()
-            writerTextView.textColor = UIColor.whiteColor()
-            toolbar.barTintColor = UIColor.offBlackColor()
-            titleTextField.keyboardAppearance = UIKeyboardAppearance.Dark
-            writerTextView.keyboardAppearance = UIKeyboardAppearance.Dark
-            UITextView.appearance().tintColor = UIColor.whiteColor()
-            titleTextField.textColor = UIColor.whiteColor()
-            helperLabel.textColor = UIColor.whiteColor()
+    func changeColorMode() {
+        if self.colorMode == 0 {
+            yellowColorMode()
+        } else if self.colorMode == 1 {
+            whiteColorMode()
+        } else if self.colorMode == 2 {
+            blackColorMode()
         }
+    }
+    
+    func yellowColorMode() {
+        // View
+        writerTextView.backgroundColor = UIColor.notesYellow()
+        view.backgroundColor = UIColor.notesYellow()
+        writerTextView.keyboardAppearance = UIKeyboardAppearance.Dark
+        writerTextView.textColor = UIColor.blackColor()
+        
+        // Toolbar
+        toolbar.barStyle = .Black
+        saveButton.tintColor = UIColor.whiteColor()
+        tagButton.tintColor = UIColor.whiteColor()
+        listButton.tintColor = UIColor.whiteColor()
+        boldButton.tintColor = UIColor.whiteColor()
+        italicButton.tintColor = UIColor.whiteColor()
+        
+        // Misc
+        helperLabel.textColor = UIColor.blackColor()
+    }
+    
+    func whiteColorMode() {
+        // View
+        view.backgroundColor = UIColor.whiteColor()
+        writerTextView.backgroundColor = UIColor.whiteColor()
+        writerTextView.textColor = UIColor.blackColor()
+        writerTextView.keyboardAppearance = UIKeyboardAppearance.Light
+        
+        // Toolbar
+        toolbar.barStyle = .Default
+        saveButton.tintColor = UIColor.offBlackColor()
+        tagButton.tintColor = UIColor.offBlackColor()
+        listButton.tintColor = UIColor.offBlackColor()
+        boldButton.tintColor = UIColor.offBlackColor()
+        italicButton.tintColor = UIColor.offBlackColor()
+        
+        // Misc
+        helperLabel.textColor = UIColor.blackColor()
+        
+    }
+    
+    func blackColorMode() {
+        // View
+        view.backgroundColor = UIColor.offBlackColor()
+        writerTextView.backgroundColor = UIColor.offBlackColor()
+        writerTextView.textColor = UIColor.whiteColor()
+        writerTextView.keyboardAppearance = UIKeyboardAppearance.Dark
+        
+        // Toolbar
+        toolbar.barStyle = .Black
+        saveButton.tintColor = UIColor.whiteColor()
+        tagButton.tintColor = UIColor.whiteColor()
+        listButton.tintColor = UIColor.whiteColor()
+        boldButton.tintColor = UIColor.whiteColor()
+        italicButton.tintColor = UIColor.whiteColor()
+        // Still need to figure out list button - it's still giving black text
+        
+        // Misc
+        helperLabel.textColor = UIColor.whiteColor()
     }
 }

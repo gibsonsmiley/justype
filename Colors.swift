@@ -19,6 +19,6 @@ extension UIColor {
     }
     
     static func notesYellow() -> UIColor {
-        return UIColor(red: 1.000, green: 0.808, blue: 0.220, alpha: 1.00)
+        return UIColor(red: 1.000, green: 0.976, blue: 0.820, alpha: 1.00)
     }
 }
